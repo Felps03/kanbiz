@@ -1,0 +1,12 @@
+h1 {
+    color: darkslategray;
+}
+h1 span {
+    font-weight: bolder;
+}
+div.logado {
+    display: none;
+}
+div.container {
+    margin-top: 2em;
+}
