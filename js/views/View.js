@@ -11,4 +11,8 @@ export class View {
     update(model, chave = 0) {
         this._elemento.innerHTML = this.template(model, chave);
     }
+
+    render() {
+        this._elemento.html(this.template());
+    }
 }

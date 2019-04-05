@@ -2,23 +2,29 @@ import $ from 'jquery';
 
 import {db, auth} from '../config/fb';
 
+import {Controller} from '../controllers/Controller';
 import {TimeView} from '../views/TimeView';
 import {Time} from '../models/Time';
 import {Colaborador} from '../models/Colaborador';
 
-export class TimeController {
-
+export class TimeController extends Controller{
     constructor() {
+        super();
+
         this._inputNome = $('#InputNome');
         this._inputNick = $('#InputNick');
 
         this._timeView = new TimeView($('#timeView'));
-
         this._init();
+        // this.verificaUsuarioLogado();
+    }
+
+    usuariook() {
+        console.log(this.that);
     }
 
     _init() {
-        this._timeView._elemento.innerHTML = this._timeView.template();
+        this._timeView.render();
         auth.onAuthStateChanged((user) => {
             db.child(`colaboradores/${user.uid}/times`).on('value', snapshot => {
                 snapshot.forEach(value => {
@@ -26,7 +32,7 @@ export class TimeController {
                         if(!value.exists()){
                             alert('Voce ainda nao possui time');
                         }
-                        db.child(`time/${value.key}`).on('value', snapshotTime => {        
+                        db.child(`time/${value.key}`).on('value', snapshotTime => {
                             $('#table-body').append(this._timeView.linha(snapshotTime.val(), snapshotTime.key));
                         });
                     }
@@ -58,6 +64,7 @@ export class TimeController {
     }
 
     adicionaTime(event) {
+        console.log(this._timeView);
         event.preventDefault();
         let time = this._criaTime();
         db.child('time').push(time).then(snapshot => {

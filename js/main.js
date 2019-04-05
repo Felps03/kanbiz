@@ -1,5 +1,5 @@
 import $ from 'jquery';
-
+//require('../home.html');
 import {auth, provider} from '../js/config/fb';
 
 let paginaHome = "home.html";
