@@ -7,7 +7,7 @@ export class Controller {
         const that = this;
         auth.onAuthStateChanged((user) => {
             if (user) {
-                that.usuario = {
+                that.user = {
                     id: user.uid,
                     nome: user.displayName, 
                     email: user.email,
@@ -22,10 +22,11 @@ export class Controller {
                 alert('Você não está autorizado a exibir esta página');
                 $(location).attr('href', "index.html");
             }
-            this.usuariook();
+            this.onUserLogged();
         });
     }
-    usuariook() {
+
+    onUserLogged() {
         throw new Error('O método usuariook deve ser implementado');
     }
 }
