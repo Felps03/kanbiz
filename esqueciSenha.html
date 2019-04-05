@@ -1,52 +1,31 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Autenticação Kan Business</title>
+    <title>Redefinir sua senha do Kan Business</title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-social/assets/css/font-awesome.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-social/bootstrap-social.css">
     <link rel="stylesheet" href="./css/styles.css">
 </head>
-
 <body>
-
-    <h1>Autenticação</h1>
+    
     <div class="col-md-4">
-
         <h3 class="text-center" id="displayName">Você não está autenticado</h3><br>
-
         <form>
             <div class="form-group">
                 <label for="emailInput">E-mail</label>
                 <input type="email" class="form-control" id="emailInput" placeholder="E-mail">
             </div>
-            <div class="form-group">
-                <label for="passwordInput">Senha</label>
-                <input type="password" class="form-control" id="passwordInput" placeholder="Senha">
-            </div>
         </form>
-
-        <button class="btn btn-lg btn-block btn-primary" id="authEmailPassButton">Autenticar</button>
-        <button class="btn btn-lg btn-block btn-info" id="createUserButton">Criar Nova Conta</button><br>
-
-        <p class="text-center"><small>-- ou --</small></p>
-        <p class="text-center">
-            <button class="btn btn-lg btn-danger" id="authGoogleButton"><i class="fa fa-google fa-2x"></i></button>
-        </p>
+        <button class="btn btn-lg btn-block btn-primary" id="redefinirSenha">Enviar</button>
     </div>
-
-    <a class="button btn-info" href="home.html">home</a>
-
-    <a class="button btn-warning" href="esqueciSenha.html">Esqueceu sua senha?</a>
 
     <script src="./node_modules/popper.js/dist/popper.min.js"></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./node_modules/handlebars/dist/handlebars.min.js"></script>
-    <script src="./js/main.js"></script>
-</body>
 
+</body>
 </html>

@@ -1,7 +1,7 @@
 {
-  "name": "dbo-2018-workspace",
+  "name": "kan-business",
   "version": "2.0.0",
-  "description": "Workspace com o ambiente node necessário para o Desenvolvimento Web",
+  "description": "Ambiente node necessário para o Kan Business",
   "main": "index.js",
   "scripts": {
     "test": "mocha",
@@ -9,7 +9,7 @@
     "build": "parcel build index.html"
   },
   "keywords": [],
-  "author": "Prof. Márcio Torres",
+  "author": "Felipe Santos",
   "license": "MIT",
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.3.1",
