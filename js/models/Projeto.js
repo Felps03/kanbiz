@@ -1,5 +1,4 @@
 export class Projeto {
-
     constructor(id, nome, colunas, colaborador) {
         this._id = id;
         this._nome = nome;
@@ -22,5 +21,4 @@ export class Projeto {
     get colaborador() {
         return this._colaborador;
     }
-
 }

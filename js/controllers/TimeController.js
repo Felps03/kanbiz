@@ -1,17 +1,16 @@
 import $ from 'jquery';
-import {db, auth} from '../config/fb';
+import {db} from '../config/fb';
 
 import {Controller} from '../controllers/Controller';
 import {TimeView} from '../views/TimeView';
 import {Time} from '../models/Time';
 import {Colaborador} from '../models/Colaborador';
 
-export class TimeController extends Controller{
+export class TimeController extends Controller {
     constructor() {
         super();
         this._inputNome = $('#InputNome');
         this._inputNick = $('#InputNick');
-        
         this._timeView = new TimeView($('#timeView'));   
     }
 

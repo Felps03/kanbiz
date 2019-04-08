@@ -1,8 +1,8 @@
 import {TimeController} from './controllers/TimeController.js';
+import {ColaboradoresController} from './controllers/ColaboradoresController';
 
 const timeController = new TimeController();
-
-// timeController._init();
+const colaboradorController = new ColaboradoresController();
 
 const form = document.querySelector('form');
 

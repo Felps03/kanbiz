@@ -4,15 +4,6 @@ export class Colaborador {
         this[uid] = verfica;
         Object.freeze(this);
     }
-    
-    
-    // constructor(nome, nick, email, senha) {      
-    //     this._nome = nome;
-    //     this._nick = nick;
-    //     this._email = email;
-    //     this._senha = senha;
-    //     Object.freeze(this);
-    // }
 
     get uid() {        
         return this._uid;
@@ -33,5 +24,4 @@ export class Colaborador {
     get senha() {        
         return this._senha;
     }
-
 }

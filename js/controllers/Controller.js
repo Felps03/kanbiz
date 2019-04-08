@@ -16,6 +16,7 @@ export class Controller {
                     anonimo: user.isAnonymous,
                     providerData: user.providerData
                 };
+                //TODO: Remover
                 let nome = user.displayName ? user.displayName : user.email;
                 $('#displayName').text(`Bem Vindo: ${nome}`);
             } else {

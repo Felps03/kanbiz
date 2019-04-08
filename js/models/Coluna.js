@@ -1,5 +1,4 @@
 export class Coluna {
-
     constructor(nome, cartoes, limitador) {
         this._nome = nome;
         this._cartoes = cartoes;
@@ -17,5 +16,4 @@ export class Coluna {
     get limitador() {
         return this._limitador();
     }
-
 }

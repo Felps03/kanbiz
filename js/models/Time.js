@@ -1,11 +1,4 @@
 export class Time {
-
-    // constructor(nome, nick){
-    //     this._nome = nome;
-    //     this._nick = nick;
-    //     Object.freeze(this);
-    // }
-
     constructor(nome, nick, colaboradores){
         this._nome = nome;
         this._nick = nick;
@@ -41,7 +34,7 @@ export class Time {
      */
     set addColaborador(colaborador) {
         //this._colaboradores.push(colaborador);
-         this._colaboradores = colaborador;
+        this._colaboradores = colaborador;
     }
 
     get nome() {
@@ -51,5 +44,4 @@ export class Time {
     get nick() {
         return this._nick;
     }
-
 }

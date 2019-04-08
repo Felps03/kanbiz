@@ -32,5 +32,4 @@ export class Cartao {
     get colaboradores() {
         return this._colaboradores;
     }
-
 }
