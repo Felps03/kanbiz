@@ -17,7 +17,7 @@ export class ColaboradoresController extends Controller  {
             email: this.user.email,
         }
         db.child(`usuario/${this.user.id}`).set(colaboradores).then(snapshot => {
-            console.log("Colecao Usuario");
+            // console.log("Colecao Usuario");
         });
     }
 

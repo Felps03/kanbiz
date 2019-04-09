@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Time</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./node_modules/bootstrap-social/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="./node_modules/bootstrap-social/bootstrap-social.css">
+    <link rel="stylesheet" href="./css/app.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <form class="form">
+            <div class="form-group" style="visibility: hidden">
+                <label for="UID">UID</label>
+                <input type="text" class="form-control" id="UID" placeholder="Nome">
+            </div>
+            <div class="form-group">
+                <label for="InputNome">Nome</label>
+                <input type="text" class="form-control" id="InputNome" placeholder="Nome">
+            </div>
+            <div class="form-group">
+                <label for="InputNick">Nick</label>
+                <input type="text" class="form-control" id="InputNick" placeholder="Nick">
+            </div>
+            <button type="submit" class="btn btn-primary">Editar Time</button>
+        </form>
+
+        <br/>
+
+        <h3>Convida Membro</h3>
+        <form class="convidaMembro">
+            <div class="form-group">
+                <label for="InputEmail">Email</label>
+                <input type="text" class="form-control" id="InputEmail" placeholder="Email">
+            </div>
+            <button type="submit" class="btn btn-primary">Convida</button>
+        </form>
+
+
+    </div>
+
+    <script src="./js/time.js"></script>
+</body>
+
+</html>
