@@ -95,14 +95,6 @@ export class TimeController extends Controller {
     }
 
     convidaMembro(uid){
-        // https://firebase.google.com/docs/database/web/read-and-write?hl=pt-br
-        // var newPostKey = $('#UID').val();
-        // var updates = {};
-        // updates[`time/${newPostKey}/_colaboradores`] = {[uid]: false };
-        // updates[`colaboradores/${uid}/times`] = {[newPostKey]: false};
-        // return db.update(updates);
-
-
 
         let chaveTime = $('#UID').val();     
         db.child('time').child(chaveTime).child('_colaboradores').update({
@@ -121,7 +113,6 @@ export class TimeController extends Controller {
             $(location).attr('href','home.html')
         });
     }
-
 
     aceitaColaboradorTime(verficaAceite){
         console.log(verficaAceite);
@@ -144,7 +135,7 @@ export class TimeController extends Controller {
     }
 
 
-    aceitaColaboradorTime(){
+    aceitaColaboradorTime(verficaAceite = true){
         let chaveTime = $("table tr:nth-child(2)").attr('id');
         db.child('time').child(chaveTime).child('_colaboradores').update({
             [this.user.id]: verficaAceite 
@@ -189,8 +180,8 @@ export class TimeController extends Controller {
     }
 
     _limpaFormulario() {
-        this._inputNome = '';
-        this._inputNick = '';
-        // $( "#target" ).focus();
+        this._inputNome.val("");
+        this._inputNick.val("");
+        this._inputNome.focus();
     }
 }
