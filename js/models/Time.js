@@ -6,17 +6,6 @@ export class Time {
         Object.freeze(this);
     }
 
-    /**
-    constructor(id, projeto, colaboradores, nome, nick){
-        this._id = id;
-        this._projeto = projeto;
-        this._colaboradores = colaboradores;
-        this._nome = nome;
-        this._nick = nick;
-        Object.freeze(this);
-    }
-     */
-
     get id() {
         return this._id;
     }
@@ -29,11 +18,7 @@ export class Time {
         return this._colaboradores;
     }
 
-    /**
-     * @param {(arg0: any) => void} colaborador
-     */
     set addColaborador(colaborador) {
-        //this._colaboradores.push(colaborador);
         this._colaboradores = colaborador;
     }
 

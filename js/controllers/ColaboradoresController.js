@@ -20,19 +20,7 @@ export class ColaboradoresController extends Controller  {
             // console.log("Colecao Usuario");
         });
     }
-
-    procuraPorEmail(email){
-        var email = "felipe@gmail.com";
-        db.child(`usuario`).orderByChild('email').equalTo(email).on('value', snapshot => {
-            console.log(snapshot.exists());
-            if(snapshot.exists()) {
-                return snapshot.key;
-            } else { 
-                alert('nao achou');
-            }
-        });
-    }
-
+    
     adiciona(event) {        
         event.preventDefault();
         this._limpaFormulario();   

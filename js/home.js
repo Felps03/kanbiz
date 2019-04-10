@@ -4,27 +4,23 @@ import $ from 'jquery';
 import { TimeController } from './controllers/TimeController.js';
 import { ColaboradoresController } from './controllers/ColaboradoresController';
 
+
 const timeController = new TimeController();
 const colaboradorController = new ColaboradoresController();
+
 
 const form = document.querySelector('form');
 
 form.addEventListener('submit', timeController.adicionaTime.bind(timeController));
-
-
 
 $(document).on("click", ".aceita", function(){
   // let chaveTime = $("table tr:nth-child(2)").attr('id');
   timeController.aceitaColaboradorTime(true);
 });
 
-
 $(document).on("click", ".deleta", function(){
   timeController.recusarColaboradorTime();
 });
-
-
-
 
 //TODO: Rever
 $('#orderModal').modal({
@@ -41,3 +37,9 @@ $('#orderModal').modal({
 $(".table-striped").find('tr[data-target]').on('click', function () {
   $('#orderModal').data('orderid', $(this).data('id'));
 });
+
+
+
+/**
+ * 
+ */

@@ -1,9 +1,8 @@
 export class Projeto {
-    constructor(id, nome, colunas, colaborador) {
-        this._id = id;
+    constructor(nome, colaborador, colunas = null) {
         this._nome = nome;
-        this._colunas = colunas;
         this._colaborador = colaborador;
+        this._colunas = colunas;
     }
 
     get id() {
