@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "bootstrap-social": "^5.1.1",
+    "dragula": "^3.7.2",
     "jsdom": "^14.0.0"
   }
 }
