@@ -1,5 +1,3 @@
-import $ from 'jquery';
-
 var Kanban = new jKanban({
     element: '#myKanban',
     gutter: '10px',

@@ -13,12 +13,12 @@ const form = document.querySelector('form');
 
 form.addEventListener('submit', timeController.adicionaTime.bind(timeController));
 
-$(document).on("click", ".aceita", function(){
+$(document).on("click", ".aceita", function () {
   // let chaveTime = $("table tr:nth-child(2)").attr('id');
   timeController.aceitaColaboradorTime(true);
 });
 
-$(document).on("click", ".deleta", function(){
+$(document).on("click", ".deleta", function () {
   timeController.recusarColaboradorTime();
 });
 
@@ -41,5 +41,5 @@ $(".table-striped").find('tr[data-target]').on('click', function () {
 
 
 /**
- * 
+ *
  */

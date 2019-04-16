@@ -1,21 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Projeto</title>
-    
+
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-social/assets/css/font-awesome.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-social/bootstrap-social.css">
     <link rel="stylesheet" href="./css/kanban/jkanban.css">
     <link rel="stylesheet" href="./css/kanban/app.css">
 </head>
+
 <body>
     <h1>Projeto</h1>
 
     <div class="container">
+
+
+        <form class="formColuna">
+            <div class="form-group">
+                <label for="InputTituloColuna">Titulo</label>
+                <input type="text" class="form-control" id="InputTituloColuna" placeholder="Titulo">
+            </div>
+            <div class="form-group">
+                <label for="InputClasseColuna">Classe</label>
+                <input type="text" class="form-control" id="InputClasseColuna" placeholder="Classe">
+            </div>
+            <div class="form-group">
+                <label for="InputLimitadorColuna">Limitador</label>
+                <input type="text" class="form-control" id="InputLimitadorColuna" placeholder="Limitador">
+            </div>
+            <button type="submit" class="btn btn-primary">Criar Coluna</button>
+        </form>
+
+
+
         <div id="myKanban"></div>
 
 
@@ -24,11 +46,12 @@
         <button class="btn btn-danger" id="removeBoard">Remover Board "Feito"</button>
         <br><br>
         <button class="btn btn-danger" id="removeElement">Remover "Arrastar"</button>
-    
-    </div>
 
+    </div>
 
     <script src="./js/kanban/jkanban.js"></script>
     <script src="./js/kanban/index.js"></script>
+    <script src="./js/coluna.js"></script>
 </body>
+
 </html>
