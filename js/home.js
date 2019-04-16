@@ -2,11 +2,11 @@ import 'bootstrap';
 import $ from 'jquery';
 
 import { TimeController } from './controllers/TimeController.js';
-import { ColaboradoresController } from './controllers/ColaboradoresController';
+import { ColaboradorController } from './controllers/ColaboradorController';
 
 
 const timeController = new TimeController();
-const colaboradorController = new ColaboradoresController();
+const colaboradorController = new ColaboradorController();
 
 
 const form = document.querySelector('form');

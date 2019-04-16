@@ -1,8 +1,8 @@
 import {db} from '../config/fb';
 
-import {Controller} from '../controllers/Controller';
+import {Controller} from './Controller';
 
-export class ColaboradoresController extends Controller  {
+export class ColaboradorController extends Controller  {
     constructor() {        
         super();
     }

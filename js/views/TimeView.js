@@ -29,8 +29,7 @@ export class TimeView extends View {
     
     linha(model, chave) {
         var url = 'time.html?chave=' + chave;
-
-        // return `<tr data-toggle="modal" data-target="#orderModal" data-id=${chave}>
+        // return `<tr data-toggle="modal" data-target="#orderModal" data-id="${chave}">
         return `<tr onclick="window.location.href = '${url}'";>
                     <td>${model._nome}</td>
                     <td>${model._nick}</td>
