@@ -31,11 +31,27 @@ export class ColunaController extends Controller {
         event.preventDefault();
         let coluna = this._criaColuna();
         db.child('coluna').push(coluna).then(snapshot => {
-            console.info("criou");
+            this.adicionaColunaProjeto(snapshot.key);
         }).catch(function (error) {
             console.error("Erro ao criar projeto ", error);
         });
         this._limpaFormulario();
+    }
+
+    adicionaColunaProjeto(chaveColuna){
+        //TODO: Melhorar get Projeto
+        
+        let url_string = window.location.href;
+        let url = new URL(url_string);
+        let CHAVE = url.searchParams.get("chave");
+
+        db.child(`projeto/${CHAVE}/coluna`).update({
+            [chaveColuna] : true
+        }).then(function () {
+            console.info("Criou o Projeto Colaborador ");
+        }).catch(function (error) {
+            console.error("Erro ao criar projetoColaborador ", error);
+        });
     }
 
     _criaColuna() {
