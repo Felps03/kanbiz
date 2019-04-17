@@ -2,7 +2,7 @@ import { ColunaView } from '../views/ColunaView';
 
 var Kanban = new jKanban({
     element: '#myKanban',
-    gutter: '10px',
+    gutter: '5px',
     widthBoard: '250px',
     click: function (el) {
         console.log("Trigger on all items click!");
