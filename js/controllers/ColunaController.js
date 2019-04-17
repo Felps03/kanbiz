@@ -6,8 +6,9 @@ import { Controller } from './Controller';
 import { Coluna } from '../models/Coluna';
 
 export class ColunaController extends Controller {
-    constructor() {
+    constructor(kb) {
         super();
+        this._kanban = kb;
         this._inputTitle = $('#InputTituloColuna');
         this._inputClass = $('#InputClasseColuna');
         this._inputLimitador = $('#InputLimitadorColuna');
@@ -20,10 +21,21 @@ export class ColunaController extends Controller {
     _init() {
         db.child(`coluna`).on('value', snapshot => {
             snapshot.forEach(value => {
-                console.table(value.val());
+                this._kanban.removeBoard(value.key);
+            });
+
+            snapshot.forEach(value => {
+                this._kanban.addBoards([{
+                    "id": value.key,
+                    "title": value.val().title,
+                    "class": value.val().class,
+                }]);
                 db.child(`coluna/${value.key}/cartao`).on('child_added', snapshotCartao => {
-                    db.child(`cartao/${snapshotCartao.key}`).on('value', cartaoSnapshot => {
-                        console.table(cartaoSnapshot.val());
+                    db.child(`cartao/${snapshotCartao.key}`).on('value', cartaoSnapshot => {        
+                        this._kanban.addElement(value.key, {
+                            "id": cartaoSnapshot.key,
+                            "title": cartaoSnapshot.val().title,
+                        });
                     })
                 })
             });

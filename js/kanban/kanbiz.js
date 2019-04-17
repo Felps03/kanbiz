@@ -1,6 +1,4 @@
-import { ColunaView } from '../views/ColunaView';
-
-var Kanban = new jKanban({
+export default new jKanban({
     element: '#myKanban',
     gutter: '5px',
     widthBoard: '250px',
@@ -29,72 +27,28 @@ var Kanban = new jKanban({
         }
     },
     addItemButton: true,
-    boards: [
+    boards: []
+});
+/*
+Kanban.addBoards([{
+    "id": "_nada",
+    "title": "Nadinha",
+    "class": "info",
+    "dragTo": ['_todo'],
+    "item": [
         {
-            "id": "_todo",
-            "title": "Fazer",
-            "class": "info",
-            "dragTo": ['_working'],
-            "item": [
-                {
-                    "id": "_test_delete",
-                    "title": "Arrastar",
-                },
-                {
-                    "title": "Clique Aqui!",
-                    "click": function (el) {
-                        alert("fazer algo");
-                    },
-                }
-            ]
-        },
-        {
-            "id": "_working",
-            "title": "Fazendo",
-            "class": "info",
-            "item": [
-                {
-                    "title": "Faça alguma coisa!",
-                },
-                {
-                    "title": "Teste 2?",
-                }
-                
-            ]
-        },
-        {
-            "id": "_done",
-            "title": "Feito",
-            "class": "info",
-            "dragTo": ['_working'],
-            "item": [
-                {
-                    "title": "OK",
-                },
-                {
-                    "title": "Certo!",
-                    "username": "username1"
-
-                }
-            ]
-        },
-        {
-            "id": "_criarCard",
-            "title": "Criar Card",
-            "item": [
-                {
-                    "id" : "testeid",
-                    "title": "Clique Aqui!",
-                    "click": function (el) {                        
-                        addNewBoard(el);
-                        this.remove();
-                    },
-                }
-            ]
+            "id": "_test_delete",
+            "title": "Arrastar",
         }
     ]
-});
+}]);
 
+Kanban.addElement('_nada', {
+    "id": "_bla",
+    "title": "Bla Bla Bla",
+})
+
+console.dir(Kanban);
 
 function addNewBoard() {
     Kanban.addBoards(
@@ -142,7 +96,6 @@ allEle.forEach(function (item, index) {
 })
 
 
-/*
 var toDoButton = document.getElementById('addToDo');
 toDoButton.addEventListener('click', function () {
     Kanban.addElement(

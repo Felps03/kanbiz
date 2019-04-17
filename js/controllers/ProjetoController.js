@@ -32,7 +32,6 @@ export class ProjetoController extends Controller {
                 }
             });
         });
-
     }
 
     adicionaProjeto(event) {
