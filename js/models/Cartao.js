@@ -1,35 +1,43 @@
 export class Cartao {
 
-    constructor(nome, descricao, dataEntregue, pendencia, prioridades, colaboradores) {
-        this._nome = nome;
-        this._descricao = descricao;
-        this._dataEntregue = dataEntregue;
-        this._pendencia = pendencia;
-        this._prioridades = prioridades;
-        this._colaboradores = colaboradores;
+    constructor(titulo = 'teste 2') {
+        this.title = titulo;
     }
 
-    get nome() {
-        return this._nome;
+    get titulo() {
+        return this.title;
     }
 
-    get descricao() {
-        return this._descricao;
-    }
+    // constructor(nome, descricao, dataEntregue, pendencia, prioridades, colaboradores) {
+    //     this._nome = nome;
+    //     this._descricao = descricao;
+    //     this._dataEntregue = dataEntregue;
+    //     this._pendencia = pendencia;
+    //     this._prioridades = prioridades;
+    //     this._colaboradores = colaboradores;
+    // }
 
-    get dataEntregue() {
-        return this._dataEntregue;
-    }
+    // get nome() {
+    //     return this._nome;
+    // }
 
-    get pendencia() {
-        return this._pendencia;
-    }
+    // get descricao() {
+    //     return this._descricao;
+    // }
 
-    get prioridades() {
-        return this._prioridades;
-    }
+    // get dataEntregue() {
+    //     return this._dataEntregue;
+    // }
 
-    get colaboradores() {
-        return this._colaboradores;
-    }
+    // get pendencia() {
+    //     return this._pendencia;
+    // }
+
+    // get prioridades() {
+    //     return this._prioridades;
+    // }
+
+    // get colaboradores() {
+    //     return this._colaboradores;
+    // }
 }

@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-import {db} from '../config/fb';
+import { db } from '../config/fb';
 
 import { Controller } from './Controller';
 import { Coluna } from '../models/Coluna';
@@ -18,11 +18,14 @@ export class ColunaController extends Controller {
     }
 
     _init() {
-        db.child(`coluna/`).on('value', snapshot => {
+        db.child(`coluna`).on('value', snapshot => {
             snapshot.forEach(value => {
-                console.log(value.val().title);
-                console.log(value.val().class);
-                console.log(value.val().limit);
+                console.table(value.val());
+                db.child(`coluna/${value.key}/cartao`).on('child_added', snapshotCartao => {
+                    db.child(`cartao/${snapshotCartao.key}`).on('value', cartaoSnapshot => {
+                        console.table(cartaoSnapshot.val());
+                    })
+                })
             });
         });
     }
@@ -38,11 +41,11 @@ export class ColunaController extends Controller {
         this._limpaFormulario();
     }
 
-    adicionaColunaProjeto(chaveColuna){
+    adicionaColunaProjeto(chaveColuna) {
         let chaveProjeto = this._recuperaChaveProjeto();
 
         db.child(`projeto/${chaveProjeto}/coluna`).update({
-            [chaveColuna] : true
+            [chaveColuna]: true
         }).then(function () {
             console.info("Criou o Projeto Colaborador ");
         }).catch(function (error) {
@@ -51,14 +54,14 @@ export class ColunaController extends Controller {
     }
 
 
-    _recuperaChaveProjeto(){
+    _recuperaChaveProjeto() {
         let url_string = window.location.href;
         let url = new URL(url_string);
         return (url.searchParams.get("chave"));
     }
 
     _criaColuna() {
-        
+
         return new Coluna(
             this._recuperaChaveProjeto(),
             this._inputTitle.val(),

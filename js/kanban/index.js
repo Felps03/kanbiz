@@ -73,6 +73,8 @@ var Kanban = new jKanban({
                 },
                 {
                     "title": "Certo!",
+                    "username": "username1"
+
                 }
             ]
         },
