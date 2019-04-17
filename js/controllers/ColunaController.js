@@ -39,13 +39,9 @@ export class ColunaController extends Controller {
     }
 
     adicionaColunaProjeto(chaveColuna){
-        //TODO: Melhorar get Projeto
-        
-        let url_string = window.location.href;
-        let url = new URL(url_string);
-        let CHAVE = url.searchParams.get("chave");
+        let chaveProjeto = this._recuperaChaveProjeto();
 
-        db.child(`projeto/${CHAVE}/coluna`).update({
+        db.child(`projeto/${chaveProjeto}/coluna`).update({
             [chaveColuna] : true
         }).then(function () {
             console.info("Criou o Projeto Colaborador ");
@@ -54,12 +50,17 @@ export class ColunaController extends Controller {
         });
     }
 
-    _criaColuna() {
+
+    _recuperaChaveProjeto(){
         let url_string = window.location.href;
         let url = new URL(url_string);
-        let CHAVE = url.searchParams.get("chave");
+        return (url.searchParams.get("chave"));
+    }
+
+    _criaColuna() {
+        
         return new Coluna(
-            CHAVE,
+            this._recuperaChaveProjeto(),
             this._inputTitle.val(),
             // this._inputClass.val(),
             // this._inputLimitador.val()

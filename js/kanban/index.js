@@ -1,3 +1,5 @@
+import { ColunaView } from '../views/ColunaView';
+
 var Kanban = new jKanban({
     element: '#myKanban',
     gutter: '10px',
@@ -92,8 +94,7 @@ var Kanban = new jKanban({
 });
 
 
-function addNewBoard(el) {
-    novoId = "1";//buscar de um contador
+function addNewBoard() {
     Kanban.addBoards(
         [{
             "id": novoId,
