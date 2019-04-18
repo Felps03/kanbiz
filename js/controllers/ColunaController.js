@@ -31,7 +31,8 @@ export class ColunaController extends Controller {
                     "class": value.val().class,
                 }]);
                 db.child(`coluna/${value.key}/cartao`).on('child_added', snapshotCartao => {
-                    db.child(`cartao/${snapshotCartao.key}`).on('value', cartaoSnapshot => {        
+                    db.child(`cartao/${snapshotCartao.key}`).on('value', cartaoSnapshot => {       
+                        this._kanban.removeElement(cartaoSnapshot.key); 
                         this._kanban.addElement(value.key, {
                             "id": cartaoSnapshot.key,
                             "title": cartaoSnapshot.val().title,
@@ -42,6 +43,17 @@ export class ColunaController extends Controller {
                     })
                 })
             });
+        });
+    }
+
+    _atualizaColuna(chaveColuna) {
+        let chaveProjeto = 'LcgbHMHgerqP8AHKsSv';
+        db.child(`projeto/${chaveProjeto}/coluna`).update({
+            [chaveColuna]: true
+        }).then(function () {
+            console.info("Atualiza Coluna ");
+        }).catch(function (error) {
+            console.error("Erro ao criar coluna ", error);
         });
     }
 
@@ -68,7 +80,6 @@ export class ColunaController extends Controller {
         });
     }
 
-
     _recuperaChaveProjeto() {
         let url_string = window.location.href;
         let url = new URL(url_string);
@@ -76,7 +87,6 @@ export class ColunaController extends Controller {
     }
 
     _criaColuna() {
-
         return new Coluna(
             this._recuperaChaveProjeto(),
             this._inputTitle.val(),

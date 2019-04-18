@@ -26,9 +26,9 @@ export class CartaoController extends Controller {
 
     adicionaCartaoColuna(cartaoChave) {
 
-        let chaveProjeto = '-Lcg4t2A1s86EROJWrik'
+        let chaveColuna = '-LclJBWG2_eXxaqsadhg'
 
-        db.child(`coluna/${chaveProjeto}/cartao`).update({
+        db.child(`coluna/${chaveColuna}/cartao`).update({
             [cartaoChave] : true
         }).then(function () {
             console.info("Criou o Cartao com sucesso ");
@@ -38,7 +38,7 @@ export class CartaoController extends Controller {
     }
     
     _criaCartao() {
-        let cartao = 'teste 2';
+        let cartao = 'teste 3';
         return new Cartao (
             cartao
         )
