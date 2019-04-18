@@ -26,7 +26,7 @@ export class CartaoController extends Controller {
 
     adicionaCartaoColuna(cartaoChave) {
 
-        let chaveColuna = '-LclJBWG2_eXxaqsadhg'
+        let chaveColuna = '-LcmVhH4SYEt2wB-ei45'
 
         db.child(`coluna/${chaveColuna}/cartao`).update({
             [cartaoChave] : true

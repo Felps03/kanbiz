@@ -17,7 +17,7 @@ export class ColunaController extends Controller {
     onUserLogged() {
         this._init();
     }
-
+    
     _init() {
         db.child(`coluna`).on('value', snapshot => {
             snapshot.forEach(value => {
@@ -25,7 +25,7 @@ export class ColunaController extends Controller {
             });
 
             // this._kanban.removeElement(cartaoSnapshot.key);
-            
+            const that = this;
             snapshot.forEach(value => {
                 this._kanban.addBoards([{
                     "id": value.key,
@@ -36,17 +36,19 @@ export class ColunaController extends Controller {
                     db.child(`cartao/${snapshotCartao.key}`).on('value', cartaoSnapshot => {
                         this._kanban.addElement(value.key, {
                             "id": cartaoSnapshot.key,
-                            "title": cartaoSnapshot.val().title,
-                            "drag": function (el, test) {
-                                // remove
-                                console.log('Id do Cartão: ', el.dataset.eid);
-                                console.log('Id da Coluna Inicio: ', test.parentNode.dataset.id);
-                            },
+                            "title": cartaoSnapshot.val().title,                            
                             "drop": function (el, event) {
                                 // insere
-                                console.log('Id do Cartão: ', el.dataset.eid);
-                                console.log('Id da Coluna Final: ', event.parentNode.dataset.id);
-                            }
+                                that._atualizaColunaCartao(el.dataset.eid, event.parentNode.dataset.id);
+                                // console.log('Id do Cartão: ', el.dataset.eid);
+                                // console.log('Id da Coluna Final: ', event.parentNode.dataset.id);
+                            },
+                            "drag": function (el, test) {
+                                // remove
+                                that._removeColunaCartao(el.dataset.eid, test.parentNode.dataset.id);
+                                // console.log('Id do Cartão: ', el.dataset.eid);
+                                // console.log('Id da Coluna Inicio: ', test.parentNode.dataset.id);
+                            },
                         });
                     })
                 })
@@ -54,13 +56,9 @@ export class ColunaController extends Controller {
         });
     }
 
-    // _atualizaColuna(chaveCartao, chaveColuna) {
-    _atualizaColunaCartao() {
-        // Remover
-        event.preventDefault();
-
-        let chaveCartao = '-LclOPO3VqoSPBH30H10';
-        let chaveColuna = '-LclJBWG2_eXxaqsadhg';
+    _atualizaColunaCartao(chaveCartao, chaveColuna) {
+        // let chaveCartao = '-LclWqmTlBTl3qAS1DWF';
+        // let chaveColuna = '-LclWgiVvt5EBYMqk4Ej';
         db.child(`coluna/${chaveColuna}/cartao`).update({
             [chaveCartao]: true
         }).then(function () {
@@ -70,12 +68,13 @@ export class ColunaController extends Controller {
         });
     }
 
-    _removeColunaCartao(){
+    _removeColunaCartao(chaveCartao, chaveColuna) {
+    // _removeColunaCartao(){
         // Remover
-        event.preventDefault();
+        // event.preventDefault();
 
-        let chaveCartao = '-LclOPO3VqoSPBH30H10';
-        let chaveColuna = '-LclJBWG2_eXxaqsadhg';
+        // let chaveCartao = '-LclWqmTlBTl3qAS1DWF';
+        // let chaveColuna = '-LclWyvIgErsYbX_8eLI';
         db.child(`coluna/${chaveColuna}/cartao/${chaveCartao}`).remove().then(function () {
             console.info("Atualiza Coluna ");
         }).catch(function (error) {
