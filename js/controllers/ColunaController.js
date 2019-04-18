@@ -24,6 +24,8 @@ export class ColunaController extends Controller {
                 this._kanban.removeBoard(value.key);
             });
 
+            // this._kanban.removeElement(cartaoSnapshot.key);
+            
             snapshot.forEach(value => {
                 this._kanban.addBoards([{
                     "id": value.key,
@@ -31,13 +33,19 @@ export class ColunaController extends Controller {
                     "class": value.val().class,
                 }]);
                 db.child(`coluna/${value.key}/cartao`).on('child_added', snapshotCartao => {
-                    db.child(`cartao/${snapshotCartao.key}`).on('value', cartaoSnapshot => {       
-                        this._kanban.removeElement(cartaoSnapshot.key); 
+                    db.child(`cartao/${snapshotCartao.key}`).on('value', cartaoSnapshot => {
                         this._kanban.addElement(value.key, {
                             "id": cartaoSnapshot.key,
                             "title": cartaoSnapshot.val().title,
-                            "drop": function(el, event){
-                                console.log(event.parentNode.dataset.id);
+                            "drag": function (el, test) {
+                                // remove
+                                console.log('Id do Cartão: ', el.dataset.eid);
+                                console.log('Id da Coluna Inicio: ', test.parentNode.dataset.id);
+                            },
+                            "drop": function (el, event) {
+                                // insere
+                                console.log('Id do Cartão: ', el.dataset.eid);
+                                console.log('Id da Coluna Final: ', event.parentNode.dataset.id);
                             }
                         });
                     })
@@ -46,15 +54,34 @@ export class ColunaController extends Controller {
         });
     }
 
-    _atualizaColuna(chaveColuna) {
-        let chaveProjeto = 'LcgbHMHgerqP8AHKsSv';
-        db.child(`projeto/${chaveProjeto}/coluna`).update({
-            [chaveColuna]: true
+    // _atualizaColuna(chaveCartao, chaveColuna) {
+    _atualizaColunaCartao() {
+        // Remover
+        event.preventDefault();
+
+        let chaveCartao = '-LclOPO3VqoSPBH30H10';
+        let chaveColuna = '-LclJBWG2_eXxaqsadhg';
+        db.child(`coluna/${chaveColuna}/cartao`).update({
+            [chaveCartao]: true
         }).then(function () {
             console.info("Atualiza Coluna ");
         }).catch(function (error) {
             console.error("Erro ao criar coluna ", error);
         });
+    }
+
+    _removeColunaCartao(){
+        // Remover
+        event.preventDefault();
+
+        let chaveCartao = '-LclOPO3VqoSPBH30H10';
+        let chaveColuna = '-LclJBWG2_eXxaqsadhg';
+        db.child(`coluna/${chaveColuna}/cartao/${chaveCartao}`).remove().then(function () {
+            console.info("Atualiza Coluna ");
+        }).catch(function (error) {
+            console.error("Erro ao criar coluna ", error);
+        });
+
     }
 
     adicionaColuna(event) {
