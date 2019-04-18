@@ -35,6 +35,9 @@ export class ColunaController extends Controller {
                         this._kanban.addElement(value.key, {
                             "id": cartaoSnapshot.key,
                             "title": cartaoSnapshot.val().title,
+                            "drop": function(el, event){
+                                console.log(event.parentNode.dataset.id);
+                            }
                         });
                     })
                 })
