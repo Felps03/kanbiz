@@ -32,7 +32,7 @@ export class ProjetoController extends Controller {
                 }
             });
         });
-        this._listaColaboradoresProjeto();
+        this._excluirColaboradoresProjeto();
     }
 
     adicionaProjeto(event) {
@@ -83,18 +83,35 @@ export class ProjetoController extends Controller {
         });
     }
 
-    excluirColaboradoresProjeto() {
+    _excluirColaboradoresProjeto() {
+        // let uid = this._pesquisarColaboradorEmail('felipe@gmail.com');
+
+        let uid = 'b6CS4TAejgfii54HzWMwhWPdYQB2';
+        let chaveProjeto = '-LcmfXaBxbQPo2meP0mC';
+
+        db.child('projeto').child(chaveProjeto).child('_colaborador').child(uid).remove().then(function () {
+            console.log('Colaborador Deletado do Projeto');
+        });
+
+        db.child(`colaboradores/${uid}/projeto`).child(chaveProjeto).remove().then(function () {
+            alert('Colaborador Deletado do Projeto');
+        }).catch(function (error) {
+            console.error("Erro ao criar timeColaborador ", error);
+        });
 
     }
 
     // TODO: Colocar no Colaborador Controller
-    pesquisarColaboradorEmail() {
-        event.preventDefault();
-        let email = $('#InputEmail').val();
+    // pesquisarColaboradorEmail() {
+    _pesquisarColaboradorEmail(email) {
+        // event.preventDefault();
+        // let email = $('#InputEmail').val();
         console.log('procuraPorEmail', email);
         db.child(`usuario`).orderByChild('email').equalTo(email).on('child_added', snapshot => {
+            console.log('_pesquisarColaboradorEmail: snapshot.exists()');
             if (snapshot.exists()) {
-                this.convidaMembro(snapshot.val().uid);
+                console.log('_pesquisarColaboradorEmail: ', snapshot.val().uid);
+                return (snapshot.val().uid);
             } else {
                 alert('nao achou');
             }
