@@ -38,16 +38,10 @@ export class ColunaController extends Controller {
                             "id": cartaoSnapshot.key,
                             "title": cartaoSnapshot.val().title,                            
                             "drop": function (el, event) {
-                                // insere
                                 that._atualizaColunaCartao(el.dataset.eid, event.parentNode.dataset.id);
-                                // console.log('Id do Cartão: ', el.dataset.eid);
-                                // console.log('Id da Coluna Final: ', event.parentNode.dataset.id);
                             },
                             "drag": function (el, test) {
-                                // remove
                                 that._removeColunaCartao(el.dataset.eid, test.parentNode.dataset.id);
-                                // console.log('Id do Cartão: ', el.dataset.eid);
-                                // console.log('Id da Coluna Inicio: ', test.parentNode.dataset.id);
                             },
                         });
                     })
@@ -57,8 +51,6 @@ export class ColunaController extends Controller {
     }
 
     _atualizaColunaCartao(chaveCartao, chaveColuna) {
-        // let chaveCartao = '-LclWqmTlBTl3qAS1DWF';
-        // let chaveColuna = '-LclWgiVvt5EBYMqk4Ej';
         db.child(`coluna/${chaveColuna}/cartao`).update({
             [chaveCartao]: true
         }).then(function () {
@@ -69,12 +61,6 @@ export class ColunaController extends Controller {
     }
 
     _removeColunaCartao(chaveCartao, chaveColuna) {
-    // _removeColunaCartao(){
-        // Remover
-        // event.preventDefault();
-
-        // let chaveCartao = '-LclWqmTlBTl3qAS1DWF';
-        // let chaveColuna = '-LclWyvIgErsYbX_8eLI';
         db.child(`coluna/${chaveColuna}/cartao/${chaveCartao}`).remove().then(function () {
             console.info("Atualiza Coluna ");
         }).catch(function (error) {

@@ -15,7 +15,7 @@ export class CartaoController extends Controller {
 
     adicionaCartao(event) {
         event.preventDefault();
-        console.log('chegou');
+        console.log('chegou adicionaCartao');
         let cartao = this._criaCartao();
         db.child('cartao').push(cartao).then(snapshot => {
             this.adicionaCartaoColuna(snapshot.key);

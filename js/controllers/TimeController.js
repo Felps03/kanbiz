@@ -1,11 +1,11 @@
 import $ from 'jquery';
 
-import {db} from '../config/fb';
+import { db } from '../config/fb';
 
-import {Controller} from './Controller';
-import {TimeView} from '../views/TimeView';
-import {Time} from '../models/Time';
-import {Colaborador} from '../models/Colaborador';
+import { Controller } from './Controller';
+import { TimeView } from '../views/TimeView';
+import { Time } from '../models/Time';
+import { Colaborador } from '../models/Colaborador';
 
 export class TimeController extends Controller {
     constructor() {
@@ -36,6 +36,7 @@ export class TimeController extends Controller {
                 }
             });
         });
+        this.listaColaboradorTime();
     }
 
     adicionaTime(event) {
@@ -168,6 +169,19 @@ export class TimeController extends Controller {
             console.error("Erro ao criar timeColaborador ", error);
             $(location).attr('href', 'home.html')
         });
+    }
+
+    listaColaboradorTime() {
+        let chaveTime = '-Lc3CVB29NPEMS4nsmNb';
+        db.child(`time/${chaveTime}/_colaboradores`).on('value', snapshot => {
+            console.log(snapshot.val());
+            snapshot.forEach(value => {
+                db.child(`usuario/${value.key}`).on('value', snapshotUsuario => {
+                    console.log(snapshotUsuario.val());
+                });
+            });
+        });
+        return 0;
     }
 
     _criaTime() {
