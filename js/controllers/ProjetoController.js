@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-import {db} from '../config/fb';
+import { db } from '../config/fb';
 
 import { Controller } from "./Controller";
 import { Projeto } from "../models/Projeto";
@@ -14,17 +14,17 @@ export class ProjetoController extends Controller {
         this._timeView = new ProjetoView($('#timeViewProjeto'));
     }
 
-    onUserLogged(){
+    onUserLogged() {
         this._init();
     }
 
-    _init(){
+    _init() {
         this._timeView.render();
         $("#lds-spinner").show();
         db.child(`colaboradores/${this.user.id}/projeto`).on('value', snapshot => {
             $('#table-body-Projeto').empty();
             snapshot.forEach(value => {
-                if(value.val()) {
+                if (value.val()) {
                     db.child(`projeto/${value.key}`).on('value', snapshotProjeto => {
                         $("#lds-spinner").hide();
                         $('#table-body-Projeto').append(this._timeView.linha(snapshotProjeto.val(), snapshotProjeto.key));
@@ -32,6 +32,7 @@ export class ProjetoController extends Controller {
                 }
             });
         });
+        this._listaColaboradoresProjeto();
     }
 
     adicionaProjeto(event) {
@@ -67,16 +68,37 @@ export class ProjetoController extends Controller {
 
     }
 
-    listaColaboradoresProjeto(){
+    _listaColaboradoresProjeto() {
+        let chaveProjeto = '-LcmfXaBxbQPo2meP0mC';
+        db.child(`projeto/${chaveProjeto}/_colaborador`).on('value', snapshot => {
+            console.log('_listaColaboradoresProjeto: ', snapshot.val());
+            console.log('_listaColaboradoresProjeto - snapshot.exists(): ', snapshot.exists());
+            if (snapshot.exists()) {
+                snapshot.forEach(value => {
+                    db.child(`usuario/${value.key}`).on('value', snapshotUsuario => {
+                        console.log('_listaColaboradoresProjeto ', snapshotUsuario.val());
+                    });
+                });
+            }
+        });
+    }
+
+    excluirColaboradoresProjeto() {
 
     }
 
-    excluirColaboradoresProjeto(){
-
-    }
-
-    pesquisarColaboradorEmail(){
-
+    // TODO: Colocar no Colaborador Controller
+    pesquisarColaboradorEmail() {
+        event.preventDefault();
+        let email = $('#InputEmail').val();
+        console.log('procuraPorEmail', email);
+        db.child(`usuario`).orderByChild('email').equalTo(email).on('child_added', snapshot => {
+            if (snapshot.exists()) {
+                this.convidaMembro(snapshot.val().uid);
+            } else {
+                alert('nao achou');
+            }
+        });
     }
 
     _criaProjeto() {

@@ -61,11 +61,8 @@ export class TimeController extends Controller {
     }
 
     buscaDetalheTime() {
-        let url_string = window.location.href;
-        let url = new URL(url_string);
-        let CHAVE = url.searchParams.get("chave");
-        db.child('time').child(CHAVE).on('value', snapshot => {
-            $('#UID').val(CHAVE);
+        db.child('time').child(this._recuperaChaveTime()).on('value', snapshot => {
+            $('#UID').val(snapshot.key);
             $('#InputNome').val(snapshot.val()._nome);
             $('#InputNick').val(snapshot.val()._nick);
         });
@@ -78,7 +75,7 @@ export class TimeController extends Controller {
         let updates = {};
         updates[`/time/${chaveTime}`] = time;
         db.update(updates);
-        $(location).attr('href', 'home.html')
+        $(location).attr('href', 'home.html');
     }
 
     // //TODO: Rever 
@@ -174,14 +171,19 @@ export class TimeController extends Controller {
     listaColaboradorTime() {
         let chaveTime = '-Lc3CVB29NPEMS4nsmNb';
         db.child(`time/${chaveTime}/_colaboradores`).on('value', snapshot => {
-            console.log(snapshot.val());
+            console.log('listaColaboradorTime() ',snapshot.val());
             snapshot.forEach(value => {
                 db.child(`usuario/${value.key}`).on('value', snapshotUsuario => {
-                    console.log(snapshotUsuario.val());
+                    console.log('listaColaboradorTime() ',snapshotUsuario.val());
                 });
             });
         });
-        return 0;
+    }
+
+    _recuperaChaveTime(){
+        let url_string = window.location.href;
+        let url = new URL(url_string);
+        return (url.searchParams.get("chave"));
     }
 
     _criaTime() {

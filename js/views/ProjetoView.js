@@ -28,7 +28,6 @@ export class ProjetoView extends View {
     
     linha(model, chave) {
         var url = 'projeto.html?chave=' + chave;
-        console.log(model._nome);
         // return `<tr data-toggle="modal" data-target="#orderModal" data-id=${chave}>
         return `<tr onclick="window.location.href = '${url}'";>
                     <td>${model._nome}</td>
