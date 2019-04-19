@@ -23,16 +23,19 @@ export class ProjetoController extends Controller {
         $("#lds-spinner").show();
         db.child(`colaboradores/${this.user.id}/projeto`).on('value', snapshot => {
             $('#table-body-Projeto').empty();
-            snapshot.forEach(value => {
-                if (value.val()) {
-                    db.child(`projeto/${value.key}`).on('value', snapshotProjeto => {
-                        $("#lds-spinner").hide();
-                        $('#table-body-Projeto').append(this._timeView.linha(snapshotProjeto.val(), snapshotProjeto.key));
-                    })
-                }
-            });
+            if(snapshot.exists()){
+                snapshot.forEach(value => {
+                    if (value.val()) {
+                        db.child(`projeto/${value.key}`).on('value', snapshotProjeto => {
+                            $("#lds-spinner").hide();
+                            $('#table-body-Projeto').append(this._timeView.linha(snapshotProjeto.val(), snapshotProjeto.key));
+                        })
+                    }
+                });
+            } else {
+                $("#lds-spinner").hide();        
+            }    
         });
-        this._excluirColaboradoresProjeto();
     }
 
     adicionaProjeto(event) {

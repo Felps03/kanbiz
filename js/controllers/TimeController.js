@@ -21,20 +21,27 @@ export class TimeController extends Controller {
 
     _init() {
         this._timeView.render();
+        $("#lds-spinner").show();
         db.child(`colaboradores/${this.user.id}/times`).on('value', snapshot => {
             $('#table-body').empty();
             $('#tfoot-body').empty();
-            snapshot.forEach(value => {
-                if (value.val()) {
-                    db.child(`time/${value.key}`).on('value', snapshotTime => {
-                        $('#table-body').append(this._timeView.linha(snapshotTime.val(), snapshotTime.key));
-                    });
-                } else {
-                    db.child(`time/${value.key}`).on('value', snapshotTime => {
-                        $('#tfoot-body').append(this._timeView.naoAceito(snapshotTime.val(), snapshotTime.key));
-                    });
-                }
-            });
+            if(snapshot.exists()){
+                snapshot.forEach(value => {
+                    if (value.val()) {
+                        db.child(`time/${value.key}`).on('value', snapshotTime => {
+                            $('#table-body').append(this._timeView.linha(snapshotTime.val(), snapshotTime.key));
+                        });
+                    } else {
+                        db.child(`time/${value.key}`).on('value', snapshotTime => {
+                            $('#tfoot-body').append(this._timeView.naoAceito(snapshotTime.val(), snapshotTime.key));
+                        });
+                    }
+                    $("#lds-spinner").hide();
+                });
+            } else {
+                $("#lds-spinner").hide();
+            }
+            
         });
         this.listaColaboradorTime();
     }
@@ -134,7 +141,8 @@ export class TimeController extends Controller {
 
 
     aceitaColaboradorTime(verficaAceite = true) {
-        let chaveTime = $("table tr:nth-child(2)").attr('id');
+        let chaveTime = $("tbody tr:nth-child(2)").attr('id');
+        
         db.child('time').child(chaveTime).child('_colaboradores').update({
             [this.user.id]: verficaAceite
         }).then(function () {
@@ -154,7 +162,7 @@ export class TimeController extends Controller {
 
 
     recusarColaboradorTime() {
-        let chaveTime = $("table tr:nth-child(2)").attr('id');
+        let chaveTime = $("tfoot tr:nth-child(2)").attr('id');
         db.child('time').child(chaveTime).child('_colaboradores').child(this.user.id).remove().then(function () {
             console.log('foi');
         });
