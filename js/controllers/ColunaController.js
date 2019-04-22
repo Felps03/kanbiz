@@ -70,13 +70,23 @@ export class ColunaController extends Controller {
 
     }
 
+    atualizaColuna(event) {
+        event.preventDefault();
+        let coluna = this._criaColuna();
+        let chaveColuna = $('#UID').val();
+        let updates = {};
+        updates[`/coluna/${chaveColuna}`] = coluna;
+        db.update(updates);
+        $(location).attr('href', 'home.html');
+    }
+
     adicionaColuna(event) {
         event.preventDefault();
         let coluna = this._criaColuna();
         db.child('coluna').push(coluna).then(snapshot => {
             this.adicionaColunaProjeto(snapshot.key);
         }).catch(function (error) {
-            console.error("Erro ao criar projeto ", error);
+            console.error("Erro ao atualizar coluna ", error);
         });
         this._limpaFormulario();
     }
