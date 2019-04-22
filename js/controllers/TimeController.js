@@ -43,7 +43,6 @@ export class TimeController extends Controller {
             }
             
         });
-        this.listaColaboradorTime();
     }
 
     adicionaTime(event) {
