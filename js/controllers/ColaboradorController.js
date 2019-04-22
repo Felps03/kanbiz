@@ -1,9 +1,9 @@
-import {db} from '../config/fb';
+import { db, auth } from '../config/fb';
 
-import {Controller} from './Controller';
+import { Controller } from './Controller';
 
-export class ColaboradorController extends Controller  {
-    constructor() {        
+export class ColaboradorController extends Controller {
+    constructor() {
         super();
     }
 
@@ -19,15 +19,26 @@ export class ColaboradorController extends Controller  {
         db.child(`usuario/${this.user.id}`).set(colaboradores).then(snapshot => {
             // console.log("Colecao Usuario");
         });
+
+        this.excluir();
     }
-    
-    adiciona(event) {        
+
+    adiciona(event) {
         event.preventDefault();
-        this._limpaFormulario();   
+        this._limpaFormulario();
+    }
+
+    excluir() {
+        let user = auth.currentUser;
+        user.delete().then(function () {
+            alert('Excluindo Usuario ...');
+        }).catch(function (error) {
+            console.log("Erro EXCLUIR USUARIO - ", error);
+        });
     }
 
     _limpaFormulario() {
         this._inputNome.value = '';
-        this._inputNome.focus();   
+        this._inputNome.focus();
     }
 }
