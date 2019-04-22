@@ -24,6 +24,16 @@ export class CartaoController extends Controller {
         });
     }
 
+    atualizaCartao(event) {
+        event.preventDefault();
+        let cartao = this._criaCartao();
+        let chaveCartao = $('#UID').val();
+        let updates = {};
+        updates[`/cartao/${chaveCartao}`] = cartao;
+        db.update(updates);
+        $(location).attr('href', 'home.html');
+    }
+
     adicionaCartaoColuna(cartaoChave) {
 
         let chaveColuna = '-LcmVhH4SYEt2wB-ei45'
