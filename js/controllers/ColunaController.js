@@ -19,13 +19,14 @@ export class ColunaController extends Controller {
     }
     
     _init() {
+        const that = this;
         db.child(`coluna`).on('value', snapshot => {
             snapshot.forEach(value => {
                 this._kanban.removeBoard(value.key);
             });
 
             // this._kanban.removeElement(cartaoSnapshot.key);
-            const that = this;
+            
             snapshot.forEach(value => {
                 this._kanban.addBoards([{
                     "id": value.key,
