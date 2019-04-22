@@ -19,8 +19,6 @@ export class ColaboradorController extends Controller {
         db.child(`usuario/${this.user.id}`).set(colaboradores).then(snapshot => {
             // console.log("Colecao Usuario");
         });
-
-        this.excluir();
     }
 
     adiciona(event) {
