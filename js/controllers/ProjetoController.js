@@ -23,7 +23,7 @@ export class ProjetoController extends Controller {
         $("#lds-spinner").show();
         db.child(`colaboradores/${this.user.id}/projeto`).on('value', snapshot => {
             $('#table-body-Projeto').empty();
-            if(snapshot.exists()){
+            if (snapshot.exists()) {
                 snapshot.forEach(value => {
                     if (value.val()) {
                         db.child(`projeto/${value.key}`).on('value', snapshotProjeto => {
@@ -33,8 +33,8 @@ export class ProjetoController extends Controller {
                     }
                 });
             } else {
-                $("#lds-spinner").hide();        
-            }    
+                $("#lds-spinner").hide();
+            }
         });
     }
 
@@ -59,17 +59,37 @@ export class ProjetoController extends Controller {
         });
     }
 
-    editarProjeto() {
-
+    editarProjeto(event) {
+        event.preventDefault();
+        let projeto = this._criaProjeto();
+        let chaveProjeto = $('#UID').val();
+        let updates = {};
+        updates[`/projeto/${chaveProjeto}`] = projeto;
+        db.update(updates);
+        $(location).attr('href', 'home.html');
     }
 
-    arquivarProjeto() {
+    excluirProjeto() {
 
-    }
+        let chaveProjeto = '-Ld6dBWtJxzzv9bEkoVt';
 
-    bloquearProjeto() {
-
-    }
+        db.child(`projeto/${chaveProjeto}/_colaboradores`).on('child_added', snapshot => {
+            if (snapshot.exists()) {
+                db.child(`colaboradores/${snapshot.key}/projeto/`).child(chaveProjeto).remove().then(function () {
+                    alert('Colaborador Deletado do Projeto');
+                }).catch(function (error) {
+                    console.error("Erro ao excluir colaboradores/Projeto ", error);
+                });
+            }
+        })
+        
+        // TODO: tem que excluir de segundo
+        db.child(`projeto/${chaveProjeto}`).remove().then(function () {
+            alert('Deletado o Projeto');
+        }).catch(function (error) {
+            console.error("Erro ao excluir Projeto ", error);
+        });
+    };
 
     _listaColaboradoresProjeto() {
         let chaveProjeto = '-LcmfXaBxbQPo2meP0mC';
