@@ -36,6 +36,8 @@ export class ProjetoController extends Controller {
                 $("#lds-spinner").hide();
             }
         });
+
+        this.excluirProjeto();
     }
 
     adicionaProjeto(event) {
@@ -71,25 +73,26 @@ export class ProjetoController extends Controller {
 
     excluirProjeto() {
 
-        let chaveProjeto = '-Ld6dBWtJxzzv9bEkoVt';
+        let chaveProjeto = '-LdJIDgn2K9drJoXw4FF';
 
         db.child(`projeto/${chaveProjeto}/_colaboradores`).on('child_added', snapshot => {
             if (snapshot.exists()) {
                 db.child(`colaboradores/${snapshot.key}/projeto/`).child(chaveProjeto).remove().then(function () {
-                    alert('Colaborador Deletado do Projeto');
+                    console.log('Colaborador Deletado do Projeto');
+                        db.child(`projeto/${chaveProjeto}`).remove().then(function () {
+                            console.log('Deletado o Projeto');
+                        }).catch(function (error) {
+                            console.error("Erro ao excluir Projeto ", error);
+                        });
                 }).catch(function (error) {
                     console.error("Erro ao excluir colaboradores/Projeto ", error);
                 });
             }
         })
         
-        // TODO: tem que excluir de segundo
-        db.child(`projeto/${chaveProjeto}`).remove().then(function () {
-            alert('Deletado o Projeto');
-        }).catch(function (error) {
-            console.error("Erro ao excluir Projeto ", error);
-        });
+
     };
+
 
     _listaColaboradoresProjeto() {
         let chaveProjeto = '-LcmfXaBxbQPo2meP0mC';
