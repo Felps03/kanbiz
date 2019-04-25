@@ -73,24 +73,20 @@ export class ProjetoController extends Controller {
 
     excluirProjeto() {
 
-        let chaveProjeto = '-LdJIDgn2K9drJoXw4FF';
+        let chaveProjeto = '-LdLdhLTmuAjgsFHrOY8';
 
         db.child(`projeto/${chaveProjeto}/_colaboradores`).on('child_added', snapshot => {
             if (snapshot.exists()) {
                 db.child(`colaboradores/${snapshot.key}/projeto/`).child(chaveProjeto).remove().then(function () {
-                    console.log('Colaborador Deletado do Projeto');
-                        db.child(`projeto/${chaveProjeto}`).remove().then(function () {
-                            console.log('Deletado o Projeto');
-                        }).catch(function (error) {
-                            console.error("Erro ao excluir Projeto ", error);
-                        });
+                    console.log('Excluido o projeto do Colaborador');
+                    return db.child(`projeto/${chaveProjeto}`).remove();
+                }).then(function(ok) {
+                    console.log('Ambos excluidos');                    
                 }).catch(function (error) {
                     console.error("Erro ao excluir colaboradores/Projeto ", error);
                 });
             }
         })
-        
-
     };
 
 
