@@ -35,14 +35,21 @@ export class ColunaController extends Controller {
                 }]);
                 db.child(`coluna/${value.key}/cartao`).on('child_added', snapshotCartao => {
                     db.child(`cartao/${snapshotCartao.key}`).on('value', cartaoSnapshot => {
+                        
+                        let idCartao = 0;
+
                         this._kanban.addElement(value.key, {
                             "id": cartaoSnapshot.key,
                             "title": cartaoSnapshot.val().title,                            
                             "drop": function (el, event) {
+                                console.log(event);
                                 that._atualizaColunaCartao(el.dataset.eid, event.parentNode.dataset.id);
+                                if(idCartao != event.parentNode.dataset.id){
+                                    that._removeColunaCartao(el.dataset.eid, idCartao);
+                                }
                             },
                             "drag": function (el, test) {
-                                that._removeColunaCartao(el.dataset.eid, test.parentNode.dataset.id);
+                                idCartao = test.parentNode.dataset.id;
                             },
                         });
                     })
@@ -63,7 +70,7 @@ export class ColunaController extends Controller {
 
     _removeColunaCartao(chaveCartao, chaveColuna) {
         db.child(`coluna/${chaveColuna}/cartao/${chaveCartao}`).remove().then(function () {
-            console.info("Atualiza Coluna ");
+            console.info("Remove Coluna ");
         }).catch(function (error) {
             console.error("Erro ao criar coluna ", error);
         });
