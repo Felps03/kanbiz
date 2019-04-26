@@ -14,6 +14,7 @@ export class ColunaController extends Controller {
         this._inputLimitador = $('#InputLimitadorColuna');
     }
 
+    
     onUserLogged() {
         this._init();
     }
