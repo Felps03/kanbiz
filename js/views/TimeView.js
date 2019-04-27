@@ -1,4 +1,5 @@
 import {View} from './View';
+import {truncar} from '../utils/utils';
 
 export class TimeView extends View {
     
@@ -24,6 +25,16 @@ export class TimeView extends View {
                 </tfoot>
 
             </table>
+        `;
+    }
+
+    painelLateral(model, chave){
+        let urlTime = 'time.html?chave=' + chave;
+        let nome = truncar(model._nome, 24)
+        return `
+            <a href=${urlTime} class="list-group-item list-group-item-action bg-light">
+                <i class="fas fa-users fa-1x"></i> ${nome}
+            </a>
         `;
     }
     

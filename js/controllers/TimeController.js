@@ -23,13 +23,13 @@ export class TimeController extends Controller {
         this._timeView.render();
         $("#lds-spinner").show();
         db.child(`colaboradores/${this.user.id}/times`).on('value', snapshot => {
-            $('#table-body').empty();
             $('#tfoot-body').empty();
+            $('#times-painel-lateral').empty();
             if(snapshot.exists()){
                 snapshot.forEach(value => {
                     if (value.val()) {
                         db.child(`time/${value.key}`).on('value', snapshotTime => {
-                            $('#table-body').append(this._timeView.linha(snapshotTime.val(), snapshotTime.key));
+                            $('#times-painel-lateral').append(this._timeView.painelLateral(snapshotTime.val(), snapshotTime.key));
                         });
                     } else {
                         db.child(`time/${value.key}`).on('value', snapshotTime => {
@@ -47,12 +47,15 @@ export class TimeController extends Controller {
 
     adicionaTime(event) {
         event.preventDefault();
+        console.log('oi');
         let time = this._criaTime();
         db.child('time').push(time).then(snapshot => {
             this._adicionaTimeColaborador(this.user.id, snapshot.key);
         }).catch(function (error) {
             console.error("Erro ao criar Time ", error);
         });
+        console.log($('#modalCriaTime'));
+        $('#modalCriaTime').modal('hide');
         this._limpaFormulario();
     }
 

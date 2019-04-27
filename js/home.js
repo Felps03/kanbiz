@@ -9,7 +9,7 @@ const projetoController = new ProjetoController();
 const timeController = new TimeController();
 const colaboradorController = new ColaboradorController();
 
-const form = document.querySelector('form');
+const form = document.getElementById('criaTime');
 form.addEventListener('submit', timeController.adicionaTime.bind(timeController));
 
 const formProjeto = document.querySelector('.formProjeto');
