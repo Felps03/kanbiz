@@ -44,6 +44,7 @@
       <div class="list-group list-group-flush">
         <a href="#" class="list-group-item list-group-item-action bg-light">Times</a>
         <div id="times-painel-lateral"></div>
+        <div id="times-painel-lateral-nao-aceito"></div>
         <a href="#" class="list-group-item list-group-item-action bg-light" data-toggle="modal"
           data-target="#modalCriaTime">+
           Criar Time</a>
@@ -75,10 +76,6 @@
         </div>
       </div>
 
-      <div class="col-12">
-        <div id="timeView"></div>
-      </div>
-      
 
       <h3>Projeto</h3>
 
@@ -134,34 +131,42 @@
   </div>
 
 
+ <!-- The Modal -->
+ <div class="modal fade" id="modalAceita">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
 
-
-
-
-  <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-body">
-          <form>
-            <div id="orderDetails" class="modal-body"></div>
-            <div class="form-group">
-              <label for="recipient-name" class="col-form-label">Nome:</label>
-              <input type="text" class="form-control" id="nome">
-            </div>
-            <div class="form-group">
-              <label for="recipient-nick" class="col-form-label">Nick:</label>
-              <input type="text" class="form-control" id="nick"></input>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-          <button type="button" class="btn btn-primary">Salvar</button>
-        </div>
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Aceitar Time</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="InputNome">Nome</label>
+            <input type="text" class="form-control" id="InputNomeTime" placeholder="Nome" disabled>
+          </div>
+          <div class="form-group">
+            <label for="InputNick">Nick</label>
+            <input type="text" class="form-control" id="InputNickTime" placeholder="Nick" disabled>
+          </div>
+          <div class="form-group"  style="display: none;">
+            <label for="InputNick">ID</label>
+            <input type="text" class="form-control" id="InputIDTime" disabled>
+          </div>          
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success aceita">Aceitar Time</button>
+          <button type="submit" class="btn btn-danger deleta">Recusar Time</button>
+      </div>
+
     </div>
   </div>
+</div>
 
   <script src="./js/home.js" type="module"></script>
   <script src="./js/main.js"></script>

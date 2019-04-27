@@ -1,12 +1,12 @@
-import {View} from './View';
-import {truncar} from '../utils/utils';
+import { View } from './View';
+import { truncar } from '../utils/utils';
 
 export class TimeView extends View {
-    
+
     constructor(elemento) {
         super(elemento);
     }
-    
+
     template() {
         return `
             <table class="table table-striped">
@@ -28,16 +28,30 @@ export class TimeView extends View {
         `;
     }
 
-    painelLateral(model, chave){
+    painelLateral(model, chave) {
         let urlTime = 'time.html?chave=' + chave;
         let nome = truncar(model._nome, 24)
         return `
-            <a href=${urlTime} class="list-group-item list-group-item-action bg-light">
+            <a href='${urlTime}' class="list-group-item list-group-item-action bg-light">
                 <i class="fas fa-users fa-1x"></i> ${nome}
             </a>
         `;
     }
-    
+
+    painelLateralNaoAceito(model, chave) {
+        let nome = truncar(model._nome, 24);
+        return `
+            <a href='#' data-toggle="modal"
+            data-target="#modalAceita" id="${chave}" class="list-group-item list-group-item-action bg-warning">
+                <i class="fas fa-user-check fa-1x"></i> ${nome}
+                <p style="display: none; id="nickPainelNaoAceito">${model._nick}</p>
+            </a>
+            
+        `;
+    }
+
+
+
     linha(model, chave) {
         var url = 'time.html?chave=' + chave;
         // return `<tr data-toggle="modal" data-target="#orderModal" data-id="${chave}">
@@ -59,7 +73,7 @@ export class TimeView extends View {
     }
 
 
-    naoAceito(model, chave){
+    naoAceito(model, chave) {
         // var url = 'time.html?chave=' + chave;
         return `<tr> <td colspan="3" class="text-center"> Times nao aceito </td></tr>
                 <tr id=${chave}>

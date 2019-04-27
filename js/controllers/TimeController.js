@@ -25,6 +25,7 @@ export class TimeController extends Controller {
         db.child(`colaboradores/${this.user.id}/times`).on('value', snapshot => {
             $('#tfoot-body').empty();
             $('#times-painel-lateral').empty();
+            $('#times-painel-lateral-nao-aceito').empty();
             if(snapshot.exists()){
                 snapshot.forEach(value => {
                     if (value.val()) {
@@ -33,7 +34,7 @@ export class TimeController extends Controller {
                         });
                     } else {
                         db.child(`time/${value.key}`).on('value', snapshotTime => {
-                            $('#tfoot-body').append(this._timeView.naoAceito(snapshotTime.val(), snapshotTime.key));
+                            $('#times-painel-lateral-nao-aceito').append(this._timeView.painelLateralNaoAceito(snapshotTime.val(), snapshotTime.key));
                         });
                     }
                     $("#lds-spinner").hide();
@@ -69,7 +70,7 @@ export class TimeController extends Controller {
         });
     }
 
-    buscaDetalheTime() {
+    buscaDetalheTime() {        
         db.child('time').child(this._recuperaChaveTime()).on('value', snapshot => {
             $('#UID').val(snapshot.key);
             $('#InputNome').val(snapshot.val()._nome);
@@ -121,60 +122,31 @@ export class TimeController extends Controller {
         });
     }
 
-    aceitaColaboradorTime(verficaAceite) {
-        console.log(verficaAceite);
-        let chaveTime = $("table tr:nth-child(2)").attr('id');
+    aceitaColaboradorTime(chaveTime, verficaAceite) {
         db.child('time').child(chaveTime).child('_colaboradores').update({
             [this.user.id]: verficaAceite
         }).then(function () {
-            console.log('foi');
+            console.log('aceitaColaboradorTime');
         });
 
         db.child(`colaboradores/${this.user.id}/times`).update({
             [chaveTime]: verficaAceite
         }).then(function () {
             alert('Colaborador Convidado');
-            $(location).attr('href', 'home.html')
         }).catch(function (error) {
             console.error("Erro ao criar timeColaborador ", error);
             $(location).attr('href', 'home.html')
         });
     }
 
-
-    aceitaColaboradorTime(verficaAceite = true) {
-        let chaveTime = $("tbody tr:nth-child(2)").attr('id');
-        
-        db.child('time').child(chaveTime).child('_colaboradores').update({
-            [this.user.id]: verficaAceite
-        }).then(function () {
-            console.log('foi');
-        });
-
-        db.child(`colaboradores/${this.user.id}/times`).update({
-            [chaveTime]: verficaAceite
-        }).then(function () {
-            alert('Colaborador Convidado');
-            $(location).attr('href', 'home.html')
-        }).catch(function (error) {
-            console.error("Erro ao criar timeColaborador ", error);
-            $(location).attr('href', 'home.html')
-        });
-    }
-
-
-    recusarColaboradorTime() {
-        let chaveTime = $("tfoot tr:nth-child(2)").attr('id');
+    recusarColaboradorTime(chaveTime) {
         db.child('time').child(chaveTime).child('_colaboradores').child(this.user.id).remove().then(function () {
-            console.log('foi');
+            console.log('recusarColaboradorTime');
         });
-
         db.child(`colaboradores/${this.user.id}/times`).child(chaveTime).remove().then(function () {
             alert('ColaboradorDeletado');
-            $(location).attr('href', 'home.html')
         }).catch(function (error) {
             console.error("Erro ao criar timeColaborador ", error);
-            $(location).attr('href', 'home.html')
         });
     }
 

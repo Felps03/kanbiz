@@ -16,27 +16,22 @@ const formProjeto = document.querySelector('.formProjeto');
 formProjeto.addEventListener('submit', projetoController.adicionaProjeto.bind(projetoController));
 
 $(document).on("click", ".aceita", function () {
-  // let chaveTime = $("table tr:nth-child(2)").attr('id');
-  timeController.aceitaColaboradorTime(true);
+  timeController.aceitaColaboradorTime($("#InputIDTime").val(),true);
 });
 
 $(document).on("click", ".deleta", function () {
-  timeController.recusarColaboradorTime();
+  timeController.recusarColaboradorTime($("#InputIDTime").val());
 });
 
 
-// //TODO: Rever
-// $('#orderModal').modal({
-//   keyboarnd: true,
-//   backdrop: "static",
-//   show: false,
-// }).on('show.bs.modal', function () {
-//   var getIdFromRow = $(this).data('orderid');
-//   var id = $(this).data('id');
-//   alert(id);
-//   $(this).find('#orderDetails').html($('<b> O ID eh: ' + getIdFromRow + '</b>'))
-// });
 
-// $(".table-striped").find('tr[data-target]').on('click', function () {
-//   $('#orderModal').data('orderid', $(this).data('id'));
-// });
+var tabela = document.querySelector('.list-group-flush');
+tabela.addEventListener("click",function(event){
+  event.target.parentNode.classList.add("fadeOut");
+  if (event.target.parentNode.id == 'times-painel-lateral-nao-aceito') {
+    $("#InputNomeTime").val(event.target.innerText);
+    $("#InputNickTime").val(event.target.childNodes[3].innerText);
+    $("#InputIDTime").val(event.target.id);
+  }
+});
+
