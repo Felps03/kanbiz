@@ -22,13 +22,12 @@ export class ProjetoController extends Controller {
         this._timeView.render();
         $("#lds-spinner").show();
         db.child(`colaboradores/${this.user.id}/projeto`).on('value', snapshot => {
-            $('#table-body-Projeto').empty();
+            $('#painelProjetoPrincipal').empty();
             if (snapshot.exists()) {
                 snapshot.forEach(value => {
                     if (value.val()) {
                         db.child(`projeto/${value.key}`).on('value', snapshotProjeto => {
                             $("#lds-spinner").hide();
-                            $('#table-body-Projeto').append(this._timeView.linha(snapshotProjeto.val(), snapshotProjeto.key));
                             $('#painelProjetoPrincipal').append(this._timeView.painel(snapshotProjeto.val(), snapshotProjeto.key));
 
                         })

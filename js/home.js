@@ -12,7 +12,7 @@ const colaboradorController = new ColaboradorController();
 const form = document.getElementById('criaTime');
 form.addEventListener('submit', timeController.adicionaTime.bind(timeController));
 
-const formProjeto = document.querySelector('.formProjeto');
+const formProjeto = document.getElementById('criaProjeto');
 formProjeto.addEventListener('submit', projetoController.adicionaProjeto.bind(projetoController));
 
 $(document).on("click", ".aceita", function () {

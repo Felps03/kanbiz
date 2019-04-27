@@ -17,7 +17,6 @@
 
   <div class="d-flex" id="wrapper">
 
-
     <div class="navbar bg-dark fixed-top" role="navigation">
       <div class="container">
 
@@ -28,12 +27,17 @@
         </div>
 
         <div class="mx-auto order-0">
-          <a class="img-responsive text-center" href="#"><img src="images/top_logo.png" alt="Kan Business"
-              title="Kan Business"></a>
+          <a class="img-responsive text-center" href="#">
+            <img src="images/top_logo.png" alt="Kan Business" title="Kan Business">
+          </a>
         </div>
 
         <div class="nav navbar-nav navbar-right">
-          <li><a href="#" id="logOutButton"><i class="fas fa-user-alt-slash fa-1x iconeCorBranca">Sair</i></a></li>
+          <li>
+            <a href="#" id="logOutButton">
+              <i class="fas fa-user-alt-slash fa-1x iconeCorBranca">Sair</i>
+            </a>
+          </li>
         </div>
 
       </div>
@@ -55,106 +59,46 @@
 
     <div id="wrapper">
       <!-- Main -->
-      <div>
-        <div class="inner">
+      <div class="inner">
 
-          <div class="container divtituloProjeto">
-            <h5 class="display-4 tituloProjeto"><i class="fas fa-briefcase"></i> Projetos</h5>
-          </div>
-
-
-          
-            <section class="tiles" id="painelProjetoPrincipal">
-
-
-            <article class="style2">
-              <span class="image">
-                <img src="images/pic02.jpg" alt="" />
-              </span>
-              <a href="#">
-                <h2>Lorem</h2>
-                <div class="content">
-                  <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
-                </div>
-              </a>
-            </article>
-            <article class="style3">
-              <span class="image">
-                <img src="images/pic03.jpg" alt="" />
-              </span>
-              <a href="#">
-                <h2>Feugiat</h2>
-                <div class="content">
-                  <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
-                </div>
-              </a>
-            </article>
-            <article class="style4">
-              <span class="image">
-                <img src="images/pic04.jpg" alt="" />
-              </span>
-              <a href="#">
-                <h2>Tempus</h2>
-                <div class="content">
-                  <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
-                </div>
-              </a>
-            </article>
-
-          </section>
-
-
+        <div class="container divtituloProjeto">
+          <h5 class="display-4 tituloProjeto">
+            <i class="fas fa-briefcase"></i>Projetos
+          </h5>
         </div>
 
-        </div>
-      </div>
+        <section class="tiles" id="painelProjetoPrincipal">
 
 
+          <!-- Painel do Projeto -->
+        </section>
 
-      <!-- <div class="col-12"> -->
-          <!-- <div id="timeViewProjeto"></div> -->
-        <!-- </div> -->
+        <section class="tiles">
 
+          <article class="style3">
+            <span class="image">
+              <img src="https://raw.githubusercontent.com/Felps03/kanbiz/master/images/pic05.jpg" alt="" />
+            </span>
+            <a href="#" data-toggle="modal" data-target="#modalCriaProjeto">
+              <h2>Criar novo quadro ...</h2>
+            </a>
+          </article>
 
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+          <article class="style3" style="opacity: 0.0">
+            <span class="image">
+              <img src="images/pic03.jpg" alt="" />
+            </span>
+            <a href="#">
+              <h2>Feugiat</h2>
+              <div class="content">
+                <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
+              </div>
+            </a>
+          </article>
 
 
+        </section>
 
-
-
-
-
-
-
-    <div style="display: none;">
-
-      <!-- Corpo -->
-      <div class="container">
-        <h1 class="text-center">Bem Vindo</h1>
-
-        <p class="text-right">
-          <h3 class="text-center" id="displayName"></h3><br>
-        </p>
 
         <div style="position: fixed; top: 50%; left: 50%;" id="lds-spinner">
           <div class="lds-spinner">
@@ -173,29 +117,11 @@
           </div>
         </div>
 
-
-        <h3>Projeto</h3>
-
-        <form class="formProjeto">
-          <div class="form-group">
-            <label for="InputNomeProjeto">Nome</label>
-            <input type="text" class="form-control" id="InputNomeProjeto" placeholder="Nome">
-          </div>
-          <button type="submit" class="btn btn-primary">Criar Time</button>
-        </form>
-
-
-        <div class="col-12">
-          <!-- <div id="timeViewProjeto"></div> -->
-        </div>
+        <div id="timeViewProjeto" style="display: none;"></div>
 
       </div>
-
     </div>
   </div>
-
-
-
 
   <!-- Modal Cria Time-->
   <div class="modal fade" id="modalCriaTime">
@@ -263,6 +189,37 @@
         <div class="modal-footer">
           <button type="submit" class="btn btn-success aceita">Aceitar Time</button>
           <button type="submit" class="btn btn-danger deleta">Recusar Time</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Cria Projeto -->
+  <div class="modal fade" id="modalCriaProjeto">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Criar Projeto</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form class="form" id="criaProjeto">
+            <div class="form-group">
+              <label for="InputNomeProjeto">Nome</label>
+              <input type="text" class="form-control" id="InputNomeProjeto" placeholder="Nome">
+            </div>
+            <button type="submit" class="btn btn-primary">Criar Projeto</button>
+          </form>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
         </div>
 
       </div>
