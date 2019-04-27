@@ -45,4 +45,23 @@ export class ProjetoView extends View {
         `;
     }
 
+
+    painel(model, chave){
+        
+        var url = 'projeto.html?chave=' + chave;
+        return `
+            <article class="style2">
+              <span class="image">
+                <img src="images/pic02.jpg" alt="" />
+              </span>
+              <a href="${url}">
+                <h2>${model._nome}</h2>
+                <div class="content" style="display: none;>
+                  <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
+                </div>
+              </a>
+            </article>
+            `
+    }
+
 }

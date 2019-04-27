@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="./node_modules/bootstrap-social/bootstrap-social.css">
   <link rel="stylesheet" href="./css/loading.css">
   <link rel="stylesheet" href="./css/styles.css">
+  <link rel="stylesheet" href="./css/painel.css">
 </head>
 
 <body>
@@ -51,51 +52,152 @@
       </div>
     </div>
 
-    <!-- Corpo -->
-    <div class="container">
-      <h1 class="text-center">Bem Vindo</h1>
 
-      <p class="text-right">
-        <h3 class="text-center" id="displayName"></h3><br>
-      </p>
+    <div id="wrapper">
+      <!-- Main -->
+      <div>
+        <div class="inner">
 
-      <div style="position: fixed; top: 50%; left: 50%;" id="lds-spinner">
-        <div class="lds-spinner">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          <div class="container divtituloProjeto">
+            <h5 class="display-4 tituloProjeto"><i class="fas fa-briefcase"></i> Projetos</h5>
+          </div>
+
+
+          
+            <section class="tiles" id="painelProjetoPrincipal">
+
+
+            <article class="style2">
+              <span class="image">
+                <img src="images/pic02.jpg" alt="" />
+              </span>
+              <a href="#">
+                <h2>Lorem</h2>
+                <div class="content">
+                  <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
+                </div>
+              </a>
+            </article>
+            <article class="style3">
+              <span class="image">
+                <img src="images/pic03.jpg" alt="" />
+              </span>
+              <a href="#">
+                <h2>Feugiat</h2>
+                <div class="content">
+                  <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
+                </div>
+              </a>
+            </article>
+            <article class="style4">
+              <span class="image">
+                <img src="images/pic04.jpg" alt="" />
+              </span>
+              <a href="#">
+                <h2>Tempus</h2>
+                <div class="content">
+                  <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
+                </div>
+              </a>
+            </article>
+
+          </section>
+
+
+        </div>
+
         </div>
       </div>
 
 
-      <h3>Projeto</h3>
 
-      <form class="formProjeto">
-        <div class="form-group">
-          <label for="InputNomeProjeto">Nome</label>
-          <input type="text" class="form-control" id="InputNomeProjeto" placeholder="Nome">
+      <!-- <div class="col-12"> -->
+          <!-- <div id="timeViewProjeto"></div> -->
+        <!-- </div> -->
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div style="display: none;">
+
+      <!-- Corpo -->
+      <div class="container">
+        <h1 class="text-center">Bem Vindo</h1>
+
+        <p class="text-right">
+          <h3 class="text-center" id="displayName"></h3><br>
+        </p>
+
+        <div style="position: fixed; top: 50%; left: 50%;" id="lds-spinner">
+          <div class="lds-spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
         </div>
-        <button type="submit" class="btn btn-primary">Criar Time</button>
-      </form>
 
 
-      <div class="col-12">
-        <div id="timeViewProjeto"></div>
+        <h3>Projeto</h3>
+
+        <form class="formProjeto">
+          <div class="form-group">
+            <label for="InputNomeProjeto">Nome</label>
+            <input type="text" class="form-control" id="InputNomeProjeto" placeholder="Nome">
+          </div>
+          <button type="submit" class="btn btn-primary">Criar Time</button>
+        </form>
+
+
+        <div class="col-12">
+          <!-- <div id="timeViewProjeto"></div> -->
+        </div>
+
       </div>
 
     </div>
   </div>
 
-  <!-- The Modal -->
+
+
+
+  <!-- Modal Cria Time-->
   <div class="modal fade" id="modalCriaTime">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -130,20 +232,19 @@
     </div>
   </div>
 
+  <!-- Modal Aceita Time -->
+  <div class="modal fade" id="modalAceita">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
 
- <!-- The Modal -->
- <div class="modal fade" id="modalAceita">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Aceitar Time</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
 
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Aceitar Time</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-
-      <!-- Modal body -->
-      <div class="modal-body">
+        <!-- Modal body -->
+        <div class="modal-body">
           <div class="form-group">
             <label for="InputNome">Nome</label>
             <input type="text" class="form-control" id="InputNomeTime" placeholder="Nome" disabled>
@@ -152,21 +253,21 @@
             <label for="InputNick">Nick</label>
             <input type="text" class="form-control" id="InputNickTime" placeholder="Nick" disabled>
           </div>
-          <div class="form-group"  style="display: none;">
+          <div class="form-group" style="display: none;">
             <label for="InputNick">ID</label>
             <input type="text" class="form-control" id="InputIDTime" disabled>
-          </div>          
-      </div>
+          </div>
+        </div>
 
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-success aceita">Aceitar Time</button>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success aceita">Aceitar Time</button>
           <button type="submit" class="btn btn-danger deleta">Recusar Time</button>
-      </div>
+        </div>
 
+      </div>
     </div>
   </div>
-</div>
 
   <script src="./js/home.js" type="module"></script>
   <script src="./js/main.js"></script>

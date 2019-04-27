@@ -29,6 +29,8 @@ export class ProjetoController extends Controller {
                         db.child(`projeto/${value.key}`).on('value', snapshotProjeto => {
                             $("#lds-spinner").hide();
                             $('#table-body-Projeto').append(this._timeView.linha(snapshotProjeto.val(), snapshotProjeto.key));
+                            $('#painelProjetoPrincipal').append(this._timeView.painel(snapshotProjeto.val(), snapshotProjeto.key));
+
                         })
                     }
                 });
@@ -36,8 +38,6 @@ export class ProjetoController extends Controller {
                 $("#lds-spinner").hide();
             }
         });
-
-        this.excluirProjeto();
     }
 
     adicionaProjeto(event) {
