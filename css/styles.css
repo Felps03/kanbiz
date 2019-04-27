@@ -43,11 +43,18 @@
   }
 }
 
-
 .divtituloProjeto{
   margin-top: 11%;
 }
 
 .tituloProjeto{
   font-size: 2rem;
+}
+
+.tituloTime{
+  margin-top: 5%;
+  margin-right: auto !important;
+  
+  margin-left: auto !important;
+  float: none !important;
 }

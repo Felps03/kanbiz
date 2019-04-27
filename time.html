@@ -1,17 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Time</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./node_modules/bootstrap-social/assets/css/font-awesome.css">
-    <link rel="stylesheet" href="./node_modules/bootstrap-social/bootstrap-social.css">
+    <link rel="stylesheet" href="./node_modules/@fortawesome/fontawesome-free/css/all.css">
+    <link rel="stylesheet" href="./css/loading.css">
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/painel.css">
 </head>
 
 <body>
+
+    <div class="d-flex" id="wrapper">
+
+        <div class="navbar bg-dark fixed-top" role="navigation">
+            <div class="container">
+
+                <div class="navbar-header">
+                    <a href="/home.html" aria-label="Voltar ao Início">
+                        <i class="fas fa-home fa-2x iconeCorBranca"></i>
+                    </a>
+                </div>
+
+                <div class="mx-auto order-0">
+                    <a class="img-responsive text-center" href="#">
+                        <img src="images/top_logo.png" alt="Kan Business" title="Kan Business">
+                    </a>
+                </div>
+
+                <div class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" id="logOutButton">
+                            <i class="fas fa-user-alt-slash fa-1x iconeCorBranca">Sair</i>
+                        </a>
+                    </li>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <!-- Main -->
+
+        <div class="tituloTime">
+            <div class="container">
+                <h5 class="display-4 text-center">
+                    <i class="fas fa-briefcase"></i>Time 123123213
+                </h5>
+            </div>
+        </div>
+
+
+
+
+
+        <div style="position: fixed; top: 50%; left: 50%;" id="lds-spinner">
+            <div class="lds-spinner">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
     <div class="container">
 
         <form class="form">
@@ -30,7 +109,7 @@
             <button type="submit" class="btn btn-primary">Editar Time</button>
         </form>
 
-        <br/>
+        <br />
 
         <h3>Convida Membro</h3>
         <form class="convidaMembro">
@@ -44,4 +123,5 @@
 
     <script src="./js/time.js" type="module"></script>
 </body>
+
 </html>
