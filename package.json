@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha",
     "start": "parcel serve index.html -p 8080",
-    "build": "parcel --public-url '.' build index.html"
+    "build": "parcel build index.html",
+    "smartTV": "parcel --public-url '.' build index.html"
   },
   "keywords": [],
   "author": "Felipe Santos",

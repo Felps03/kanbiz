@@ -14,84 +14,115 @@
 
 <body>
 
-    <div class="navbar  bg-dark fixed-top" role="navigation">
-        <div class="container">
-          <div class="navbar-header">
-              
-            
-              <a href="/home.html" aria-label="Voltar ao Início">
-                <i class="fas fa-home fa-2x iconeCorBranca"></i>
-              </a>
+  <div class="d-flex" id="wrapper">
 
-          </div>
+    
+    <div class="navbar bg-dark fixed-top" role="navigation">
+      <div class="container">
 
-          <div class="mx-auto order-0">
-              <a class="img-responsive text-center" href="#"><img src="images/top_logo.png" alt="Kan Business" title="Kan Business"></a>
-          </div>
+        <div class="navbar-header">
+          <a href="/home.html" aria-label="Voltar ao Início">
+            <i class="fas fa-home fa-2x iconeCorBranca"></i>
+          </a>
+        </div>
 
-          <ul class="nav navbar-nav navbar-right">
-              <li><a href="#" class=""><i class="fas fa-user-alt-slash fa-1x iconeCorBranca">Sair</i></a></li>
-            </ul>
+        <div class="mx-auto order-0">
+          <a class="img-responsive text-center" href="#"><img src="images/top_logo.png" alt="Kan Business"
+              title="Kan Business"></a>
+        </div>
+
+        <div class="nav navbar-nav navbar-right">
+          <li><a href="#" id="logOutButton"><i class="fas fa-user-alt-slash fa-1x iconeCorBranca">Sair</i></a></li>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">Start Bootstrap </div>
+      <div class="list-group list-group-flush">
+        <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
+      </div>
+    </div>
+
+
+    <div class="container">
+
+
+
+
+
+
+      <h1 class="text-center">Bem Vindo 123</h1>
+
+      <p class="text-right">
+
+
+
+        <h3 class="text-center" id="displayName"></h3><br>
+      </p>
+
+      <div style="position: fixed; top: 50%; left: 50%;" id="lds-spinner">
+        <div class="lds-spinner">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
         </div>
       </div>
 
 
-  <div class="container">
+      <form class="form">
+        <div class="form-group">
+          <label for="InputNome">Nome</label>
+          <input type="text" class="form-control" id="InputNome" placeholder="Nome">
+        </div>
+        <div class="form-group">
+          <label for="InputNick">Nick</label>
+          <input type="text" class="form-control" id="InputNick" placeholder="Nick">
+        </div>
+        <button type="submit" class="btn btn-primary">Criar Time</button>
+      </form>
 
-
-    <h1 class="text-center">Bem Vindo 123</h1>
-
-    <p class="text-right">
-
-      
-        <i class="far fa-edit"></i>
-
-      <button class="btn btn-block btn-default" id="logOutButton">Sair <span class="glyphicon glyphicon-trash"></span> </button>
-      <h3 class="text-center" id="displayName"></h3><br> 
-    </p>
-
-    <div style="position: fixed; top: 50%; left: 50%;" id="lds-spinner">
-      <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-    </div>
-
-
-    <form class="form">
-      <div class="form-group">
-        <label for="InputNome">Nome</label>
-        <input type="text" class="form-control" id="InputNome" placeholder="Nome">
+      <div class="col-12">
+        <div id="timeView"></div>
       </div>
-      <div class="form-group">
-        <label for="InputNick">Nick</label>
-        <input type="text" class="form-control" id="InputNick" placeholder="Nick">
+
+      <br />
+
+      <h3>Projeto</h3>
+
+      <form class="formProjeto">
+        <div class="form-group">
+          <label for="InputNomeProjeto">Nome</label>
+          <input type="text" class="form-control" id="InputNomeProjeto" placeholder="Nome">
+        </div>
+        <button type="submit" class="btn btn-primary">Criar Time</button>
+      </form>
+
+
+      <div class="col-12">
+        <div id="timeViewProjeto"></div>
       </div>
-      <button type="submit" class="btn btn-primary">Criar Time</button>
-    </form>
 
-    <div class="col-12">
-      <div id="timeView"></div>
     </div>
-
-    <br />
-
-    <h3>Projeto</h3>
-
-    <form class="formProjeto">
-      <div class="form-group">
-        <label for="InputNomeProjeto">Nome</label>
-        <input type="text" class="form-control" id="InputNomeProjeto" placeholder="Nome">
-      </div>
-      <button type="submit" class="btn btn-primary">Criar Time</button>
-    </form>
-
-
-    <div class="col-12">
-      <div id="timeViewProjeto"></div>
-    </div>
-
   </div>
 
 
-  
 
   <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
