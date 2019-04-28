@@ -15,4 +15,4 @@ formCartao.addEventListener('submit', cartaoController.adicionaCartao.bind(carta
 
 
 const formColunaModal = document.getElementById('criaColuna');
-formColunaModal.addEventListener('submit', colunaController.addNewBoard.bind(colunaController));
+formColunaModal.addEventListener('submit', colunaController.adicionaColuna.bind(colunaController));

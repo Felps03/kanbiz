@@ -19,16 +19,13 @@ export class ColunaController extends Controller {
     onUserLogged() {
         this._init();
     }
-    
+
     _init() {
         const that = this;
         db.child(`coluna`).on('value', snapshot => {
             snapshot.forEach(value => {
                 this._kanban.removeBoard(value.key);
             });
-
-            // this._kanban.removeElement(cartaoSnapshot.key);
-            
             snapshot.forEach(value => {
                 this._kanban.addBoards([{
                     "id": value.key,
@@ -37,16 +34,14 @@ export class ColunaController extends Controller {
                 }]);
                 db.child(`coluna/${value.key}/cartao`).on('child_added', snapshotCartao => {
                     db.child(`cartao/${snapshotCartao.key}`).on('value', cartaoSnapshot => {
-                        
+                        this._kanban.removeElement(cartaoSnapshot.key);
                         let idCartao = 0;
-
                         this._kanban.addElement(value.key, {
                             "id": cartaoSnapshot.key,
-                            "title": cartaoSnapshot.val().title,                            
+                            "title": cartaoSnapshot.val().title,
                             "drop": function (el, event) {
-                                console.log(event);
                                 that._atualizaColunaCartao(el.dataset.eid, event.parentNode.dataset.id);
-                                if(idCartao != event.parentNode.dataset.id){
+                                if (idCartao != event.parentNode.dataset.id) {
                                     that._removeColunaCartao(el.dataset.eid, idCartao);
                                 }
                             },
@@ -57,15 +52,16 @@ export class ColunaController extends Controller {
                     })
                 })
             });
+            this._kanban.removeBoard("_criarCard");
             this._kanban.addBoards([{
                 "id": "_criarCard",
                 "title": "Criar Card",
                 "item": [
                     {
-                        "id" : "testeid",
+                        "id": "testeid",
                         "title": "Clique Aqui!",
                         "click": function (el) {
-                            $('#modalCriaColuna').modal('show');                        
+                            $('#modalCriaColuna').modal('show');
                             // that.addNewBoard(el);
                             // this.remove();
                         },
@@ -75,27 +71,27 @@ export class ColunaController extends Controller {
         });
     }
 
-    addNewBoard() {
-        event.preventDefault();
-        console.log(this._inputTitle.val());
-        const that = this;
-        
-        this._kanban.addBoards(
-            [{
-                "title": "Criar Card",
-                "item": [
-                    {
-                        "title": this._inputTitle.val(),
-                        "click": function (element) {                        
-                            that.addNewBoard(element); 
-                            this.remove(); 
-                        },                    
-                    }                           
-                ]            
-            }],
-            
-        );    
-    }
+    // addNewBoard() {
+    //     event.preventDefault();
+    //     console.log(this._inputTitle.val());
+    //     const that = this;
+
+    //     this._kanban.addBoards(
+    //         [{
+    //             "title": "Criar Card",
+    //             "item": [
+    //                 {
+    //                     "title": this._inputTitle.val(),
+    //                     "click": function (element) {
+    //                         that.addNewBoard(element);
+    //                         this.remove();
+    //                     },
+    //                 }
+    //             ]
+    //         }],
+
+    //     );
+    // }
 
     _atualizaColunaCartao(chaveCartao, chaveColuna) {
         db.child(`coluna/${chaveColuna}/cartao`).update({
