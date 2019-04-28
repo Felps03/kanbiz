@@ -1,4 +1,6 @@
 import $ from 'jquery';
+import * as bootstrap from "bootstrap";
+
 
 import { db } from '../config/fb';
 
@@ -14,7 +16,6 @@ export class ColunaController extends Controller {
         this._inputLimitador = $('#InputLimitadorColuna');
     }
 
-    
     onUserLogged() {
         this._init();
     }
@@ -56,7 +57,44 @@ export class ColunaController extends Controller {
                     })
                 })
             });
+            this._kanban.addBoards([{
+                "id": "_criarCard",
+                "title": "Criar Card",
+                "item": [
+                    {
+                        "id" : "testeid",
+                        "title": "Clique Aqui!",
+                        "click": function (el) {
+                            $('#modalCriaColuna').modal('show');                        
+                            // that.addNewBoard(el);
+                            // this.remove();
+                        },
+                    }
+                ]
+            }]);
         });
+    }
+
+    addNewBoard() {
+        event.preventDefault();
+        console.log(this._inputTitle.val());
+        const that = this;
+        
+        this._kanban.addBoards(
+            [{
+                "title": "Criar Card",
+                "item": [
+                    {
+                        "title": this._inputTitle.val(),
+                        "click": function (element) {                        
+                            that.addNewBoard(element); 
+                            this.remove(); 
+                        },                    
+                    }                           
+                ]            
+            }],
+            
+        );    
     }
 
     _atualizaColunaCartao(chaveCartao, chaveColuna) {
@@ -75,7 +113,6 @@ export class ColunaController extends Controller {
         }).catch(function (error) {
             console.error("Erro ao criar coluna ", error);
         });
-
     }
 
     atualizaColuna(event) {

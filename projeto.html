@@ -1,38 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Projeto</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./node_modules/bootstrap-social/assets/css/font-awesome.css">
-    <link rel="stylesheet" href="./node_modules/bootstrap-social/bootstrap-social.css">
+    <link rel="stylesheet" href="./node_modules/@fortawesome/fontawesome-free/css/all.css">
+    <link rel="stylesheet" href="./css/loading.css">
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/painel.css">
     <link rel="stylesheet" href="./css/kanban/jkanban.css">
     <link rel="stylesheet" href="./css/kanban/app.css">
 </head>
 
 <body>
     <h1>Projeto</h1>
+    <div class="d-flex" id="wrapper">
+        <!-- INICIO DO MENU DE CIMA -->
+        <div class="navbar bg-dark fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a href="/home.html" aria-label="Voltar ao Início">
+                        <i class="fas fa-home fa-2x iconeCorBranca"></i>
+                    </a>
+                </div>
+                <div class="mx-auto order-0">
+                    <a class="img-responsive text-center" href="#">
+                        <img src="images/top_logo.png" alt="Kan Business" title="Kan Business">
+                    </a>
+                </div>
+                <div class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" id="logOutButton">
+                            <i class="fas fa-user-alt-slash fa-1x iconeCorBranca">Sair</i>
+                        </a>
+                    </li>
+                </div>
+            </div>
+        </div>
+        <!-- FIM DO MENU DE CIMA -->
 
-    <div class="container">
-        <form class="formColuna">
-            <div class="form-group">
-                <label for="InputTituloColuna">Titulo</label>
-                <input type="text" class="form-control" id="InputTituloColuna" placeholder="Titulo">
+        <div id="myKanban"></div>
+
+
+
+        <!-- Modal Cria Time-->
+        <div class="modal fade" id="modalCriaColuna">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Criar Coluna</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <form class="form" id="criaColuna">
+                            <div class="form-group">
+                                <label for="InputTituloColuna">Nome</label>
+                                <input type="text" class="form-control" id="InputTituloColuna" placeholder="Nome">
+                            </div>
+                            <div class="form-group">
+                                <label for="InputLimitadorColuna">Limitador</label>
+                                <input type="text" class="form-control" id="InputLimitadorColuna" placeholder="Limitador">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Criar Coluna</button>
+                        </form>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                    </div>
+
+                </div>
             </div>
-            <div class="form-group">
-                <label for="InputClasseColuna">Classe</label>
-                <input type="text" class="form-control" id="InputClasseColuna" placeholder="Classe">
-            </div>
-            <div class="form-group">
-                <label for="InputLimitadorColuna">Limitador</label>
-                <input type="text" class="form-control" id="InputLimitadorColuna" placeholder="Limitador">
-            </div>
-            <button type="submit" class="btn btn-primary">Criar Coluna</button>
-        </form>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="container" style="display: none">
+
 
         <br />
         <form class="formCartao">
