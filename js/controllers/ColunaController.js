@@ -62,36 +62,12 @@ export class ColunaController extends Controller {
                         "title": "Clique Aqui!",
                         "click": function (el) {
                             $('#modalCriaColuna').modal('show');
-                            // that.addNewBoard(el);
-                            // this.remove();
                         },
                     }
                 ]
             }]);
         });
     }
-
-    // addNewBoard() {
-    //     event.preventDefault();
-    //     console.log(this._inputTitle.val());
-    //     const that = this;
-
-    //     this._kanban.addBoards(
-    //         [{
-    //             "title": "Criar Card",
-    //             "item": [
-    //                 {
-    //                     "title": this._inputTitle.val(),
-    //                     "click": function (element) {
-    //                         that.addNewBoard(element);
-    //                         this.remove();
-    //                     },
-    //                 }
-    //             ]
-    //         }],
-
-    //     );
-    // }
 
     _atualizaColunaCartao(chaveCartao, chaveColuna) {
         db.child(`coluna/${chaveColuna}/cartao`).update({
@@ -124,6 +100,7 @@ export class ColunaController extends Controller {
     adicionaColuna(event) {
         event.preventDefault();
         let coluna = this._criaColuna();
+        $('#modalCriaColuna').modal('hide');
         db.child('coluna').push(coluna).then(snapshot => {
             this.adicionaColunaProjeto(snapshot.key);
         }).catch(function (error) {
@@ -154,8 +131,8 @@ export class ColunaController extends Controller {
         return new Coluna(
             this._recuperaChaveProjeto(),
             this._inputTitle.val(),
-            // this._inputClass.val(),
-            // this._inputLimitador.val()
+            this._inputClass.val(),
+            this._inputLimitador.val()
         );
     }
 
