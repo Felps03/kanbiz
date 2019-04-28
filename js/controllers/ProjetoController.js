@@ -21,6 +21,7 @@ export class ProjetoController extends Controller {
     _init() {
         this._timeView.render();
         $("#lds-spinner").show();
+        console.log('ProjetoController ...');
         db.child(`colaboradores/${this.user.id}/projeto`).on('value', snapshot => {
             $('#painelProjetoPrincipal').empty();
             if (snapshot.exists()) {

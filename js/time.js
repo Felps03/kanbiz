@@ -1,5 +1,3 @@
-import $ from 'jquery';
-
 import { TimeController } from './controllers/TimeController.js';
 
 const timeController = new TimeController();

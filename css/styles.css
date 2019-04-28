@@ -58,3 +58,15 @@
   margin-left: auto !important;
   float: none !important;
 }
+
+.divTituloTime {
+  margin-top: 11%;
+}
+
+.TituloTime {
+  font-size: 2rem;
+}
+
+.form-edita-time {
+  margin-top: 10%;
+}

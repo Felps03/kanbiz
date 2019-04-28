@@ -23,7 +23,6 @@ export class TimeController extends Controller {
         this._timeView.render();
         $("#lds-spinner").show();
         db.child(`colaboradores/${this.user.id}/times`).on('value', snapshot => {
-            $('#tfoot-body').empty();
             $('#times-painel-lateral').empty();
             $('#times-painel-lateral-nao-aceito').empty();
             if(snapshot.exists()){
@@ -42,13 +41,11 @@ export class TimeController extends Controller {
             } else {
                 $("#lds-spinner").hide();
             }
-            
         });
     }
 
     adicionaTime(event) {
         event.preventDefault();
-        console.log('oi');
         let time = this._criaTime();
         db.child('time').push(time).then(snapshot => {
             this._adicionaTimeColaborador(this.user.id, snapshot.key);

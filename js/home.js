@@ -23,8 +23,7 @@ $(document).on("click", ".deleta", function () {
   timeController.recusarColaboradorTime($("#InputIDTime").val());
 });
 
-
-
+// Menu Lateral
 var tabela = document.querySelector('.list-group-flush');
 tabela.addEventListener("click",function(event){
   event.target.parentNode.classList.add("fadeOut");
