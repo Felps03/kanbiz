@@ -19,6 +19,7 @@ export class ColunaController extends Controller {
         this._init();
     }
 
+    // TODO: Verficar projeto vinculado
     _init() {
         const that = this;
         db.child(`coluna`).on('value', snapshot => {
