@@ -1,6 +1,7 @@
 export class Cartao {
 
-    constructor(titulo = 'teste 2') {
+    constructor(uidBord,titulo) {
+        this.uidBord = uidBord;
         this.title = titulo;
     }
 

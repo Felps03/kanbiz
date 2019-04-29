@@ -1,7 +1,6 @@
 import $ from 'jquery';
 import * as bootstrap from "bootstrap";
 
-
 import { db } from '../config/fb';
 
 import { Controller } from './Controller';
@@ -137,9 +136,9 @@ export class ColunaController extends Controller {
     }
 
     _limpaFormulario() {
-        this._inputTitle.value = '';
-        this._inputClass.value = '';
-        this._inputLimitador.value = '';
+        this._inputTitle.val('');
+        this._inputClass.val(' ');
+        this._inputLimitador.val(' ');
         this._inputTitle.focus();
     }
 }

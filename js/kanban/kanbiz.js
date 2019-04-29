@@ -2,30 +2,30 @@ export default new jKanban({
     element: '#myKanban',
     gutter: '5px',
     widthBoard: '250px',
-    click: function (el) {
-        console.log("Trigger on all items click!");
-    },
-    buttonClick: function (el, boardId) {
-        console.log(el);
-        console.log(boardId);
+    // click: function (el) {
+        // console.log("Trigger on all items click!");
+    // },
+    // buttonClick: function (el, boardId) {
+        // console.log(el);
+        // console.log(boardId);
         // create a form to enter element 
-        var formItem = document.createElement('form');
-        formItem.setAttribute("class", "itemform");
-        formItem.innerHTML = '<div class="form-group"><textarea class="form-control" rows="2" autofocus></textarea></div><div class="form-group"><button type="submit" class="btn btn-primary btn-xs pull-right">Adicionar Cartão</button><button type="button" id="CancelBtn" class="btn btn-default btn-xs pull-right">Cancelar</button></div>'
+        // var formItem = document.createElement('form');
+        // formItem.setAttribute("class", "itemform");
+        // formItem.innerHTML = '<div class="form-group"><textarea class="form-control" rows="2" autofocus></textarea></div><div class="form-group"><button type="submit" class="btn btn-primary btn-xs pull-right">Adicionar Cartão</button><button type="button" id="CancelBtn" class="btn btn-default btn-xs pull-right">Cancelar</button></div>'
 
-        Kanban.addForm(boardId, formItem);
-        formItem.addEventListener("submit", function (e) {
-            e.preventDefault();
-            var text = e.target[0].value
-            Kanban.addElement(boardId, {
-                "title": text,
-            })
-            formItem.parentNode.removeChild(formItem);
-        });
-        document.getElementById('CancelBtn').onclick = function () {
-            formItem.parentNode.removeChild(formItem)
-        }
-    },
+    //     Kanban.addForm(boardId, formItem);
+    //     formItem.addEventListener("submit", function (e) {
+    //         e.preventDefault();
+    //         var text = e.target[0].value
+    //         Kanban.addElement(boardId, {
+    //             "title": text,
+    //         })
+    //         formItem.parentNode.removeChild(formItem);
+    //     });
+    //     document.getElementById('CancelBtn').onclick = function () {
+    //         formItem.parentNode.removeChild(formItem)
+    //     }
+    // },
     addItemButton: true,
     boards: []
 });
