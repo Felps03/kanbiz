@@ -93,15 +93,19 @@ export class TimeView extends View {
     }
 
 
-    listaMembros() {
+    listaMembros(modal) {
+        console.log(modal);
+        
+
+        let nome = typeof modal.nome === "undefined" ? '' :modal.nome;
+        let foto = typeof modal.fotoUrl === "undefined" ? 'https://raw.githubusercontent.com/Felps03/kanbiz/master/images/placeholder.jpeg' : modal.fotoUrl;
         return `
             <li class="speaker">
                 <figure class="speaker-portrait">
-                    <img class="speaker-image" src="images/placeholder.jpeg" alt="Foto do palestrante">
-                    <figcaption class="speaker-name">Flávio Almeida</figcaption>
-                    <p class="speaker-bio">Desenvolvedor e instrutor da Caelum</p>
+                    <img class="speaker-image" src="${foto}" alt="Foto do membro">
+                    <figcaption class="speaker-name">${nome}</figcaption>
+                    <p class="speaker-bio">${modal.email}</p>
                 </figure>
-                <p class="speaker-speach">To be or not to be MEAN</p>
             </li>
     `
             }

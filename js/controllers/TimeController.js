@@ -155,6 +155,9 @@ export class TimeController extends Controller {
             snapshot.forEach(value => {
                 db.child(`usuario/${value.key}`).on('value', snapshotUsuario => {
                     console.log('listaColaboradorTime() ',snapshotUsuario.val());
+                    $('#formTimeTudo').hide();
+                    $('#panel-speakers').show();
+                    $('#listaMembros').append(this._timeView.listaMembros(snapshotUsuario.val()));
                 });
             });
         });

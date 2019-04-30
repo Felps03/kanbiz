@@ -1,8 +1,11 @@
 import $ from 'jquery';
 
 import { TimeController } from './controllers/TimeController.js';
+import { ColaboradorController } from './controllers/ColaboradorController';
 
 const timeController = new TimeController();
+
+const colaboradorController = new ColaboradorController();
 
 timeController.buscaDetalheTime();
 

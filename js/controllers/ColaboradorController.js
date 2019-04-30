@@ -14,10 +14,12 @@ export class ColaboradorController extends Controller {
     _init() {
         let colaboradores = {
             uid: this.user.id,
+            nome: this.user.nome,
             email: this.user.email,
+            fotoUrl: this.user.fotoUrl,
         }
         db.child(`usuario/${this.user.id}`).set(colaboradores).then(snapshot => {
-            // console.log("Colecao Usuario");
+            console.log("Colecao Usuario", colaboradores);
         });
     }
 
