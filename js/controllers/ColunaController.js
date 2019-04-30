@@ -49,6 +49,7 @@ export class ColunaController extends Controller {
                                 idCartao = test.parentNode.dataset.id;
                             },
                         });
+                        this.mouseoverCartao();
                     })
                 })
             });
@@ -67,6 +68,13 @@ export class ColunaController extends Controller {
                 ]
             }]);
         });
+        
+    }
+
+    mouseoverCartao(){
+        $( "div.kanban-item" ).mouseover(function(){
+            console.log(event.target.dataset.eid);
+        }); 
     }
 
     _atualizaColunaCartao(chaveCartao, chaveColuna) {
