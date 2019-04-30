@@ -29,6 +29,7 @@
 }
 
 .panel-speakers .speaker {
+    opacity: 0.8;
     background: white;
     display: inline-block;
     margin: 0 16px 32px 0;
@@ -38,12 +39,25 @@
     vertical-align: top;
 }
 
+.panel-speakers .speaker:hover {
+    opacity: 1.0;
+    filter: alpha(opacity=100); /* For IE8 and earlier */
+    -moz-transition: all 1s ease-in;
+    /* WebKit */
+    -webkit-transition: all 1s ease-in;
+    /* Opera */
+    -o-transition: all 1s ease-in;
+    /* Standard */
+    transition: all 1s ease-in;
+}
+
 .panel-speakers .speaker-image {
     border-radius: 50%;
-    border: 3px solid #d37624;
+ 
+    /*
     -webkit-box-shadow: 9px 7px 5px rgba(50, 50, 50, 0.77);
     -moz-box-shadow: 9px 7px 5px rgba(50, 50, 50, 0.77);
-    box-shadow: 9px 7px 5px rgba(50, 50, 50, 0.77);
+    box-shadow: 9px 7px 5px rgba(50, 50, 50, 0.77)*/
 }
 
 .panel-speakers .speaker-name {
@@ -60,13 +74,16 @@
 }
 
 .speaker-image {
-    margin-left: -16px;
-    width: 118%;
+    margin-left: 0px;
+    width: 100%;
 }
 
 .speaker {
-    -webkit-box-shadow: 9px 7px 5px rgba(50, 50, 50, 0.77);
+    -webkit-box-shadow: 9px 7px 5px rgba(170, 170, 170, 0.77);
+}
+
+
     -moz-box-shadow: 9px 7px 5px rgba(50, 50, 50, 0.77);
     box-shadow: 9px 7px 5px rgba(50, 50, 50, 0.77);
-    border: 3px solid #d37624;
+
 }
