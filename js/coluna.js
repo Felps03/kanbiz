@@ -18,3 +18,6 @@ $(document).on("click", ".kanban-title-button", cartaoController.adicionaCartaoM
 
 const formCartaoModal = document.getElementById('criaCartao');
 formCartaoModal.addEventListener('submit', cartaoController.adicionaCartao.bind(cartaoController));
+
+
+// console.log($(".kanban-item"));

@@ -43,18 +43,18 @@
   }
 }
 
-.divtituloProjeto{
+.divtituloProjeto {
   margin-top: 11%;
 }
 
-.tituloProjeto{
+.tituloProjeto {
   font-size: 2rem;
 }
 
-.tituloTime{
+.tituloTime {
   margin-top: 5%;
   margin-right: auto !important;
-  
+
   margin-left: auto !important;
   float: none !important;
 }
@@ -69,4 +69,41 @@
 
 .form-edita-time {
   margin-top: 10%;
+}
+
+.divTimeEditar {
+  background-color: #c1c7d0;
+  border: 3px solid #d37624;
+  border-radius: 7px;
+  margin: 15px;
+  font-family: Lato;
+  -webkit-box-shadow: 9px 7px 5px rgba(50, 50, 50, 0.77);
+  -moz-box-shadow:    9px 7px 5px rgba(50, 50, 50, 0.77);
+  box-shadow:         9px 7px 5px rgba(50, 50, 50, 0.77);
+}
+
+.btnEditarTime {
+  margin-bottom: 1%;
+}
+
+.labelNomeTime {
+  margin-top: 1%;
+}
+
+form label {
+  font-weight: bold;
+}
+
+.timeForm {
+  margin-top: 5% !important;
+}
+
+.btnConvidarParaTime {
+  margin-bottom: 1%;
+}
+
+.tituloConvidaMembro{
+  margin-top: 10px;
+  font-family: Lato;
+  font-weight: bold;
 }
