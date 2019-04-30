@@ -92,4 +92,18 @@ export class TimeView extends View {
                 `
     }
 
+
+    listaMembros() {
+        return `
+            <li class="speaker">
+                <figure class="speaker-portrait">
+                    <img class="speaker-image" src="images/placeholder.jpeg" alt="Foto do palestrante">
+                    <figcaption class="speaker-name">Flávio Almeida</figcaption>
+                    <p class="speaker-bio">Desenvolvedor e instrutor da Caelum</p>
+                </figure>
+                <p class="speaker-speach">To be or not to be MEAN</p>
+            </li>
+    `
+            }
+        
 }
