@@ -113,7 +113,7 @@ form label {
 }
 
 .bordaCartao{
-  border: 3px solid #d37624;  
+  /*border: 3px solid #d37624;  */
   font-family: Lato;
   -webkit-box-shadow: 9px 7px 5px rgba(50, 50, 50, 0.77);
   -moz-box-shadow:    9px 7px 5px rgba(50, 50, 50, 0.77);
