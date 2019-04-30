@@ -148,7 +148,8 @@ export class TimeController extends Controller {
     }
 
     listaColaboradorTime() {
-        let chaveTime = '-Lc3CVB29NPEMS4nsmNb';
+        console.log('listaColaboradorTime');
+        let chaveTime = this._recuperaChaveTime();
         db.child(`time/${chaveTime}/_colaboradores`).on('value', snapshot => {
             console.log('listaColaboradorTime() ',snapshot.val());
             snapshot.forEach(value => {
