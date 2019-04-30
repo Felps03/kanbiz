@@ -5,6 +5,7 @@ import { db } from '../config/fb';
 
 import { Controller } from './Controller';
 import { Coluna } from '../models/Coluna';
+import { ColunaView } from '../views/ColunaView';
 
 export class ColunaController extends Controller {
     constructor(kb) {
@@ -72,9 +73,25 @@ export class ColunaController extends Controller {
     }
 
     mouseoverCartao(){
+        //$(this).empty(ColunaView.opcoesDoCartao());
         $( "div.kanban-item" ).mouseover(function(){
+           
             console.log(event.target.dataset.eid);
-        }); 
+
+            $(this).addClass("bordaCartao");
+            if ($("div.opcoesDoCartao").length == 0) {
+                $(this).append(ColunaView.opcoesDoCartao());
+            }
+           
+            
+
+          
+
+        }).mouseleave(function() {
+            $(this).removeClass("bordaCartao");
+            //$('.opcoesDoCartao').empty();
+            $('.opcoesDoCartao').remove();
+        });
     }
 
     _atualizaColunaCartao(chaveCartao, chaveColuna) {
