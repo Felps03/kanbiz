@@ -67,7 +67,10 @@ export class TimeController extends Controller {
         });
     }
 
-    buscaDetalheTime() {        
+    buscaDetalheTime() {
+        $(".d-flex" ).removeClass( "fundoCinza" );
+        $('#formTimeTudo').show();
+        $('#panel-speakers').hide();
         db.child('time').child(this._recuperaChaveTime()).on('value', snapshot => {
             $('#UID').val(snapshot.key);
             $('#InputNome').val(snapshot.val()._nome);
@@ -148,13 +151,12 @@ export class TimeController extends Controller {
     }
 
     listaColaboradorTime() {
-        console.log('listaColaboradorTime');
+        $(".d-flex" ).addClass( "fundoCinza" );
+        $('#listaMembros').empty();
         let chaveTime = this._recuperaChaveTime();
         db.child(`time/${chaveTime}/_colaboradores`).on('value', snapshot => {
-            console.log('listaColaboradorTime() ',snapshot.val());
             snapshot.forEach(value => {
                 db.child(`usuario/${value.key}`).on('value', snapshotUsuario => {
-                    console.log('listaColaboradorTime() ',snapshotUsuario.val());
                     $('#formTimeTudo').hide();
                     $('#panel-speakers').show();
                     $('#listaMembros').append(this._timeView.listaMembros(snapshotUsuario.val()));
