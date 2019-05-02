@@ -27,3 +27,5 @@ formCartaoModal.addEventListener('submit', cartaoController.adicionaCartao.bind(
 }, 3000);
  */
 // console.log($(".kanban-item"));
+
+// (".opcoesDoCartao-remove").addEventListener("click", alert('clicou'));

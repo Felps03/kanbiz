@@ -24,72 +24,76 @@ export class ColunaController extends Controller {
     _init() {
         const that = this;
         db.child(`coluna`).on('value', snapshot => {
-            snapshot.forEach(value => {
-                this._kanban.removeBoard(value.key);
-            });
-            snapshot.forEach(value => {
-                this._kanban.addBoards([{
-                    "id": value.key,
-                    "title": value.val().title,
-                    "class": value.val().class,
-                }]);
-                db.child(`coluna/${value.key}/cartao`).on('child_added', snapshotCartao => {
-                    db.child(`cartao/${snapshotCartao.key}`).on('value', cartaoSnapshot => {
-                        this._kanban.removeElement(cartaoSnapshot.key);
-                        let idCartao = 0;
-                        this._kanban.addElement(value.key, {
-                            "id": cartaoSnapshot.key,
-                            "title": cartaoSnapshot.val().title,
-                            "drop": function (el, event) {
-                                that._atualizaColunaCartao(el.dataset.eid, event.parentNode.dataset.id);
-                                if (idCartao != event.parentNode.dataset.id) {
-                                    that._removeColunaCartao(el.dataset.eid, idCartao);
+            if (snapshot.exists()) {
+                snapshot.forEach(value => {
+                    this._kanban.removeBoard(value.key);
+                });
+                snapshot.forEach(value => {
+                    this._kanban.addBoards([{
+                        "id": value.key,
+                        "title": value.val().title,
+                        "class": value.val().class,
+                    }]);
+                    db.child(`coluna/${value.key}/cartao`).on('child_added', snapshotCartao => {
+                        if (snapshotCartao.exists()) {
+                            db.child(`cartao/${snapshotCartao.key}`).on('value', cartaoSnapshot => {
+                                if (cartaoSnapshot.exists()) {
+                                    this._kanban.removeElement(cartaoSnapshot.key);
+                                    let idCartao = 0;
+                                    this._kanban.addElement(value.key, {
+                                        "id": cartaoSnapshot.key,
+                                        "title": cartaoSnapshot.val().title,
+                                        "drop": function (el, event) {
+                                            that._atualizaColunaCartao(el.dataset.eid, event.parentNode.dataset.id);
+                                            if (idCartao != event.parentNode.dataset.id) {
+                                                that._removeColunaCartao(el.dataset.eid, idCartao);
+                                            }
+                                        },
+                                        "drag": function (el, test) {
+                                            idCartao = test.parentNode.dataset.id;
+                                        },
+                                    });
                                 }
+                                this.mouseoverCartao();
+                            });
+                        }
+                    });
+                });
+                this._kanban.removeBoard("_criarCard");
+                this._kanban.addBoards([{
+                    "id": "_criarCard",
+                    "title": "Criar Card",
+                    "item": [
+                        {
+                            "id": "testeid",
+                            "title": "Clique Aqui!",
+                            "click": function (el) {
+                                $('#modalCriaColuna').modal('show');
                             },
-                            "drag": function (el, test) {
-                                idCartao = test.parentNode.dataset.id;
-                            },
-                        });
-                        this.mouseoverCartao();
-                    })
-                })
-            });
-            this._kanban.removeBoard("_criarCard");
-            this._kanban.addBoards([{
-                "id": "_criarCard",
-                "title": "Criar Card",
-                "item": [
-                    {
-                        "id": "testeid",
-                        "title": "Clique Aqui!",
-                        "click": function (el) {
-                            $('#modalCriaColuna').modal('show');
-                        },
-                    }
-                ]
-            }]);
+                        }
+                    ]
+                }]);
+            }
         });
-        
     }
 
-    mouseoverCartao(){
-        //$(this).empty(ColunaView.opcoesDoCartao());
-        $( "div.kanban-item" ).mouseover(function(){
-           
-            console.log(event.target.dataset.eid);
-
+    mouseoverCartao() {
+        const that = this;
+        $("div.kanban-item").mouseover(function () {
+            let eidCartao = event.target.dataset.eid;
+            let eidColuna = event.target.parentNode.parentNode.dataset.id;
             $(this).addClass("bordaCartao");
             if ($("div.opcoesDoCartao").length == 0) {
                 $(this).append(ColunaView.opcoesDoCartao());
+
+                $(".opcoesDoCartao-remove").click(function () {
+                    console.log('PostIt: ', eidCartao);
+                    console.log('Coluna:', eidColuna);
+                    that._removeColunaCartao(eidCartao, eidColuna)
+                });
             }
-           
-            
-
-          
-
-        }).mouseleave(function() {
+        }).mouseleave(function () {
             $(this).removeClass("bordaCartao");
-            //$('.opcoesDoCartao').empty();
             $('.opcoesDoCartao').remove();
         });
     }
@@ -104,9 +108,19 @@ export class ColunaController extends Controller {
         });
     }
 
+    /**
+     * 
+     * @param {*} chaveCartao 
+     * @param {*} chaveColuna 
+     * Remover Cartao do projeto
+     */
     _removeColunaCartao(chaveCartao, chaveColuna) {
+        const that = this;
         db.child(`coluna/${chaveColuna}/cartao/${chaveCartao}`).remove().then(function () {
-            console.info("Remove Coluna ");
+            db.child(`cartao/${chaveCartao}`).remove().then(function () {
+                that._kanban.removeElement(chaveCartao);
+                console.log('removendo...');
+            });
         }).catch(function (error) {
             console.error("Erro ao criar coluna ", error);
         });

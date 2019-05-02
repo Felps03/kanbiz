@@ -38,10 +38,12 @@
 
 .opcoesDoCartao-remove {
 	background-image: url("../images/bin2.svg");
+	margin-top: -8px;
 }
 
 .opcoesDoCartao-edita {
 	background-image: url("../images/edit.svg");
+	margin-top: -8px;
 }
 
 .opcoesDoCartao-radioTipo{
