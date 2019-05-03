@@ -12,9 +12,11 @@ formColunaModal.addEventListener('submit', colunaController.adicionaColuna.bind(
 
 $(document).on("click", ".kanban-title-button", cartaoController.adicionaCartaoModal.bind(cartaoController));
 
-
 const formCartaoModal = document.getElementById('criaCartao');
 formCartaoModal.addEventListener('submit', cartaoController.adicionaCartao.bind(cartaoController));
 
 const formEditaCartao = document.getElementById('modalEditaCartao');
 formEditaCartao.addEventListener('submit', colunaController.editaCartao.bind(colunaController));
+
+const formColunaModalEdita = document.getElementById('modalEditaColuna');
+formColunaModalEdita.addEventListener('submit', colunaController.atualizaColuna.bind(colunaController));

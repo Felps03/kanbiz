@@ -54,17 +54,18 @@ export class ColunaController extends Controller {
                                         idCartao = test.parentNode.dataset.id;
                                     },
                                 });
+                                $(this).removeClass(cartaoSnapshot.val().corCartao);
+                                if (cartaoSnapshot.val().corCartao) {
+                                    $('.kanban-item').each(function (item) {
+                                        if (cartaoSnapshot.key === (this).getAttribute('data-eid')) {
+                                            $(this).addClass(cartaoSnapshot.val().corCartao);
+                                        }
+                                    });
+                                }
                             }
                             this.mouseoverColuna();
                             this.mouseoverCartao();
-                            $(this).removeClass(cartaoSnapshot.val().corCartao);
-                            if (cartaoSnapshot.val().corCartao) {
-                                $('.kanban-item').each(function (item) {
-                                    if (cartaoSnapshot.key === (this).getAttribute('data-eid')) {
-                                        $(this).addClass(cartaoSnapshot.val().corCartao);
-                                    }
-                                });
-                            }
+
                         });
                     }
                 });
@@ -86,19 +87,33 @@ export class ColunaController extends Controller {
             }]);
         });
     }
-    
-    mouseoverColuna(){
-        console.log('oi');
+
+    mouseoverColuna() {
         const that = this;
-        $("header.kanban-board-header").mouseover(function () {
+        
+        $(".kanban-board-header").mouseover(function () {
             if ($("div.opcoesDaColuna").length == 0) {
+                let idColuna = event.target.parentNode.dataset.id;
                 $(this).append(ColunaView.opcoesDaColuna());
+                $(".opcoesDaColuna-remove").click(function () {
+                    that._removeColuna(idColuna);
+                });
+                $(".opcoesDaColuna-edita").click(function () {
+                    that._editaColuna(idColuna);
+                });
+                $(".opcoesDaColuna-tipoPadrão").click(function () {
+                    that.pintaColuna(idColuna, "warning");
+                });
+                $(".opcoesDaColuna-tipoTarefa").click(function () {
+                    that.pintaColuna(idColuna, "info");
+                });
+                $(".opcoesDaColuna-tipoInspiração").click(function () {
+                    that.pintaColuna(idColuna, "success");
+                });
             }
         }).mouseleave(function () {
-            // $(this).removeClass("bordaCartao");
             $('div.opcoesDaColuna').remove();
         });
-        
     }
 
     mouseoverCartao() {
@@ -136,7 +151,6 @@ export class ColunaController extends Controller {
                     that.pintaCartao(eidCartao, 'pintaImportante');
                 });
                 $(".opcoesDoCartao-tipoTarefa").click(function () {
-                    console.log('oi');
                     that.pintaCartao(eidCartao, 'pintaTarefa');
                 });
                 $(".opcoesDoCartao-tipoInspiração").click(function () {
@@ -149,8 +163,19 @@ export class ColunaController extends Controller {
         });
     }
 
-    pintaCartao(id, cor) {
-        db.child(`cartao/${id}`).update({
+    pintaColuna(idColuna, cor) {
+        db.child(`coluna/${idColuna}`).update({
+            "class": cor
+        });
+    }
+
+    /**
+     * 
+     * @param {*} idCartao 
+     * @param {*} cor
+     */
+    pintaCartao(idCartao, cor) {
+        db.child(`cartao/${idCartao}`).update({
             "corCartao": cor
         });
     }
@@ -198,20 +223,27 @@ export class ColunaController extends Controller {
             db.child(`cartao/${chaveCartao}`).remove().then(function () {
                 that._kanban.removeElement(chaveCartao);
                 console.log('removendo...');
+            }).catch(function (error) {
+                console.error("Erro ao remover cartao ", error);
             });
         }).catch(function (error) {
-            console.error("Erro ao criar coluna ", error);
+            console.error("Erro ao remover cartao da coluna ", error);
         });
     }
 
     atualizaColuna(event) {
         event.preventDefault();
-        let coluna = this._criaColuna();
-        let chaveColuna = $('#UID').val();
-        let updates = {};
-        updates[`/coluna/${chaveColuna}`] = coluna;
-        db.update(updates);
-        $(location).attr('href', 'home.html');
+        let id = $('#InputIDColuna').val();
+        let coluna = {
+            title : $('#InputTituloColunaEdita').val(),
+            limit : $('#InputLimitadorColunaEdita').val(),
+            class : $('#InputClasseColunaEdita').val(),
+        };
+        db.child(`coluna`).child($('#InputIDColuna').val()).update(coluna).catch(function (error) {
+            console.error("Erro ao atualizar coluna ", error);
+        }).finally(function () {
+            $('#modalEditaColuna').modal('hide');
+        });;
     }
 
     adicionaColuna(event) {
@@ -273,6 +305,38 @@ export class ColunaController extends Controller {
             db.child(`coluna/${cartao.uidColunaAtual}/cartao/${cartao.uidCartao}`).remove();
         }
         db.child(`cartao/${cartao.uidCartao}`).child('uidColunaAtual').remove();
+    }
+
+    _editaColuna(idColuna) {
+        db.child(`coluna/${idColuna}`).once('value', snapshot => {
+            $('#InputTituloColunaEdita').val(snapshot.val().title);
+            $('#InputLimitadorColunaEdita').val(snapshot.val().limit);
+            $('#InputClasseColunaEdita').val(snapshot.val().class);
+        }).catch(function (error) {
+            console.error("Erro ao carregar dados do cartao ", error);
+        });
+        $('#InputIDColuna').val(idColuna);
+        $('#modalEditaColuna').modal('show');
+    }
+
+    _removeColuna(idColuna) {
+        const that = this;
+        db.child(`coluna/${idColuna}/cartao/`).once('value', snapshot => {
+            if (snapshot.exists()) {
+                snapshot.forEach(value => {
+                    db.child(`cartao/${value.key}`).remove().then(function () {
+                        that._kanban.removeElement(value.key);
+                        console.info('removendo cartao ...');
+                    }).catch(function (error) {
+                        console.error("Erro ao remover cartao ", error);
+                    });
+                });
+            }
+        });
+        db.child(`coluna/${idColuna}`).remove().then(function () {
+            that._kanban.removeBoard(idColuna);
+            console.log('removendo cartao ...');
+        });
     }
 
     _atualizaCartao() {
