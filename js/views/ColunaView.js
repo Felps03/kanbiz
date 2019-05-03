@@ -21,6 +21,19 @@ export class ColunaView extends View {
             </div>
         `;
     }
+
+    static opcoesDaColuna() {
+        return `
+            <div class="opcoesDaColuna">
+                <button class="opcoesDaColuna-remove opcoesDaColuna-opcao" tabindex="-1">Remover</button>
+                <button class="opcoesDaColuna-edita opcoesDaColuna-opcao" tabindex="-1">Editar</button>
+                <input type="radio" value="0" class="opcoesDaColuna-radioTipo" name="tipoDoCartao-0" id="tipoPadrão-cartao0">
+                <label class="opcoesDaColuna-tipo opcoesDaColuna-tipoPadrão opcoesDaColuna-opcao" for="tipoPadrão-cartao0" tabindex="-1" style="color: rgb(235, 239, 64);">Padrão</label>
+                <input type="radio" value="2" class="opcoesDaColuna-radioTipo" name="tipoDoCartao-0" id="tipoTarefa-cartao0"><label class="opcoesDaColuna-tipo opcoesDaColuna-tipoTarefa opcoesDaColuna-opcao" for="tipoTarefa-cartao0" tabindex="-1" style="color: rgb(146, 196, 236);">Tarefa</label>
+                <input type="radio" value="3" class="opcoesDaColuna-radioTipo" name="tipoDoCartao-0" id="tipoInspiração-cartao0"><label class="opcoesDaColuna-tipo opcoesDaColuna-tipoInspiração opcoesDaColuna-opcao" for="tipoInspiração-cartao0" tabindex="-1" style="color: rgb(118, 239, 64);">Inspiração</label>
+            </div>
+        `
+    }
     
     static opcoesDoCartao() {
         return `
@@ -35,6 +48,4 @@ export class ColunaView extends View {
             </div>
         `
     }
-   
-
 }

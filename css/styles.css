@@ -120,6 +120,9 @@ form label {
   box-shadow:         9px 7px 5px rgba(50, 50, 50, 0.77);
 }
 
+.kanban-board header {
+  height: 54px !important;
+}
 
 .pintaPadrao { 
   background-color: rgb(235, 239, 64) !important;

@@ -55,6 +55,7 @@ export class ColunaController extends Controller {
                                     },
                                 });
                             }
+                            this.mouseoverColuna();
                             this.mouseoverCartao();
                             $(this).removeClass(cartaoSnapshot.val().corCartao);
                             if (cartaoSnapshot.val().corCartao) {
@@ -84,6 +85,20 @@ export class ColunaController extends Controller {
                 ]
             }]);
         });
+    }
+    
+    mouseoverColuna(){
+        console.log('oi');
+        const that = this;
+        $("header.kanban-board-header").mouseover(function () {
+            if ($("div.opcoesDaColuna").length == 0) {
+                $(this).append(ColunaView.opcoesDaColuna());
+            }
+        }).mouseleave(function () {
+            // $(this).removeClass("bordaCartao");
+            $('div.opcoesDaColuna').remove();
+        });
+        
     }
 
     mouseoverCartao() {
