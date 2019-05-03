@@ -80,16 +80,47 @@ export class ColunaController extends Controller {
     mouseoverCartao() {
         const that = this;
         $("div.kanban-item").mouseover(function () {
+            let dataOrder = event.target.parentNode.parentNode.dataset.order;
             let eidCartao = event.target.dataset.eid;
-            let eidColuna = event.target.parentNode.parentNode.dataset.id;
+            let eidColuna_Atual = event.target.parentNode.parentNode.dataset.id;
+            let nomeColuna_Atual = event.target.parentNode.parentNode.firstChild.innerText;
+            let title = event.target.innerText;
+            let colunaDoLado = event.target.parentNode.parentNode.parentNode.childNodes;
             $(this).addClass("bordaCartao");
             if ($("div.opcoesDoCartao").length == 0) {
                 $(this).append(ColunaView.opcoesDoCartao());
-
                 $(".opcoesDoCartao-remove").click(function () {
-                    console.log('PostIt: ', eidCartao);
-                    console.log('Coluna:', eidColuna);
-                    that._removeColunaCartao(eidCartao, eidColuna)
+                    that._removeCartaoColuna(eidCartao, eidColuna_Atual)
+                });
+                $(".opcoesDoCartao-edita").click(function () {
+                    let idColuna_Lado;
+                    let nomeColuna_Lado;
+                    let existeProximo = false;
+                    if (colunaDoLado[dataOrder].dataset.id !== '_criarCard') {
+                        nomeColuna_Lado = colunaDoLado[dataOrder].childNodes[0].firstChild.innerHTML;
+                        idColuna_Lado = colunaDoLado[dataOrder].dataset.id;
+                        existeProximo = true;
+                    } else {
+                        existeProximo = false;
+                    }
+                    $('#modalEditaCartao').modal('show');
+                    $("#InputUIDEdita").val(eidCartao);
+                    $("#InputCartaoNome").val(title);
+
+                    let ColunaNomeAtual = nomeColuna_Atual.split("+");
+                    let selectValues;
+                    if (existeProximo) {
+                        selectValues = { eidColuna_Atual: ColunaNomeAtual[0], idColuna_Lado: nomeColuna_Lado };
+                    } else {
+                        selectValues = { eidColuna_Atual: ColunaNomeAtual[0] };
+                    }
+                    $('#InputCartaoMove').empty();
+                    $.each(selectValues, function (key, value) {
+                        $('#InputCartaoMove')
+                            .append($("<option></option>")
+                                .attr("value", key)
+                                .text(value));
+                    });
                 });
             }
         }).mouseleave(function () {
@@ -98,6 +129,12 @@ export class ColunaController extends Controller {
         });
     }
 
+    /**
+     * 
+     * @param {*} chaveCartao 
+     * @param {*} chaveColuna 
+     * Remover Cartao do projeto  ao mover
+     */
     _atualizaColunaCartao(chaveCartao, chaveColuna) {
         db.child(`coluna/${chaveColuna}/cartao`).update({
             [chaveCartao]: true
@@ -112,9 +149,24 @@ export class ColunaController extends Controller {
      * 
      * @param {*} chaveCartao 
      * @param {*} chaveColuna 
-     * Remover Cartao do projeto
+     * Remover Cartao do projeto  ao mover
      */
     _removeColunaCartao(chaveCartao, chaveColuna) {
+        const that = this;
+        db.child(`coluna/${chaveColuna}/cartao/${chaveCartao}`).remove().then(function () {
+            console.log('removendo...');
+        }).catch(function (error) {
+            console.error("Erro ao criar coluna ", error);
+        });
+    }
+
+    /**
+     * 
+     * @param {*} chaveCartao 
+     * @param {*} chaveColuna 
+     * Remover cartao da coluna quando aperta excluir
+     */
+    _removeCartaoColuna(chaveCartao, chaveColuna) {
         const that = this;
         db.child(`coluna/${chaveColuna}/cartao/${chaveCartao}`).remove().then(function () {
             db.child(`cartao/${chaveCartao}`).remove().then(function () {

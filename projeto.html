@@ -90,7 +90,6 @@
             </div>
         </div>
 
-
         <!-- Modal Cartao -->
         <div class="modal fade" id="modalCriaCartao">
             <div class="modal-dialog modal-dialog-centered">
@@ -128,14 +127,55 @@
         </div>
 
 
+        <div class="modal fade" id="modalEditaCartao">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Editar Cartao</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <form class="form" id="editarCartao">
+                            <div class="form-group">
+                                <label for="InputUIDEdita">UID</label>
+                                <input type="text" class="form-control" id="InputUIDEdita" placeholder="uid" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputCartaoNome">Nome</label>
+                                <input type="text" class="form-control" id="InputCartaoNome" placeholder="Nome">
+                            </div>
+                            <div class="form-group">
+                                <label for="InputCartaoDescricao">Descrição</label>
+                                <textarea class="form-control" rows="4" id="InputCartaoDescricao"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputCartaoDataEntrega">Data de Entrega</label>
+                                <input class="form-control" type="date" id="InputCartaoDataEntrega">
+                            </div>
+                            <div class="form-group">
+                                <label for="InputCartaoMove">Mover Para</label>
+                                <select class="form-control" id="InputCartaoMove">
+                                  
+                                </select>
+                              </div>
+                            <button type="submit" class="btn btn-primary">Editar Cartao</button>
+                        </form>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
     </div>
-
-
-
-
-
-
 
     <script src="./js/kanban/jkanban.js"></script>
     <script src="./js/coluna.js" type="module"></script>
