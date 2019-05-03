@@ -119,3 +119,20 @@ form label {
   -moz-box-shadow:    9px 7px 5px rgba(50, 50, 50, 0.77);
   box-shadow:         9px 7px 5px rgba(50, 50, 50, 0.77);
 }
+
+
+.pintaPadrao { 
+  background-color: rgb(235, 239, 64) !important;
+}
+
+.pintaImportante {
+  background-color: rgb(240, 84, 80)!important;
+}
+
+.pintaTarefa {
+  background-color: rgb(146, 196, 236) !important;
+}
+
+.pintaInspiracao {
+  background-color: rgb(118, 239, 64) !important;
+}

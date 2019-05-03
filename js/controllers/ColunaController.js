@@ -56,6 +56,14 @@ export class ColunaController extends Controller {
                                 });
                             }
                             this.mouseoverCartao();
+                            $(this).removeClass(cartaoSnapshot.val().corCartao);
+                            if (cartaoSnapshot.val().corCartao) {
+                                $('.kanban-item').each(function (item) {
+                                    if (cartaoSnapshot.key === (this).getAttribute('data-eid')) {
+                                        $(this).addClass(cartaoSnapshot.val().corCartao);
+                                    }
+                                });
+                            }
                         });
                     }
                 });
@@ -93,8 +101,8 @@ export class ColunaController extends Controller {
                 });
                 $(".opcoesDoCartao-edita").click(function () {
                     $('#InputCartaoMove').empty();
-                    db.child(`coluna`).orderByChild(`_projeto`).equalTo(that._recuperaChaveProjeto()).once( 'value', snapshot => {
-                        if(snapshot.exists()) {
+                    db.child(`coluna`).orderByChild(`_projeto`).equalTo(that._recuperaChaveProjeto()).once('value', snapshot => {
+                        if (snapshot.exists()) {
                             snapshot.forEach(value => {
                                 $('#InputCartaoMove').append(`<option value="${value.key}">${value.val().title}</option>`);
                             });
@@ -105,10 +113,30 @@ export class ColunaController extends Controller {
                     $("#InputCartaoNome").val(title);
                     $("#InputColunaAtual").val(eidColuna_Atual);
                 });
+
+                $(".opcoesDoCartao-tipoPadrão").click(function () {
+                    that.pintaCartao(eidCartao, 'pintaPadrao');
+                });
+                $(".opcoesDoCartao-tipoImportante").click(function () {
+                    that.pintaCartao(eidCartao, 'pintaImportante');
+                });
+                $(".opcoesDoCartao-tipoTarefa").click(function () {
+                    console.log('oi');
+                    that.pintaCartao(eidCartao, 'pintaTarefa');
+                });
+                $(".opcoesDoCartao-tipoInspiração").click(function () {
+                    that.pintaCartao(eidCartao, 'pintaInspiracao');
+                });
             }
         }).mouseleave(function () {
             $(this).removeClass("bordaCartao");
             $('.opcoesDoCartao').remove();
+        });
+    }
+
+    pintaCartao(id, cor) {
+        db.child(`cartao/${id}`).update({
+            "corCartao": cor
         });
     }
 
