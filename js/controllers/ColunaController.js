@@ -25,7 +25,7 @@ export class ColunaController extends Controller {
     // TODO: Verficar projeto vinculado
     _init() {
         const that = this;
-        db.child(`coluna`).on('value', snapshot => {
+        db.child(`coluna`).orderByChild(`_projeto`).equalTo(that._recuperaChaveProjeto()).on('value', snapshot => {
             snapshot.forEach(value => {
                 this._kanban.removeBoard(value.key);
             });
@@ -75,19 +75,15 @@ export class ColunaController extends Controller {
                     }
                 ]
             }]);
-
         });
     }
 
     mouseoverCartao() {
         const that = this;
         $("div.kanban-item").mouseover(function () {
-            let dataOrder = event.target.parentNode.parentNode.dataset.order;
             let eidCartao = event.target.dataset.eid;
             let eidColuna_Atual = event.target.parentNode.parentNode.dataset.id;
-            let nomeColuna_Atual = event.target.parentNode.parentNode.firstChild.innerText;
             let title = event.target.innerText;
-            let colunaDoLado = event.target.parentNode.parentNode.parentNode.childNodes;
 
             $(this).addClass("bordaCartao");
             if ($("div.opcoesDoCartao").length == 0) {
@@ -96,47 +92,18 @@ export class ColunaController extends Controller {
                     that._removeCartaoColuna(eidCartao, eidColuna_Atual)
                 });
                 $(".opcoesDoCartao-edita").click(function () {
-                    let idColuna_Lado;
-                    let nomeColuna_Lado;
-                    let existeProximo = false;
-
-
-                    if (colunaDoLado[dataOrder].dataset.id !== '_criarCard') {
-
-                        nomeColuna_Lado = colunaDoLado[dataOrder].childNodes[0].firstChild.innerHTML;
-                        idColuna_Lado = colunaDoLado[dataOrder].dataset.id;
-                        existeProximo = true;
-                    } else {
-                        existeProximo = false;
-                    }
-
-
-
+                    $('#InputCartaoMove').empty();
+                    db.child(`coluna`).orderByChild(`_projeto`).equalTo(that._recuperaChaveProjeto()).once( 'value', snapshot => {
+                        if(snapshot.exists()) {
+                            snapshot.forEach(value => {
+                                $('#InputCartaoMove').append(`<option value="${value.key}">${value.val().title}</option>`);
+                            });
+                        }
+                    });
                     $('#modalEditaCartao').modal('show');
                     $("#InputUIDEdita").val(eidCartao);
                     $("#InputCartaoNome").val(title);
                     $("#InputColunaAtual").val(eidColuna_Atual);
-                    let ColunaNomeAtual = nomeColuna_Atual.split("+");
-                    let selectValues;
-
-                    $('#InputCartaoMove').empty();
-                    if (existeProximo) {
-                        $('#InputCartaoMove').append(`<option value="${eidColuna_Atual}">${ColunaNomeAtual[0]}</option>`);
-                        $('#InputCartaoMove').append(`<option value="${idColuna_Lado}">${nomeColuna_Lado}</option>`);
-                        // selectValues = { eidColuna_Atual: ColunaNomeAtual[0], idColuna_Lado: nomeColuna_Lado };
-                    } else {
-                        // selectValues = { eidColuna_Atual: ColunaNomeAtual[0] };
-                        $('#InputCartaoMove').append(`<option value="${eidColuna_Atual}">${ColunaNomeAtual[0]}</option>`);
-                    }
-                    // $('#InputCartaoMove').empty();
-                    // $.each(selectValues, function (key, value) {
-                    //     // console.log('key: ', key);
-                    //     // console.log('value: ', value);
-                    //     $('#InputCartaoMove')
-                    //         .append($("<option></option>")
-                    //             .attr("value", key)
-                    //             .text(value));
-                    // });
                 });
             }
         }).mouseleave(function () {
@@ -228,12 +195,6 @@ export class ColunaController extends Controller {
         });
     }
 
-    _recuperaChaveProjeto() {
-        let url_string = window.location.href;
-        let url = new URL(url_string);
-        return (url.searchParams.get("chave"));
-    }
-
     _criaColuna() {
         return new Coluna(
             this._recuperaChaveProjeto(),
@@ -266,8 +227,9 @@ export class ColunaController extends Controller {
         });
 
         if (cartao.uidColunaAtual != cartao.uidBord) {
-            db.child(`coluna/${cartao.uidColunaAtual}/cartao/${cartao.uidCartao}`).remove()
+            db.child(`coluna/${cartao.uidColunaAtual}/cartao/${cartao.uidCartao}`).remove();
         }
+        db.child(`cartao/${cartao.uidCartao}`).child('uidColunaAtual').remove();
     }
 
     _atualizaCartao() {
@@ -279,5 +241,11 @@ export class ColunaController extends Controller {
             $('#InputUIDEdita').val(),
             $('#InputColunaAtual').val()
         )
+    }
+
+    _recuperaChaveProjeto() {
+        let url_string = window.location.href;
+        let url = new URL(url_string);
+        return (url.searchParams.get("chave"));
     }
 }
