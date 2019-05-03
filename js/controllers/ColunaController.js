@@ -63,14 +63,12 @@ export class ColunaController extends Controller {
                                     });
                                 }
                             }
-                            this.mouseoverColuna();
                             this.mouseoverCartao();
-
                         });
                     }
                 });
+                this.mouseoverColuna();
             });
-
             this._kanban.removeBoard("_criarCard");
             this._kanban.addBoards([{
                 "id": "_criarCard",
@@ -90,7 +88,7 @@ export class ColunaController extends Controller {
 
     mouseoverColuna() {
         const that = this;
-        
+
         $(".kanban-board-header").mouseover(function () {
             if ($("div.opcoesDaColuna").length == 0) {
                 let idColuna = event.target.parentNode.dataset.id;
@@ -235,9 +233,9 @@ export class ColunaController extends Controller {
         event.preventDefault();
         let id = $('#InputIDColuna').val();
         let coluna = {
-            title : $('#InputTituloColunaEdita').val(),
-            limit : $('#InputLimitadorColunaEdita').val(),
-            class : $('#InputClasseColunaEdita').val(),
+            title: $('#InputTituloColunaEdita').val(),
+            limit: $('#InputLimitadorColunaEdita').val(),
+            class: $('#InputClasseColunaEdita').val(),
         };
         db.child(`coluna`).child($('#InputIDColuna').val()).update(coluna).catch(function (error) {
             console.error("Erro ao atualizar coluna ", error);
@@ -312,11 +310,11 @@ export class ColunaController extends Controller {
             $('#InputTituloColunaEdita').val(snapshot.val().title);
             $('#InputLimitadorColunaEdita').val(snapshot.val().limit);
             $('#InputClasseColunaEdita').val(snapshot.val().class);
+            $('#InputIDColuna').val(idColuna);
+            $('#modalEditaColuna').modal('show');
         }).catch(function (error) {
             console.error("Erro ao carregar dados do cartao ", error);
         });
-        $('#InputIDColuna').val(idColuna);
-        $('#modalEditaColuna').modal('show');
     }
 
     _removeColuna(idColuna) {
