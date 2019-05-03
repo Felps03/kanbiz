@@ -19,13 +19,5 @@ $(document).on("click", ".kanban-title-button", cartaoController.adicionaCartaoM
 const formCartaoModal = document.getElementById('criaCartao');
 formCartaoModal.addEventListener('submit', cartaoController.adicionaCartao.bind(cartaoController));
 
-/**
- * setTimeout(function(){
-    $( "div.kanban-item" ).mouseover(function(){
-        alert('coluna.js')
-    }); 
-}, 3000);
- */
-// console.log($(".kanban-item"));
-
-// (".opcoesDoCartao-remove").addEventListener("click", alert('clicou'));
+const formEditaCartao = document.getElementById('modalEditaCartao');
+formEditaCartao.addEventListener('submit', colunaController.editaCartao.bind(colunaController));

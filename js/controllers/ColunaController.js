@@ -7,6 +7,8 @@ import { Controller } from './Controller';
 import { Coluna } from '../models/Coluna';
 import { ColunaView } from '../views/ColunaView';
 
+import { Cartao } from '../models/Cartao';
+
 export class ColunaController extends Controller {
     constructor(kb) {
         super();
@@ -24,56 +26,56 @@ export class ColunaController extends Controller {
     _init() {
         const that = this;
         db.child(`coluna`).on('value', snapshot => {
-            if (snapshot.exists()) {
-                snapshot.forEach(value => {
-                    this._kanban.removeBoard(value.key);
-                });
-                snapshot.forEach(value => {
-                    this._kanban.addBoards([{
-                        "id": value.key,
-                        "title": value.val().title,
-                        "class": value.val().class,
-                    }]);
-                    db.child(`coluna/${value.key}/cartao`).on('child_added', snapshotCartao => {
-                        if (snapshotCartao.exists()) {
-                            db.child(`cartao/${snapshotCartao.key}`).on('value', cartaoSnapshot => {
-                                if (cartaoSnapshot.exists()) {
-                                    this._kanban.removeElement(cartaoSnapshot.key);
-                                    let idCartao = 0;
-                                    this._kanban.addElement(value.key, {
-                                        "id": cartaoSnapshot.key,
-                                        "title": cartaoSnapshot.val().title,
-                                        "drop": function (el, event) {
-                                            that._atualizaColunaCartao(el.dataset.eid, event.parentNode.dataset.id);
-                                            if (idCartao != event.parentNode.dataset.id) {
-                                                that._removeColunaCartao(el.dataset.eid, idCartao);
-                                            }
-                                        },
-                                        "drag": function (el, test) {
-                                            idCartao = test.parentNode.dataset.id;
-                                        },
-                                    });
-                                }
-                                this.mouseoverCartao();
-                            });
-                        }
-                    });
-                });
-                this._kanban.removeBoard("_criarCard");
+            snapshot.forEach(value => {
+                this._kanban.removeBoard(value.key);
+            });
+            snapshot.forEach(value => {
                 this._kanban.addBoards([{
-                    "id": "_criarCard",
-                    "title": "Criar Card",
-                    "item": [
-                        {
-                            "id": "testeid",
-                            "title": "Clique Aqui!",
-                            "click": function (el) {
-                                $('#modalCriaColuna').modal('show');
-                            },
-                        }
-                    ]
+                    "id": value.key,
+                    "title": value.val().title,
+                    "class": value.val().class,
                 }]);
-            }
+                db.child(`coluna/${value.key}/cartao`).on('child_added', snapshotCartao => {
+                    if (snapshotCartao.exists()) {
+                        db.child(`cartao/${snapshotCartao.key}`).on('value', cartaoSnapshot => {
+                            if (cartaoSnapshot.exists()) {
+                                this._kanban.removeElement(cartaoSnapshot.key);
+                                let idCartao = 0;
+                                this._kanban.addElement(value.key, {
+                                    "id": cartaoSnapshot.key,
+                                    "title": cartaoSnapshot.val().title,
+                                    "drop": function (el, event) {
+                                        that._atualizaColunaCartao(el.dataset.eid, event.parentNode.dataset.id);
+                                        if (idCartao != event.parentNode.dataset.id) {
+                                            that._removeColunaCartao(el.dataset.eid, idCartao);
+                                        }
+                                    },
+                                    "drag": function (el, test) {
+                                        idCartao = test.parentNode.dataset.id;
+                                    },
+                                });
+                            }
+                            this.mouseoverCartao();
+                        });
+                    }
+                });
+            });
+
+            this._kanban.removeBoard("_criarCard");
+            this._kanban.addBoards([{
+                "id": "_criarCard",
+                "title": "Criar Card",
+                "item": [
+                    {
+                        "id": "testeid",
+                        "title": "Clique Aqui!",
+                        "click": function (el) {
+                            $('#modalCriaColuna').modal('show');
+                        },
+                    }
+                ]
+            }]);
+
         });
     }
 
@@ -86,6 +88,7 @@ export class ColunaController extends Controller {
             let nomeColuna_Atual = event.target.parentNode.parentNode.firstChild.innerText;
             let title = event.target.innerText;
             let colunaDoLado = event.target.parentNode.parentNode.parentNode.childNodes;
+
             $(this).addClass("bordaCartao");
             if ($("div.opcoesDoCartao").length == 0) {
                 $(this).append(ColunaView.opcoesDoCartao());
@@ -96,31 +99,44 @@ export class ColunaController extends Controller {
                     let idColuna_Lado;
                     let nomeColuna_Lado;
                     let existeProximo = false;
+
+
                     if (colunaDoLado[dataOrder].dataset.id !== '_criarCard') {
+
                         nomeColuna_Lado = colunaDoLado[dataOrder].childNodes[0].firstChild.innerHTML;
                         idColuna_Lado = colunaDoLado[dataOrder].dataset.id;
                         existeProximo = true;
                     } else {
                         existeProximo = false;
                     }
+
+
+
                     $('#modalEditaCartao').modal('show');
                     $("#InputUIDEdita").val(eidCartao);
                     $("#InputCartaoNome").val(title);
-
+                    $("#InputColunaAtual").val(eidColuna_Atual);
                     let ColunaNomeAtual = nomeColuna_Atual.split("+");
                     let selectValues;
-                    if (existeProximo) {
-                        selectValues = { eidColuna_Atual: ColunaNomeAtual[0], idColuna_Lado: nomeColuna_Lado };
-                    } else {
-                        selectValues = { eidColuna_Atual: ColunaNomeAtual[0] };
-                    }
+
                     $('#InputCartaoMove').empty();
-                    $.each(selectValues, function (key, value) {
-                        $('#InputCartaoMove')
-                            .append($("<option></option>")
-                                .attr("value", key)
-                                .text(value));
-                    });
+                    if (existeProximo) {
+                        $('#InputCartaoMove').append(`<option value="${eidColuna_Atual}">${ColunaNomeAtual[0]}</option>`);
+                        $('#InputCartaoMove').append(`<option value="${idColuna_Lado}">${nomeColuna_Lado}</option>`);
+                        // selectValues = { eidColuna_Atual: ColunaNomeAtual[0], idColuna_Lado: nomeColuna_Lado };
+                    } else {
+                        // selectValues = { eidColuna_Atual: ColunaNomeAtual[0] };
+                        $('#InputCartaoMove').append(`<option value="${eidColuna_Atual}">${ColunaNomeAtual[0]}</option>`);
+                    }
+                    // $('#InputCartaoMove').empty();
+                    // $.each(selectValues, function (key, value) {
+                    //     // console.log('key: ', key);
+                    //     // console.log('value: ', value);
+                    //     $('#InputCartaoMove')
+                    //         .append($("<option></option>")
+                    //             .attr("value", key)
+                    //             .text(value));
+                    // });
                 });
             }
         }).mouseleave(function () {
@@ -232,5 +248,36 @@ export class ColunaController extends Controller {
         this._inputClass.val(' ');
         this._inputLimitador.val(' ');
         this._inputTitle.focus();
+    }
+
+
+    // TODO: Mover para Cartao Controller;
+    editaCartao(event) {
+        event.preventDefault();
+        let cartao = this._atualizaCartao();
+        db.child(`/cartao/${cartao.uidCartao}`).update(cartao).then(snapshot => {
+            db.child(`coluna/${cartao.uidBord}/cartao`).update({
+                [cartao.uidCartao]: true
+            })
+        }).catch(function (error) {
+            console.error("Erro ao atuaizar cartao ", error);
+        }).finally(function () {
+            $('#modalEditaCartao').modal('hide');
+        });
+
+        if (cartao.uidColunaAtual != cartao.uidBord) {
+            db.child(`coluna/${cartao.uidColunaAtual}/cartao/${cartao.uidCartao}`).remove()
+        }
+    }
+
+    _atualizaCartao() {
+        return new Cartao(
+            $('#InputCartaoMove option:selected').val(),
+            $('#InputCartaoNome').val(),
+            $('#InputCartaoDescricao').val(),
+            $('#InputCartaoDataEntrega').val(),
+            $('#InputUIDEdita').val(),
+            $('#InputColunaAtual').val()
+        )
     }
 }
