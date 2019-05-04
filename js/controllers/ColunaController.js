@@ -72,22 +72,19 @@ export class ColunaController extends Controller {
                                 if (cartaoSnapshot.val().colaborador) {
                                     db.child(`usuario/${cartaoSnapshot.val().colaborador}`).once('value', snapshotUsuario => {
                                         if (snapshotUsuario.exists()) {
-                                            let nome = snapshotUsuario.val().nome ? snapshotUsuario.val().nome  : snapshotUsuario.val().email;
-                                            let fotoUrl = snapshotUsuario.val().fotoUrl ? snapshotUsuario.val().fotoUrl  : "https://raw.githubusercontent.com/Felps03/kanbiz/master/images/placeholder.jpeg";
+                                            let nome = snapshotUsuario.val().nome ? snapshotUsuario.val().nome : snapshotUsuario.val().email;
+                                            let fotoUrl = snapshotUsuario.val().fotoUrl ? snapshotUsuario.val().fotoUrl : "https://raw.githubusercontent.com/Felps03/kanbiz/master/images/placeholder.jpeg";
                                             if (cartaoSnapshot.val().colaborador) {
-                                            $('.kanban-item').each(function (item) {
-                                                if (cartaoSnapshot.key === (this).getAttribute('data-eid')) {
-                                                    if($(this).find('div.fotoColaborador').length == 0) {
-                                                        $(this).append(ColunaView.fotoColaboradorCartao(nome, fotoUrl));
-                                                        
-                                                    }    
-                                                }
-                                            })
-                                        }
+                                                $('.kanban-item').each(function (item) {
+                                                    if (cartaoSnapshot.key === (this).getAttribute('data-eid')) {
+                                                        if ($(this).find('div.fotoColaborador').length == 0) {
+                                                            $(this).append(ColunaView.fotoColaboradorCartao(nome, fotoUrl));
+                                                        }
+                                                    }
+                                                })
+                                            }
                                         }
                                     });
-                                    
-                                   
                                 }
                             }
                             this.mouseoverCartao();
