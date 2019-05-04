@@ -152,7 +152,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="InputCartaoNome">Nome</label>
-                                <input type="text" class="form-control" id="InputCartaoNome" placeholder="Nome">
+                                <input type="text" class="form-control" id="InputCartaoNome" placeholder="Nome" required>
                             </div>
                             <div class="form-group">
                                 <label for="InputCartaoDescricao">Descrição</label>
@@ -171,8 +171,6 @@
                                 <label for="InputCartaoColaborador">Colaborador</label>
                                 <select id="InputCartaoColaborador" class="form-control"></select>
                                 </select>
-
-
                             </div>
 
                             <button type="submit" class="btn btn-primary">Editar Cartao</button>
@@ -203,18 +201,18 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         <form class="form" id="editarColuna">
-                            <div class="form-group">
+                            <div class="form-group" style="display: none">
                                 <label for="InputIDColuna">ID</label>
                                 <input type="text" class="form-control" id="InputIDColuna" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="InputTituloColuna">Nome </label>
-                                <input type="text" class="form-control" id="InputTituloColunaEdita" placeholder="Nome">
+                                <input type="text" class="form-control" id="InputTituloColunaEdita" placeholder="Nome" required>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group"> 
                                 <label for="InputLimitadorColuna">Limitador</label>
                                 <input type="number" class="form-control" id="InputLimitadorColunaEdita"
-                                    placeholder="Limitador">
+                                    placeholder="Limitador" min="1" required>
                             </div>
                             <div class="form-group">
                                 <label for="InputClasseColuna">Cor da Coluna</label>
