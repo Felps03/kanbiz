@@ -56,4 +56,13 @@ export class ColunaView extends View {
             </div>
         `
     }
+
+    static fotoColaboradorCartao(nome, url) {
+        return `
+            <div class="fotoColaborador">
+                
+                <img class="fotoColaborador-image" src="${url}" alt="${nome}">
+            </div>
+        `
+    }
 }

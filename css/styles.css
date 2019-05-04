@@ -163,3 +163,23 @@ form label {
   float: none !important;
   display: inline-block !important;
 }
+
+.fotoColaborador{
+  width: 100%;
+  height: auto;
+}
+
+.fotoColaborador-image {
+  max-width: 50px;
+  margin: 1px;
+  max-height: 50px;
+  padding: 0px;
+  bottom: 0;
+  background-color: #FFF;
+  display: inline-block;
+  background: #ccc;
+  float: right;
+  position: relative;
+  margin-top: -38px;
+
+}

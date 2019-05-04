@@ -69,6 +69,26 @@ export class ColunaController extends Controller {
                                         }
                                     })
                                 }
+                                if (cartaoSnapshot.val().colaborador) {
+                                    db.child(`usuario/${cartaoSnapshot.val().colaborador}`).once('value', snapshotUsuario => {
+                                        if (snapshotUsuario.exists()) {
+                                            let nome = snapshotUsuario.val().nome ? snapshotUsuario.val().nome  : snapshotUsuario.val().email;
+                                            let fotoUrl = snapshotUsuario.val().fotoUrl ? snapshotUsuario.val().fotoUrl  : "https://raw.githubusercontent.com/Felps03/kanbiz/master/images/placeholder.jpeg";
+                                            if (cartaoSnapshot.val().colaborador) {
+                                            $('.kanban-item').each(function (item) {
+                                                if (cartaoSnapshot.key === (this).getAttribute('data-eid')) {
+                                                    if($(this).find('div.fotoColaborador').length == 0) {
+                                                        $(this).append(ColunaView.fotoColaboradorCartao(nome, fotoUrl));
+                                                        
+                                                    }    
+                                                }
+                                            })
+                                        }
+                                        }
+                                    });
+                                    
+                                   
+                                }
                             }
                             this.mouseoverCartao();
                         });
@@ -126,8 +146,6 @@ export class ColunaController extends Controller {
         $("div.kanban-item").mouseover(function () {
             let eidCartao = event.target.dataset.eid;
             let eidColuna_Atual = event.target.parentNode.parentNode.dataset.id;
-            let title = event.target.innerText;
-
             $(this).addClass("bordaCartao");
             if ($("div.opcoesDoCartao").length == 0) {
                 $(this).append(ColunaView.opcoesDoCartao());
@@ -155,14 +173,14 @@ export class ColunaController extends Controller {
                             });
                         });
                     });
-                    // $("#InputCartaoColaborador").select2({ 
-                    //     allowClear:true,       
-                    //     placeholder: 'Search for a disease'
-                    // });
-                    $('#modalEditaCartao').modal('show');
-                    $("#InputUIDEdita").val(eidCartao);
-                    $("#InputCartaoNome").val(title);
-                    $("#InputColunaAtual").val(eidColuna_Atual);
+                    db.child(`cartao/${eidCartao}`).once('value', snapshot => {
+                        $("#InputUIDEdita").val(snapshot.key);
+                        $("#InputCartaoNome").val(snapshot.val().title);
+                        $("#InputColunaAtual").val(snapshot.val().uidBord);
+                        $("#InputCartaoDescricao").val(snapshot.val().descricao);
+                        $("#InputCartaoColaborador").val(snapshot.val().colaborador);
+                        $('#modalEditaCartao').modal('show');
+                    })
                 });
 
                 $(".opcoesDoCartao-tipoPadrão").click(function () {
@@ -361,7 +379,7 @@ export class ColunaController extends Controller {
     }
 
     _atualizaCartao() {
-        return new Cartao(           
+        return new Cartao(
             $('#InputCartaoMove option:selected').val(),
             $('#InputCartaoNome').val(),
             $('#InputCartaoDescricao').val(),

@@ -7,9 +7,10 @@ export class Cartao {
         this.dataEntrega = dataEntrega;
         this.uidCartao = uidCartao;
         this.uidColunaAtual = uidColunaAtual;
-        this.colaborador = {
-            [colaborador] : true
-        }
+        this.colaborador = colaborador;
+        // this.colaborador = {
+        //     [colaborador] : true
+        // }
     }
 
 
