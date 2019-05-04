@@ -20,3 +20,4 @@ formEditaCartao.addEventListener('submit', colunaController.editaCartao.bind(col
 
 const formColunaModalEdita = document.getElementById('modalEditaColuna');
 formColunaModalEdita.addEventListener('submit', colunaController.atualizaColuna.bind(colunaController));
+

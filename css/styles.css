@@ -158,3 +158,8 @@ form label {
 .kanban-item {
   position: relative;
 }
+
+.select2-selection__choice{
+  float: none !important;
+  display: inline-block !important;
+}

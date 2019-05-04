@@ -62,14 +62,13 @@ export class ColunaController extends Controller {
                                         }
                                     });
                                 };
-                                if(cartaoSnapshot.val().dataEntrega) {
+                                if (cartaoSnapshot.val().dataEntrega) {
                                     $('.kanban-item').each(function (item) {
                                         if (cartaoSnapshot.key === (this).getAttribute('data-eid')) {
                                             $(this).append(ColunaView.dataEntrega(cartaoSnapshot.val().dataEntrega));
                                         }
                                     })
                                 }
-                                
                             }
                             this.mouseoverCartao();
                         });
@@ -144,6 +143,22 @@ export class ColunaController extends Controller {
                             });
                         }
                     });
+                    $('#InputCartaoColaborador').empty();
+                    db.child(`projeto/${that._recuperaChaveProjeto()}/_colaboradores`).once('value', snapshot => {
+                        snapshot.forEach(value => {
+                            db.child(`usuario/${value.key}`).once('value', snapshotUsuario => {
+                                if (snapshotUsuario.exists()) {
+                                    let nome = snapshotUsuario.val().nome ? snapshotUsuario.val().nome + " |" : "";
+                                    let select = nome + ' ' + snapshotUsuario.val().email;
+                                    $('#InputCartaoColaborador').append(`<option value="${snapshotUsuario.key}">${select}</option>`);
+                                }
+                            });
+                        });
+                    });
+                    // $("#InputCartaoColaborador").select2({ 
+                    //     allowClear:true,       
+                    //     placeholder: 'Search for a disease'
+                    // });
                     $('#modalEditaCartao').modal('show');
                     $("#InputUIDEdita").val(eidCartao);
                     $("#InputCartaoNome").val(title);
@@ -249,7 +264,7 @@ export class ColunaController extends Controller {
             console.error("Erro ao atualizar coluna ", error);
         }).finally(function () {
             $('#modalEditaColuna').modal('hide');
-        });;
+        });
     }
 
     adicionaColuna(event) {
@@ -346,13 +361,14 @@ export class ColunaController extends Controller {
     }
 
     _atualizaCartao() {
-        return new Cartao(
+        return new Cartao(           
             $('#InputCartaoMove option:selected').val(),
             $('#InputCartaoNome').val(),
             $('#InputCartaoDescricao').val(),
             $('#InputCartaoDataEntrega').val(),
             $('#InputUIDEdita').val(),
-            $('#InputColunaAtual').val()
+            $('#InputColunaAtual').val(),
+            $('#InputCartaoColaborador option:selected').val(),
         )
     }
 

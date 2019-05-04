@@ -1,12 +1,15 @@
 export class Cartao {
 
-    constructor(uidBord, titulo, descricao = null, dataEntrega = null, uidCartao = null, uidColunaAtual = null) {
+    constructor(uidBord, titulo, descricao = null, dataEntrega = null, uidCartao = null, uidColunaAtual = null, colaborador = null) {
         this.uidBord = uidBord;
         this.title = titulo;
         this.descricao = descricao;
         this.dataEntrega = dataEntrega;
         this.uidCartao = uidCartao;
         this.uidColunaAtual = uidColunaAtual;
+        this.colaborador = {
+            [colaborador] : true
+        }
     }
 
 
