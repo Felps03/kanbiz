@@ -63,12 +63,12 @@
                         <form class="form" id="criaColuna">
                             <div class="form-group">
                                 <label for="InputTituloColuna">Nome</label>
-                                <input type="text" class="form-control" id="InputTituloColuna" placeholder="Nome">
+                                <input type="text" class="form-control" id="InputTituloColuna" placeholder="Nome" required>
                             </div>
                             <div class="form-group">
                                 <label for="InputLimitadorColuna">Limitador</label>
                                 <input type="number" class="form-control" id="InputLimitadorColuna"
-                                    placeholder="Limitador">
+                                    placeholder="Limitador" min="1" required>
                             </div>
                             <div class="form-group">
                                 <label for="InputClasseColuna">Cor da Coluna</label>
@@ -111,7 +111,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="InputCartao">Nome</label>
-                                <input type="text" class="form-control" id="InputCartao" placeholder="Nome">
+                                <input type="text" class="form-control" id="InputCartao" placeholder="Nome" required>
                             </div>
 
                             <button type="submit" class="btn btn-primary">Criar Cartao</button>
