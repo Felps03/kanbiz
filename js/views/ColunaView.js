@@ -48,4 +48,12 @@ export class ColunaView extends View {
             </div>
         `
     }
+
+    static dataEntrega(data){
+        return `
+            <div class="dataEntrega"> 
+            ${data}
+            </div>
+        `
+    }
 }

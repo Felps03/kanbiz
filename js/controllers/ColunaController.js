@@ -61,7 +61,15 @@ export class ColunaController extends Controller {
                                             $(this).addClass(cartaoSnapshot.val().corCartao);
                                         }
                                     });
+                                };
+                                if(cartaoSnapshot.val().dataEntrega) {
+                                    $('.kanban-item').each(function (item) {
+                                        if (cartaoSnapshot.key === (this).getAttribute('data-eid')) {
+                                            $(this).append(ColunaView.dataEntrega(cartaoSnapshot.val().dataEntrega));
+                                        }
+                                    })
                                 }
+                                
                             }
                             this.mouseoverCartao();
                         });
