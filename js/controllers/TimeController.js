@@ -70,6 +70,7 @@ export class TimeController extends Controller {
     buscaDetalheTime() {
         $(".d-flex" ).removeClass( "fundoCinza" );
         $('#formTimeTudo').show();
+        $("#projetosTime").hide();
         $('#panel-speakers').hide();
         db.child('time').child(this._recuperaChaveTime()).on('value', snapshot => {
             $('#UID').val(snapshot.key);
@@ -135,7 +136,7 @@ export class TimeController extends Controller {
             alert('Colaborador Convidado');
         }).catch(function (error) {
             console.error("Erro ao criar timeColaborador ", error);
-            $(location).attr('href', 'home.html')
+            $(location).attr('href', 'home.html');
         });
     }
 
@@ -158,6 +159,7 @@ export class TimeController extends Controller {
             snapshot.forEach(value => {
                 db.child(`usuario/${value.key}`).on('value', snapshotUsuario => {
                     $('#formTimeTudo').hide();
+                    $("#projetosTime").hide();
                     $('#panel-speakers').show();
                     $('#listaMembros').append(this._timeView.listaMembros(snapshotUsuario.val()));
                 });
@@ -178,6 +180,19 @@ export class TimeController extends Controller {
             this._inputNick.val(),
             usuarioLogado
         );
+    }
+
+    projetoTime(){
+        $("#panel-speakers").hide();
+        $("#formTimeTudo").hide();
+        $("#projetosTime").show();
+        
+    }
+
+    // TODO: Deve excluir os times vinculados
+    _excluirTime(){
+        db.child(`time/${this._recuperaChaveTime()}`).remove();
+        $(location).attr('href', 'home.html');
     }
 
     _limpaFormulario() {

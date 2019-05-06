@@ -19,3 +19,7 @@ convidaMembro.addEventListener('submit', timeController.procuraPorEmail.bind(tim
 $("#verMembros").click( timeController.listaColaboradorTime.bind(timeController));
 
 $("#verConfiguracaoTime").click( timeController.buscaDetalheTime.bind(timeController));
+
+$("#excluirProjeto").click(timeController._excluirTime.bind(timeController));
+
+$("#verProjetos").click(timeController.projetoTime.bind(timeController));

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/png" href="./images/favicon.png"/>
+    <link rel="shortcut icon" type="image/png" href="./images/favicon.png" />
     <title>Home</title>
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
@@ -53,7 +53,9 @@
                 <!-- REVER -->
                 <!-- <a href="#" class="list-group-item list-group-item-action bg-light">Quadros</a> -->
                 <a href="#" id="verMembros" class="list-group-item list-group-item-action bg-light">Membros</a>
-                <a href="#" id="verConfiguracaoTime" class="list-group-item list-group-item-action bg-light">Configurações</a>
+                <a href="#" id="verConfiguracaoTime"
+                    class="list-group-item list-group-item-action bg-light">Configurações</a>
+                <a href="#" id="verProjetos" class="list-group-item list-group-item-action bg-light">Projetos</a>
             </div>
         </div>
 
@@ -90,11 +92,13 @@
                         </form>
                     </div>
                 </section>
+
+                <div class="col-12">
+                    <button type="button" id="excluirProjeto" class="btn btn-danger btn-lg btn-block">Excluir
+                        Projeto</button>
+                </div>
+                
             </div>
-
-   
-
-
 
             <section id="panel-speakers" class="panel panel-speakers" style="display: none;">
                 <div class="container">
@@ -103,11 +107,14 @@
                     </div>
 
                     <ul class="speakers" id="listaMembros">
-
                     </ul>
                 </div>
             </section>
 
+            <select id="projetosTime">
+              
+                <div>oi</div>
+            </section>
 
 
 

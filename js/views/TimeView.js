@@ -30,7 +30,7 @@ export class TimeView extends View {
 
     painelLateral(model, chave) {
         let urlTime = 'time.html?chave=' + chave;
-        let nome = truncar(model._nome, 24)
+        let nome = model._nick ? truncar(model._nick, 24) : ""; 
         return `
             <a href='${urlTime}' class="list-group-item list-group-item-action bg-light">
                 <i class="fas fa-users fa-1x"></i> ${nome}
