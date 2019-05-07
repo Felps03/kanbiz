@@ -99,11 +99,11 @@ export class ColunaController extends Controller {
             this._kanban.removeBoard("_criarCard");
             this._kanban.addBoards([{
                 "id": "_criarCard",
-                "title": "Criar Card",
+                "title": "Criar Coluna",
                 "item": [
                     {
                         "id": "testeid",
-                        "title": "Clique Aqui!",
+                        "title": "Clique Aqui para criar coluna!",
                         "click": function (el) {
                             $('#modalCriaColuna').modal('show');
                         },
