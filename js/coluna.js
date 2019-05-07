@@ -21,3 +21,14 @@ formEditaCartao.addEventListener('submit', colunaController.editaCartao.bind(col
 const formColunaModalEdita = document.getElementById('modalEditaColuna');
 formColunaModalEdita.addEventListener('submit', colunaController.atualizaColuna.bind(colunaController));
 
+const bloquearProjeto = document.getElementById('bloquear');
+bloquearProjeto.addEventListener('click', colunaController.bloqueadoProjeto.bind(colunaController, true));
+
+const desbloquearProjeto = document.getElementById('desbloquear');
+desbloquearProjeto.addEventListener('click', colunaController.bloqueadoProjeto.bind(colunaController, false));
+
+const finalizarProjeto = document.getElementById('finalizar');
+finalizarProjeto.addEventListener('click', colunaController.finalizaProjeto.bind(colunaController, true));
+
+const arquivarProjeto = document.getElementById('arquivar');
+arquivarProjeto.addEventListener('click', colunaController.arquivaProjeto.bind(colunaController, true));

@@ -20,6 +20,8 @@ export class ColunaController extends Controller {
 
     onUserLogged() {
         this._init();
+        this._verficiaAdmin();
+        this.verficiaConfiguracaoProjeto();
     }
 
     // TODO: Verficar projeto vinculado
@@ -92,6 +94,7 @@ export class ColunaController extends Controller {
                     }
                 });
                 this.mouseoverColuna();
+                this.verficiaConfiguracaoProjeto();
             });
             this._kanban.removeBoard("_criarCard");
             this._kanban.addBoards([{
@@ -110,9 +113,78 @@ export class ColunaController extends Controller {
         });
     }
 
+    _verficiaAdmin() {
+        db.child(`colaboradores/${this.user.id}/projeto/${this._recuperaChaveProjeto()}`).once('value', snapshot => {
+            if (snapshot.val().admin) {
+                console.log('Você eh o administrador desta pagina');
+                $(".adminProjeto").show();
+            } else {
+                $(".adminProjeto").hide();
+            }
+        });
+    }
+
+    bloqueadoProjeto(verifica) {
+        db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).update({
+            "bloqueado": verifica
+        });
+        let parm; 
+        if(verifica)  parm = "bloquado";
+        else parm = "desbloqueado";
+
+        alert(`O projeto foi ${parm}`);
+        this.verficiaConfiguracaoProjeto();
+    }
+
+    finalizaProjeto(verifica) {
+        db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).update({
+            "finalizado": verifica
+        });
+        alert('projeto bloqueado');
+    }
+
+    arquivaProjeto(verifica) {
+        db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).update({
+            "arquivado": verifica
+        });
+    }
+
+    verficiaConfiguracaoProjeto() {
+        // $('button').removeAttr('disabled');
+
+        db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).once('value', snapshot => {
+            db.child(`colaboradores/${this.user.id}/projeto/${this._recuperaChaveProjeto()}`).once('value', snapshotAdmin => {
+                
+                if (!snapshotAdmin.val().admin) {
+                    if (snapshot.val().arquivado) {
+                        alert('Projeto Arquivado');
+                        $(location).attr('href', 'home.html');
+                    }
+                    if (snapshot.val().bloqueado) {
+                        console.log('Projeto Bloqueado');
+                        $('button').attr('disabled', 'disabled');
+                    }
+                    if (snapshot.val().finalizado) {
+                        alert('Projeto Arquivado');
+                        $(location).attr('href', 'home.html');
+                    }
+                } else {
+                    if (snapshot.val().bloqueado) {
+                        $("#bloquear").hide();
+                        $("#desbloquear").show();
+                    } else {
+                        $("#desbloquear").hide();
+                        $("#bloquear").show();
+                    }
+                }
+            });
+
+        })
+    }
+
+
     mouseoverColuna() {
         const that = this;
-
         $(".kanban-board-header").mouseover(function () {
             if ($("div.opcoesDaColuna").length == 0) {
                 let idColuna = event.target.parentNode.dataset.id;
@@ -162,6 +234,7 @@ export class ColunaController extends Controller {
                     db.child(`projeto/${that._recuperaChaveProjeto()}/_colaboradores`).once('value', snapshot => {
                         snapshot.forEach(value => {
                             db.child(`usuario/${value.key}`).once('value', snapshotUsuario => {
+                                $('#InputCartaoColaborador').append(`<option value=""> </option>`);
                                 if (snapshotUsuario.exists()) {
                                     let nome = snapshotUsuario.val().nome ? snapshotUsuario.val().nome + " |" : "";
                                     let select = nome + ' ' + snapshotUsuario.val().email;
@@ -200,8 +273,12 @@ export class ColunaController extends Controller {
     }
 
     pintaColuna(idColuna, cor) {
-        db.child(`coluna/${idColuna}`).update({
-            "class": cor
+        db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).once('value', snapshot => {
+            if ((!snapshot.val().bloqueado) && (!snapshot.val().arquivado) && (!snapshot.val().finalizado)) {
+                db.child(`coluna/${idColuna}`).update({
+                    "class": cor
+                });
+            }
         });
     }
 
@@ -211,8 +288,12 @@ export class ColunaController extends Controller {
      * @param {*} cor
      */
     pintaCartao(idCartao, cor) {
-        db.child(`cartao/${idCartao}`).update({
-            "corCartao": cor
+        db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).once('value', snapshot => {
+            if ((!snapshot.val().bloqueado) && (!snapshot.val().arquivado) && (!snapshot.val().finalizado)) {
+                db.child(`cartao/${idCartao}`).update({
+                    "corCartao": cor
+                });
+            }
         });
     }
 
@@ -239,7 +320,6 @@ export class ColunaController extends Controller {
      * Remover Cartao do projeto  ao mover
      */
     _removeColunaCartao(chaveCartao, chaveColuna) {
-        const that = this;
         db.child(`coluna/${chaveColuna}/cartao/${chaveCartao}`).remove().then(function () {
             console.log('removendo...');
         }).catch(function (error) {
@@ -295,9 +375,7 @@ export class ColunaController extends Controller {
     }
 
     adicionaColunaProjeto(chaveColuna) {
-        let chaveProjeto = this._recuperaChaveProjeto();
-
-        db.child(`projeto/${chaveProjeto}/coluna`).update({
+        db.child(`projeto/${this._recuperaChaveProjeto()}/coluna`).update({
             [chaveColuna]: true
         }).then(function () {
             console.info("Criou o Projeto Colaborador ");
@@ -326,21 +404,27 @@ export class ColunaController extends Controller {
     // TODO: Mover para Cartao Controller;
     editaCartao(event) {
         event.preventDefault();
-        let cartao = this._atualizaCartao();
-        db.child(`/cartao/${cartao.uidCartao}`).update(cartao).then(snapshot => {
-            db.child(`coluna/${cartao.uidBord}/cartao`).update({
-                [cartao.uidCartao]: true
-            })
-        }).catch(function (error) {
-            console.error("Erro ao atuaizar cartao ", error);
-        }).finally(function () {
-            $('#modalEditaCartao').modal('hide');
-        });
 
-        if (cartao.uidColunaAtual != cartao.uidBord) {
-            db.child(`coluna/${cartao.uidColunaAtual}/cartao/${cartao.uidCartao}`).remove();
-        }
-        db.child(`cartao/${cartao.uidCartao}`).child('uidColunaAtual').remove();
+        db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).once('value', snapshot => {
+            if ((!snapshot.val().bloqueado) && (!snapshot.val().arquivado) && (!snapshot.val().finalizado)) {
+
+                let cartao = this._atualizaCartao();
+                db.child(`/cartao/${cartao.uidCartao}`).update(cartao).then(snapshot => {
+                    db.child(`coluna/${cartao.uidBord}/cartao`).update({
+                        [cartao.uidCartao]: true
+                    })
+                }).catch(function (error) {
+                    console.error("Erro ao atuaizar cartao ", error);
+                }).finally(function () {
+                    $('#modalEditaCartao').modal('hide');
+                });
+
+                if (cartao.uidColunaAtual != cartao.uidBord) {
+                    db.child(`coluna/${cartao.uidColunaAtual}/cartao/${cartao.uidCartao}`).remove();
+                }
+                db.child(`cartao/${cartao.uidCartao}`).child('uidColunaAtual').remove();
+            }
+        });
     }
 
     _editaColuna(idColuna) {
@@ -357,22 +441,27 @@ export class ColunaController extends Controller {
 
     _removeColuna(idColuna) {
         const that = this;
-        db.child(`coluna/${idColuna}/cartao/`).once('value', snapshot => {
-            if (snapshot.exists()) {
-                snapshot.forEach(value => {
-                    db.child(`cartao/${value.key}`).remove().then(function () {
-                        that._kanban.removeElement(value.key);
-                        console.info('removendo cartao ...');
-                    }).catch(function (error) {
-                        console.error("Erro ao remover cartao ", error);
-                    });
+        db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).once('value', snapshot => {
+            if ((!snapshot.val().bloqueado) && (!snapshot.val().arquivado) && (!snapshot.val().finalizado)) {
+                db.child(`coluna/${idColuna}/cartao/`).once('value', snapshot => {
+                    if (snapshot.exists()) {
+                        snapshot.forEach(value => {
+                            db.child(`cartao/${value.key}`).remove().then(function () {
+                                that._kanban.removeElement(value.key);
+                                console.info('removendo cartao ...');
+                            }).catch(function (error) {
+                                console.error("Erro ao remover cartao ", error);
+                            });
+                        });
+                    }
+                });
+                db.child(`coluna/${idColuna}`).remove().then(function () {
+                    that._kanban.removeBoard(idColuna);
+                    console.log('removendo cartao ...');
                 });
             }
         });
-        db.child(`coluna/${idColuna}`).remove().then(function () {
-            that._kanban.removeBoard(idColuna);
-            console.log('removendo cartao ...');
-        });
+
     }
 
     _atualizaCartao() {

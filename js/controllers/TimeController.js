@@ -116,10 +116,10 @@ export class TimeController extends Controller {
             [chaveTime]: false
         }).then(function () {
             alert('Colaborador Convidado');
-            $(location).attr('href', 'home.html')
+            $(location).attr('href', 'home.html');
         }).catch(function (error) {
             console.error("Erro ao criar timeColaborador ", error);
-            $(location).attr('href', 'home.html')
+            $(location).attr('href', 'home.html');
         });
     }
 

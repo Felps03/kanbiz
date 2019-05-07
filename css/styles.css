@@ -184,3 +184,10 @@ form label {
   margin-top: -23px;
 
 }
+
+.adminProjeto {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}

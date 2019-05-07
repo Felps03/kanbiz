@@ -18,222 +18,238 @@
 
 <body>
     <h1>Projeto</h1>
-    <div class="d-flex" id="wrapper">
-        <!-- INICIO DO MENU DE CIMA -->
-        <div class="navbar bg-dark fixed-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <a href="/home.html" aria-label="Voltar ao Início">
-                        <i class="fas fa-home fa-2x iconeCorBranca"></i>
-                    </a>
-                </div>
-                <div class="mx-auto order-0">
-                    <a class="img-responsive text-center" href="#">
-                        <img src="images/top_logo.png" alt="Kan Business" title="Kan Business">
-                    </a>
-                </div>
-                <div class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="#" id="logOutButton">
-                            <i class="fas fa-user-alt-slash fa-1x iconeCorBranca">Sair</i>
+    <div class="container">
+        <div class="d-flex" id="wrapper">
+            <!-- INICIO DO MENU DE CIMA -->
+            <div class="navbar bg-dark fixed-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a href="/home.html" aria-label="Voltar ao Início">
+                            <i class="fas fa-home fa-2x iconeCorBranca"></i>
                         </a>
-                    </li>
+                    </div>
+                    <div class="mx-auto order-0">
+                        <a class="img-responsive text-center" href="#">
+                            <img src="images/top_logo.png" alt="Kan Business" title="Kan Business">
+                        </a>
+                    </div>
+                    <div class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" id="logOutButton">
+                                <i class="fas fa-user-alt-slash fa-1x iconeCorBranca">Sair</i>
+                            </a>
+                        </li>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- FIM DO MENU DE CIMA -->
+            <!-- FIM DO MENU DE CIMA -->
 
-        <div id="myKanban"></div>
-
+            <div id="myKanban"></div>
 
 
-        <!-- Modal Coluna -->
-        <div class="modal fade" id="modalCriaColuna">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
 
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Criar Coluna</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <!-- Modal Coluna -->
+            <div class="modal fade" id="modalCriaColuna">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Criar Coluna</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <form class="form" id="criaColuna">
+                                <div class="form-group">
+                                    <label for="InputTituloColuna">Nome</label>
+                                    <input type="text" class="form-control" id="InputTituloColuna" placeholder="Nome"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="InputLimitadorColuna">Limitador</label>
+                                    <input type="number" class="form-control" id="InputLimitadorColuna"
+                                        placeholder="Limitador" min="1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="InputClasseColuna">Cor da Coluna</label>
+                                    <select class="form-control" id="InputClasseColuna">
+                                        <option value="success">Verde</option>
+                                        <option value="info">Azul</option>
+                                        <option value="warning">Amarelo</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Criar Coluna</button>
+                            </form>
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                        </div>
+
                     </div>
-
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <form class="form" id="criaColuna">
-                            <div class="form-group">
-                                <label for="InputTituloColuna">Nome</label>
-                                <input type="text" class="form-control" id="InputTituloColuna" placeholder="Nome" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="InputLimitadorColuna">Limitador</label>
-                                <input type="number" class="form-control" id="InputLimitadorColuna"
-                                    placeholder="Limitador" min="1" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="InputClasseColuna">Cor da Coluna</label>
-                                <select class="form-control" id="InputClasseColuna">
-                                    <option value="success">Verde</option>
-                                    <option value="info">Azul</option>
-                                    <option value="warning">Amarelo</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Criar Coluna</button>
-                        </form>
-                    </div>
-
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                    </div>
-
                 </div>
             </div>
-        </div>
 
-        <!-- Modal Cartao -->
-        <div class="modal fade" id="modalCriaCartao">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+            <!-- Modal Cartao -->
+            <div class="modal fade" id="modalCriaCartao">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
 
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Criar Cartao</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Criar Cartao</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <form class="form" id="criaCartao">
+                                <div class="form-group" style="display: none;">
+                                    <label for="InputUID">UID</label>
+                                    <input type="text" class="form-control" id="InputUID" placeholder="uid">
+                                </div>
+                                <div class="form-group">
+                                    <label for="InputCartao">Nome</label>
+                                    <input type="text" class="form-control" id="InputCartao" placeholder="Nome"
+                                        required>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Criar Cartao</button>
+                            </form>
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                        </div>
+
                     </div>
-
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <form class="form" id="criaCartao">
-                            <div class="form-group" style="display: none;">
-                                <label for="InputUID">UID</label>
-                                <input type="text" class="form-control" id="InputUID" placeholder="uid">
-                            </div>
-                            <div class="form-group">
-                                <label for="InputCartao">Nome</label>
-                                <input type="text" class="form-control" id="InputCartao" placeholder="Nome" required>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">Criar Cartao</button>
-                        </form>
-                    </div>
-
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                    </div>
-
                 </div>
             </div>
-        </div>
 
-        <!-- Edita Cartao -->
-        <div class="modal fade" id="modalEditaCartao">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+            <!-- Edita Cartao -->
+            <div class="modal fade" id="modalEditaCartao">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
 
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Editar Cartao</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Editar Cartao</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <form class="form" id="editarCartao">
+                                <div class="form-group" style="display: none;">
+                                    <label for="InputUIDEdita">UID</label>
+                                    <input type="text" class="form-control" id="InputUIDEdita" placeholder="uid"
+                                        disabled>
+                                </div>
+                                <div class="form-group" style="display: none;">
+                                    <label for="InputColunaAtual">UID Coluna</label>
+                                    <input type="text" class="form-control" id="InputColunaAtual" placeholder="uid"
+                                        disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="InputCartaoNome">Nome</label>
+                                    <input type="text" class="form-control" id="InputCartaoNome" placeholder="Nome"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="InputCartaoDescricao">Descrição</label>
+                                    <textarea class="form-control" rows="4" id="InputCartaoDescricao"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="InputCartaoDataEntrega">Data de Entrega</label>
+                                    <input class="form-control" type="date" id="InputCartaoDataEntrega">
+                                </div>
+                                <div class="form-group">
+                                    <label for="InputCartaoMove">Mover Para</label>
+                                    <select class="form-control" id="InputCartaoMove">
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="InputCartaoColaborador">Colaborador</label>
+                                    <select id="InputCartaoColaborador" class="form-control"></select>
+                                    </select>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Editar Cartao</button>
+                            </form>
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                        </div>
+
                     </div>
-
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <form class="form" id="editarCartao">
-                            <div class="form-group" style="display: none;">
-                                <label for="InputUIDEdita">UID</label>
-                                <input type="text" class="form-control" id="InputUIDEdita" placeholder="uid" disabled>
-                            </div>
-                            <div class="form-group" style="display: none;">
-                                <label for="InputColunaAtual">UID Coluna</label>
-                                <input type="text" class="form-control" id="InputColunaAtual" placeholder="uid"
-                                    disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="InputCartaoNome">Nome</label>
-                                <input type="text" class="form-control" id="InputCartaoNome" placeholder="Nome" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="InputCartaoDescricao">Descrição</label>
-                                <textarea class="form-control" rows="4" id="InputCartaoDescricao"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="InputCartaoDataEntrega">Data de Entrega</label>
-                                <input class="form-control" type="date" id="InputCartaoDataEntrega">
-                            </div>
-                            <div class="form-group">
-                                <label for="InputCartaoMove">Mover Para</label>
-                                <select class="form-control" id="InputCartaoMove">
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="InputCartaoColaborador">Colaborador</label>
-                                <select id="InputCartaoColaborador" class="form-control"></select>
-                                </select>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">Editar Cartao</button>
-                        </form>
-                    </div>
-
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                    </div>
-
                 </div>
             </div>
-        </div>
 
-        <!-- Edita Coluna -->
-        <!-- Modal Coluna -->
-        <div class="modal fade" id="modalEditaColuna">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+            <!-- Edita Coluna -->
+            <!-- Modal Coluna -->
+            <div class="modal fade" id="modalEditaColuna">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
 
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Editar Coluna</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Editar Coluna</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <form class="form" id="editarColuna">
+                                <div class="form-group" style="display: none">
+                                    <label for="InputIDColuna">ID</label>
+                                    <input type="text" class="form-control" id="InputIDColuna" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="InputTituloColuna">Nome </label>
+                                    <input type="text" class="form-control" id="InputTituloColunaEdita"
+                                        placeholder="Nome" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="InputLimitadorColuna">Limitador</label>
+                                    <input type="number" class="form-control" id="InputLimitadorColunaEdita"
+                                        placeholder="Limitador" min="1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="InputClasseColuna">Cor da Coluna</label>
+                                    <select class="form-control" id="InputClasseColunaEdita">
+                                        <option value="success">Verde</option>
+                                        <option value="info">Azul</option>
+                                        <option value="warning">Amarelo</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Editar Coluna</button>
+                            </form>
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                        </div>
+
                     </div>
-
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <form class="form" id="editarColuna">
-                            <div class="form-group" style="display: none">
-                                <label for="InputIDColuna">ID</label>
-                                <input type="text" class="form-control" id="InputIDColuna" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="InputTituloColuna">Nome </label>
-                                <input type="text" class="form-control" id="InputTituloColunaEdita" placeholder="Nome" required>
-                            </div>
-                            <div class="form-group"> 
-                                <label for="InputLimitadorColuna">Limitador</label>
-                                <input type="number" class="form-control" id="InputLimitadorColunaEdita"
-                                    placeholder="Limitador" min="1" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="InputClasseColuna">Cor da Coluna</label>
-                                <select class="form-control" id="InputClasseColunaEdita">
-                                    <option value="success">Verde</option>
-                                    <option value="info">Azul</option>
-                                    <option value="warning">Amarelo</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Editar Coluna</button>
-                        </form>
-                    </div>
-
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                    </div>
-
                 </div>
             </div>
+
         </div>
+
+        <div class="adminProjeto">
+            <button type="button" class="btn btn-warning" id="bloquear">Bloquear</button>
+            <button type="button" class="btn btn-success" id="desbloquear">Desbloquear</button>
+            <button type="button" class="btn btn-primary" id="finalizar">Finzalizar</button>
+            <button type="button" class="btn btn-secondary"id="arquivar">Arquivar</button>
+        </div>
+
 
     </div>
 

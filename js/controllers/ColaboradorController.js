@@ -19,7 +19,7 @@ export class ColaboradorController extends Controller {
             fotoUrl: this.user.fotoUrl,
         }
         db.child(`usuario/${this.user.id}`).set(colaboradores).then(snapshot => {
-            console.log("Colecao Usuario", colaboradores);
+            // console.log("Colecao Usuario", colaboradores);
         });
     }
 

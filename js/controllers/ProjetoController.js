@@ -21,18 +21,15 @@ export class ProjetoController extends Controller {
     _init() {
         this._timeView.render();
         $("#lds-spinner").show();
-        console.log('ProjetoController ...');
         db.child(`colaboradores/${this.user.id}/projeto`).on('value', snapshot => {
-            $('#painelProjetoPrincipal').empty();
             if (snapshot.exists()) {
+                $('#painelProjetoPrincipal').empty();
                 snapshot.forEach(value => {
-                    if (value.val()) {
-                        db.child(`projeto/${value.key}`).on('value', snapshotProjeto => {
-                            $("#lds-spinner").hide();
-                            $('#painelProjetoPrincipal').append(this._timeView.painel(snapshotProjeto.val(), snapshotProjeto.key));
+                    db.child(`projeto/${value.key}`).once('value', snapshotProjeto => {
+                        $("#lds-spinner").hide();
+                        $('#painelProjetoPrincipal').append(this._timeView.painel(snapshotProjeto.val(), snapshotProjeto.key));
 
-                        })
-                    }
+                    })
                 });
             } else {
                 $("#lds-spinner").hide();
@@ -44,22 +41,17 @@ export class ProjetoController extends Controller {
         event.preventDefault();
         let projeto = this._criaProjeto();
         db.child('projeto').push(projeto).then(snapshot => {
-            this._adicionaProjetoColaborador(this.user.id, snapshot.key);
-        }).catch(function (error) {
-            console.error("Erro ao criar projeto ", error);
-        });
+            db.child(`colaboradores/${this.user.id}/projeto`).update({
+                [snapshot.key] :  {
+                    admin : true
+                }
+            }).then( () => console.info("Colaborador vinculado com o Projeto com sucesso"))
+            .catch( (error) => console.error("Erro ao vincular projeto ao Colaborador ", error));
+        }).catch( (error) => console.error("Erro ao criar Projeto ", error))
+        .finally( () => $('#modalCriaProjeto').modal('hide')); 
         this._limpaFormulario()
     }
 
-    _adicionaProjetoColaborador(chaveUsuario, chaveProjeto, admin = false) {
-        db.child(`colaboradores/${chaveUsuario}/projeto`).update({
-            [chaveProjeto]: true
-        }).then(function () {
-            console.info("Criou o Projeto Colaborador ");
-        }).catch(function (error) {
-            console.error("Erro ao criar projetoColaborador ", error);
-        });
-    }
 
     editarProjeto(event) {
         event.preventDefault();
@@ -80,8 +72,8 @@ export class ProjetoController extends Controller {
                 db.child(`colaboradores/${snapshot.key}/projeto/`).child(chaveProjeto).remove().then(function () {
                     console.log('Excluido o projeto do Colaborador');
                     return db.child(`projeto/${chaveProjeto}`).remove();
-                }).then(function(ok) {
-                    console.log('Ambos excluidos');                    
+                }).then(function (ok) {
+                    console.log('Ambos excluidos');
                 }).catch(function (error) {
                     console.error("Erro ao excluir colaboradores/Projeto ", error);
                 });
@@ -123,16 +115,10 @@ export class ProjetoController extends Controller {
 
     }
 
-    // TODO: Colocar no Colaborador Controller
-    // pesquisarColaboradorEmail() {
     _pesquisarColaboradorEmail(email) {
-        // event.preventDefault();
-        // let email = $('#InputEmail').val();
         console.log('procuraPorEmail', email);
         db.child(`usuario`).orderByChild('email').equalTo(email).on('child_added', snapshot => {
-            console.log('_pesquisarColaboradorEmail: snapshot.exists()');
             if (snapshot.exists()) {
-                console.log('_pesquisarColaboradorEmail: ', snapshot.val().uid);
                 return (snapshot.val().uid);
             } else {
                 alert('nao achou');
@@ -142,9 +128,15 @@ export class ProjetoController extends Controller {
 
     _criaProjeto() {
         let usuarioLogado = new Colaborador(this.user.id, true);
+        let admin =  {
+            bloqueado : false,
+            finalizado : false,
+            arquivado : false,
+        }
         return new Projeto(
             this._inputNome.val(),
-            usuarioLogado
+            usuarioLogado, 
+            admin
         );
     }
 
