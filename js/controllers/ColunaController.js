@@ -20,7 +20,6 @@ export class ColunaController extends Controller {
 
     onUserLogged() {
         this._init();
-        this._verficiaAdmin();
         this.verficiaConfiguracaoProjeto();
     }
 
@@ -113,17 +112,6 @@ export class ColunaController extends Controller {
         });
     }
 
-    _verficiaAdmin() {
-        db.child(`colaboradores/${this.user.id}/projeto/${this._recuperaChaveProjeto()}`).once('value', snapshot => {
-            if (snapshot.val().admin) {
-                console.log('Você eh o administrador desta pagina');
-                $(".adminProjeto").show();
-            } else {
-                $(".adminProjeto").hide();
-            }
-        });
-    }
-
     bloqueadoProjeto(verifica) {
         db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).update({
             "bloqueado": verifica
@@ -147,15 +135,28 @@ export class ColunaController extends Controller {
         db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).update({
             "arquivado": verifica
         });
+    }   
+
+    _verificaAdmin() {
+        return new Promise((resolve, reject) => { 
+            db.child(`colaboradores/${this.user.id}/projeto/${this._recuperaChaveProjeto()}`).once('value', snapshot => {
+                if (snapshot.val().admin) {
+                    console.log('Você eh o administrador desta pagina');
+                    $(".adminProjeto").show();
+                } else {
+                    $(".adminProjeto").hide();
+                }
+                resolve(snapshot.val().admin);
+            }).catch(erro => {
+                reject('Não Foi possivel obter informacao ',erro);
+            });  
+        });
     }
 
     verficiaConfiguracaoProjeto() {
-        // $('button').removeAttr('disabled');
-
-        db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).once('value', snapshot => {
-            db.child(`colaboradores/${this.user.id}/projeto/${this._recuperaChaveProjeto()}`).once('value', snapshotAdmin => {
-                
-                if (!snapshotAdmin.val().admin) {
+        this._verificaAdmin().then(value => {
+            db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).once('value', snapshot => {
+                if (!value) {
                     if (snapshot.val().arquivado) {
                         alert('Projeto Arquivado');
                         $(location).attr('href', 'home.html');
@@ -177,11 +178,11 @@ export class ColunaController extends Controller {
                         $("#bloquear").show();
                     }
                 }
-            });
-
+            })
+        }).catch(erro => {
+            console.log('Erro ao carregar Promisse ColunaController "verficiaConfiguracaoProjeto" ', erro)
         })
     }
-
 
     mouseoverColuna() {
         const that = this;
@@ -400,7 +401,6 @@ export class ColunaController extends Controller {
         this._inputTitle.focus();
     }
 
-
     // TODO: Mover para Cartao Controller;
     editaCartao(event) {
         event.preventDefault();
@@ -461,7 +461,6 @@ export class ColunaController extends Controller {
                 });
             }
         });
-
     }
 
     _atualizaCartao() {
