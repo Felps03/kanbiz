@@ -56,37 +56,7 @@ export class ColunaController extends Controller {
                                     },
                                 });
                                 $(this).removeClass(cartaoSnapshot.val().corCartao);
-                                if (cartaoSnapshot.val().corCartao) {
-                                    $('.kanban-item').each(function (item) {
-                                        if (cartaoSnapshot.key === (this).getAttribute('data-eid')) {
-                                            $(this).addClass(cartaoSnapshot.val().corCartao);
-                                        }
-                                    });
-                                };
-                                if (cartaoSnapshot.val().dataEntrega) {
-                                    $('.kanban-item').each(function (item) {
-                                        if (cartaoSnapshot.key === (this).getAttribute('data-eid')) {
-                                            $(this).append(ColunaView.dataEntrega(cartaoSnapshot.val().dataEntrega));
-                                        }
-                                    })
-                                }
-                                if (cartaoSnapshot.val().colaborador) {
-                                    db.child(`usuario/${cartaoSnapshot.val().colaborador}`).once('value', snapshotUsuario => {
-                                        if (snapshotUsuario.exists()) {
-                                            let nome = snapshotUsuario.val().nome ? snapshotUsuario.val().nome : snapshotUsuario.val().email;
-                                            let fotoUrl = snapshotUsuario.val().fotoUrl ? snapshotUsuario.val().fotoUrl : "https://raw.githubusercontent.com/Felps03/kanbiz/master/images/placeholder.jpeg";
-                                            if (cartaoSnapshot.val().colaborador) {
-                                                $('.kanban-item').each(function (item) {
-                                                    if (cartaoSnapshot.key === (this).getAttribute('data-eid')) {
-                                                        if ($(this).find('div.fotoColaborador').length == 0) {
-                                                            $(this).append(ColunaView.fotoColaboradorCartao(nome, fotoUrl));
-                                                        }
-                                                    }
-                                                })
-                                            }
-                                        }
-                                    });
-                                }
+                                that.configuracaoCartao(cartaoSnapshot);
                             }
                             this.mouseoverCartao();
                         });
@@ -112,12 +82,48 @@ export class ColunaController extends Controller {
         });
     }
 
+    configuracaoCartao(cartaoSnapshot) {
+        if (cartaoSnapshot.val().corCartao) {
+            $('.kanban-item').each(function (item) {
+                if (cartaoSnapshot.key === (this).getAttribute('data-eid')) {
+                    $(this).addClass(cartaoSnapshot.val().corCartao);
+                }
+            });
+        };
+        if (cartaoSnapshot.val().dataEntrega) {
+            $('.kanban-item').each(function (item) {
+                if (cartaoSnapshot.key === (this).getAttribute('data-eid')) {
+                    $(this).append(ColunaView.dataEntrega(cartaoSnapshot.val().dataEntrega));
+                }
+            })
+        }
+        if (cartaoSnapshot.val().colaborador) {
+            db.child(`usuario/${cartaoSnapshot.val().colaborador}`).once('value', snapshotUsuario => {
+                if (snapshotUsuario.exists()) {
+                    let nome = snapshotUsuario.val().nome ? snapshotUsuario.val().nome : snapshotUsuario.val().email;
+                    let fotoUrl = snapshotUsuario.val().fotoUrl ? snapshotUsuario.val().fotoUrl : "https://raw.githubusercontent.com/Felps03/kanbiz/master/images/placeholder.jpeg";
+                    if (cartaoSnapshot.val().colaborador) {
+                        $('.kanban-item').each(function (item) {
+                            if (cartaoSnapshot.key === (this).getAttribute('data-eid')) {
+                                if ($(this).find('div.fotoColaborador').length == 0) {
+                                    $(this).append(ColunaView.fotoColaboradorCartao(nome, fotoUrl));
+                                }
+                            }
+                        })
+                    }
+                }
+            });
+        }
+
+    }
+
+
     bloqueadoProjeto(verifica) {
         db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).update({
             "bloqueado": verifica
         });
-        let parm; 
-        if(verifica)  parm = "bloquado";
+        let parm;
+        if (verifica) parm = "bloquado";
         else parm = "desbloqueado";
 
         alert(`O projeto foi ${parm}`);
@@ -135,10 +141,10 @@ export class ColunaController extends Controller {
         db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).update({
             "arquivado": verifica
         });
-    }   
+    }
 
     _verificaAdmin() {
-        return new Promise((resolve, reject) => { 
+        return new Promise((resolve, reject) => {
             db.child(`colaboradores/${this.user.id}/projeto/${this._recuperaChaveProjeto()}`).once('value', snapshot => {
                 if (snapshot.val().admin) {
                     console.log('Você eh o administrador desta pagina');
@@ -148,8 +154,8 @@ export class ColunaController extends Controller {
                 }
                 resolve(snapshot.val().admin);
             }).catch(erro => {
-                reject('Não Foi possivel obter informacao ',erro);
-            });  
+                reject('Não Foi possivel obter informacao ', erro);
+            });
         });
     }
 
@@ -166,7 +172,7 @@ export class ColunaController extends Controller {
                         $('button').attr('disabled', 'disabled');
                     }
                     if (snapshot.val().finalizado) {
-                        alert('Projeto Arquivado');
+                        alert('Projeto finalizado');
                         $(location).attr('href', 'home.html');
                     }
                 } else {

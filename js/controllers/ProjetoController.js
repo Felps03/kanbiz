@@ -128,7 +128,7 @@ export class ProjetoController extends Controller {
 
     _criaProjeto() {
         let usuarioLogado = new Colaborador(this.user.id, true);
-        let admin =  {
+        let _admin =  {
             bloqueado : false,
             finalizado : false,
             arquivado : false,
@@ -136,7 +136,7 @@ export class ProjetoController extends Controller {
         return new Projeto(
             this._inputNome.val(),
             usuarioLogado, 
-            admin
+            _admin
         );
     }
 
