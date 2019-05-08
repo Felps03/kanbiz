@@ -49,7 +49,7 @@ export class ProjetoController extends Controller {
             .catch( (error) => console.error("Erro ao vincular projeto ao Colaborador ", error));
         }).catch( (error) => console.error("Erro ao criar Projeto ", error))
         .finally( () => $('#modalCriaProjeto').modal('hide')); 
-        this._limpaFormulario()
+        this._limpaFormulario();
     }
 
 

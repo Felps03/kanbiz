@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import * as bootstrap from "bootstrap";
 
 import { db } from '../config/fb';
 
@@ -25,7 +26,7 @@ export class TimeController extends Controller {
         db.child(`colaboradores/${this.user.id}/times`).on('value', snapshot => {
             $('#times-painel-lateral').empty();
             $('#times-painel-lateral-nao-aceito').empty();
-            if(snapshot.exists()){
+            if (snapshot.exists()) {
                 snapshot.forEach(value => {
                     if (value.val()) {
                         db.child(`time/${value.key}`).on('value', snapshotTime => {
@@ -68,7 +69,7 @@ export class TimeController extends Controller {
     }
 
     buscaDetalheTime() {
-        $(".d-flex" ).removeClass( "fundoCinza" );
+        $(".d-flex").removeClass("fundoCinza");
         $('#formTimeTudo').show();
         $("#projetosTime").hide();
         $('#panel-speakers').hide();
@@ -152,7 +153,7 @@ export class TimeController extends Controller {
     }
 
     listaColaboradorTime() {
-        $(".d-flex" ).addClass( "fundoCinza" );
+        $(".d-flex").addClass("fundoCinza");
         $('#listaMembros').empty();
         let chaveTime = this._recuperaChaveTime();
         db.child(`time/${chaveTime}/_colaboradores`).on('value', snapshot => {
@@ -167,7 +168,7 @@ export class TimeController extends Controller {
         });
     }
 
-    _recuperaChaveTime(){
+    _recuperaChaveTime() {
         let url_string = window.location.href;
         let url = new URL(url_string);
         return (url.searchParams.get("chave"));
@@ -182,15 +183,52 @@ export class TimeController extends Controller {
         );
     }
 
-    projetoTime(){
+    projetoTime() {
         $("#panel-speakers").hide();
         $("#formTimeTudo").hide();
         $("#projetosTime").show();
-        
+        db.child(`time/${this._recuperaChaveTime()}/_projeto`).on('value', snapshot => {
+            if (snapshot.exists()) {
+                snapshot.forEach(value => {
+                    db.child(`projeto/${value.key}`).once('value', snapshotProjeto => {
+                        console.log(snapshotProjeto.val());
+                    })
+                })
+            }
+        });
+    }
+
+    criaProjetoTime(event) {
+        // event.preventDefault();
+        let projeto = {
+            _time: this._recuperaChaveTime(),
+            _nome: "Felipe",
+            _colaboradores: {
+                [this.user.id]: true
+            },
+            admin: {
+                bloqueado: false,
+                finalizado: false,
+                arquivado: false,
+            }
+        };
+        db.child('projeto').push(projeto).then(snapshot => {
+            db.child(`colaboradores/${this.user.id}/projeto`).update({
+                [snapshot.key]: {
+                    admin: true
+                }
+            });
+            db.child(`time/${this._recuperaChaveTime()}/_projeto`).update({
+                [snapshot.key]: true
+            });
+        }).catch((error) => console.error("Erro ao criar Projeto ", error))
+            .finally(() => $('#modalCriaProjeto').modal('hide'));
+        this._limpaFormulario();
+
     }
 
     // TODO: Deve excluir os times vinculados
-    _excluirTime(){
+    _excluirTime() {
         db.child(`time/${this._recuperaChaveTime()}`).remove();
         $(location).attr('href', 'home.html');
     }
