@@ -1,3 +1,6 @@
+import 'bootstrap';
+import $ from 'jquery';
+
 import { db, auth } from '../config/fb';
 
 import { Controller } from './Controller';
@@ -40,5 +43,37 @@ export class ColaboradorController extends Controller {
     _limpaFormulario() {
         this._inputNome.value = '';
         this._inputNome.focus();
+    }
+
+    atualizaColabadorador() {
+        this._init();
+        console.log(this.user);
+        let nome = this.user.nome ? this.user.nome : "";
+        $("#InputNomeUser").val(nome);
+        $("#InputEmailUser").val(this.user.email);
+        $('#modalEditaPerfil').modal('show');
+    }
+
+
+    editaPerfil(event) {
+        event.preventDefault();
+        auth.currentUser.updateProfile({
+            displayName: $("#InputNomeUser").val(),
+            email: $("#InputEmailUser").val()
+        }).then(function () {
+            $(location).attr('href', "home.html");
+        }).catch(function (error) {
+            console.log('erro ao atualizar perfil ', error);
+        });
+        $('#modalEditaPerfil').modal('hide');
+    }
+
+    excluirPerfil(event) {
+        event.preventDefault();
+        auth.currentUser.delete().then(function () {
+            $(location).attr('href', "index.html");
+        }).catch(function (error) {
+            console.log('erro ao excluir perfil ', error);
+        });
     }
 }
