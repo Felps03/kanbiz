@@ -187,11 +187,13 @@ export class TimeController extends Controller {
         $("#panel-speakers").hide();
         $("#formTimeTudo").hide();
         $("#projetosTime").show();
+        let that = this;
         db.child(`time/${this._recuperaChaveTime()}/_projeto`).on('value', snapshot => {
             if (snapshot.exists()) {
+                $('#painelProjetoPrincipal').empty();
                 snapshot.forEach(value => {
                     db.child(`projeto/${value.key}`).once('value', snapshotProjeto => {
-                        console.log(snapshotProjeto.val());
+                        $('#painelProjetoPrincipal').append(that._timeView.linha(snapshotProjeto.val(), snapshotProjeto.key));
                     })
                 })
             }
