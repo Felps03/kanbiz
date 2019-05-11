@@ -47,7 +47,7 @@ export class ColaboradorController extends Controller {
 
     atualizaColabadorador() {
         this._init();
-        console.log(this.user);
+        //console.log(this.user);
         let nome = this.user.nome ? this.user.nome : "";
         $("#InputNomeUser").val(nome);
         $("#InputEmailUser").val(this.user.email);

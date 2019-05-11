@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/png" href="./images/favicon.png"/>
+    <link rel="shortcut icon" type="image/png" href="./images/favicon.png" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Autenticação Kan Business</title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
@@ -18,8 +18,6 @@
     <h1>Autenticação</h1>
     <div class="col-md-4">
 
-        <h3 class="text-center" id="displayName">Você não está autenticado</h3><br>
-
         <form>
             <div class="form-group">
                 <label for="emailInput">E-mail</label>
@@ -29,12 +27,12 @@
                 <label for="passwordInput">Senha</label>
                 <input type="password" class="form-control" id="passwordInput" placeholder="Senha">
             </div>
-
         </form>
 
+        <div id="mensagemView"></div>
 
         <button class="btn btn-lg btn-block btn-primary" id="authEmailPassButton">Autenticar</button>
-        <button class="btn btn-lg btn-block btn-info" id="createUserButton">Criar Nova Conta</button><br/>
+        <button class="btn btn-lg btn-block btn-info" id="createUserButton">Criar Nova Conta</button><br />
 
         <p class="text-center"><small>-- ou --</small></p>
         <p class="text-center">
@@ -45,7 +43,7 @@
     <a href="home.html"></a>
     <a href="time.html"></a>
     <a href="projeto.html"></a>
-    
+
     <a class="button btn-warning" href="esqueciSenha.html">Esqueceu sua senha?</a>
 
     <script src="./node_modules/popper.js/dist/popper.min.js"></script>
@@ -53,4 +51,5 @@
     <script src="./node_modules/handlebars/dist/handlebars.min.js"></script>
     <script src="./js/main.js"></script>
 </body>
+
 </html>

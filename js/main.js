@@ -10,6 +10,7 @@ let paginaHome = "home.html";
  * @param {String} senhaInput senha do usuario
  */
 $("#createUserButton").click( function() {
+    $("#mensagemView").empty();
     let emailInput = $('#emailInput').val();
     let senhaInput = $('#passwordInput').val();
     auth.createUserWithEmailAndPassword(emailInput, senhaInput)
@@ -17,9 +18,9 @@ $("#createUserButton").click( function() {
             alert('Bem vindo ' + emailInput);
             window.location.href = paginaHome;
         }).catch(function (error) {
-            console.error(error.code);
-            console.error(error.message);
-            alert('Falha ao cadastrar, verifique o erro no console.')
+            // console.error(error.code);
+            // console.error(error.message);
+            $("#mensagemView").append(mensagemView("A senha deve ter pelo menos 6 caracteres"));
         });
 });
 
@@ -29,18 +30,19 @@ $("#createUserButton").click( function() {
  * @param {String} senhaInput senha do usuario
  */
 $("#authEmailPassButton").click( function() {
+    $("#mensagemView").empty();
     let emailInput = $('#emailInput').val();
     let senhaInput = $('#passwordInput').val();
     let displayName = $('#displayName');
     auth.signInWithEmailAndPassword(emailInput, senhaInput).then(function (result) {
             console.log(result);
             displayName.innerText = 'Bem vindo, ' + emailInput;
-            alert('Autenticado ' + emailInput);
+            // alert('Autenticado ' + emailInput);
             window.location.href = paginaHome;
         }).catch(function (error) {
-            console.error(error.code);
-            console.error(error.message);
-            alert('Falha ao autenticar, verifique o erro no console.')
+            // console.error(error.code);
+            // console.error(error.message);
+            $("#mensagemView").append(mensagemView("A senha é inválida"));
         });
 });
 
@@ -50,10 +52,10 @@ $("#authEmailPassButton").click( function() {
 $("#logOutButton").click( function() {
     auth.signOut().then(function () {
         displayName.innerText = 'Você não está autenticado';
-        alert('Você se deslogou');
+        // alert('Você se deslogou');
         window.location.href = paginaHome;
     }, function (error) {
-        console.error(error);
+        // console.error(error);
     });
 });
 
@@ -70,7 +72,12 @@ function signIn(provider) {
         displayName.innerText = 'Bem vindo, ' + result.user.displayName;
         window.location.href = paginaHome;
     }).catch(function (error) {
-        console.log(error);
-        alert('Falha na autenticação');
+        // console.log(error);
+        // alert('Falha na autenticação');
     });
+}
+
+
+function mensagemView(texto){ 
+    return `<p class="alert alert-dark">${texto} </p>`
 }
