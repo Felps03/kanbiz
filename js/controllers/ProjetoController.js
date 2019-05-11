@@ -45,8 +45,7 @@ export class ProjetoController extends Controller {
                 [snapshot.key] :  {
                     admin : true
                 }
-            }).then( () => console.info("Colaborador vinculado com o Projeto com sucesso"))
-            .catch( (error) => console.error("Erro ao vincular projeto ao Colaborador ", error));
+            })
         }).catch( (error) => console.error("Erro ao criar Projeto ", error))
         .finally( () => $('#modalCriaProjeto').modal('hide')); 
         this._limpaFormulario();
@@ -113,17 +112,6 @@ export class ProjetoController extends Controller {
             console.error("Erro ao criar timeColaborador ", error);
         });
 
-    }
-
-    _pesquisarColaboradorEmail(email) {
-        console.log('procuraPorEmail', email);
-        db.child(`usuario`).orderByChild('email').equalTo(email).on('child_added', snapshot => {
-            if (snapshot.exists()) {
-                return (snapshot.val().uid);
-            } else {
-                alert('nao achou');
-            }
-        });
     }
 
     _criaProjeto() {

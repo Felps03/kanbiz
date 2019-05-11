@@ -235,12 +235,46 @@
                 </div>
             </div>
 
+
+            <!-- Convida Membro -->
+            <div class="modal fade" id="modalConvidaMembro">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Convida Membro</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <form class="form" id="convidaMembroProjeto">
+                                <div class="form-group">
+                                    <label for="InputEmailColaborador">E-mail </label>
+                                    <input type="email" class="form-control" id="InputEmailColaborador"
+                                        placeholder="Nome" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Convida Membro</button>
+                            </form>
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <div id="mensagemView"></div>
 
         <br><br>
         <button type="button" class="btn btn-success" id="addBoard">Adicionar Coluna</button>
+        <button type="button" class="btn btn-secondary" id="addColaborador">Convida Colaborador</button>
 
         <div class="adminProjeto">
             <button type="button" class="btn btn-warning" id="bloquear">Bloquear</button>

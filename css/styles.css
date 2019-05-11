@@ -191,8 +191,10 @@ form label {
   bottom: 0;
   width: 100%;
 }
-
-<<<<<<< HEAD
+.painelTime{
+  margin-left: 1.5em;
+  margin-top: 4.5em;
+}
 
 /* COluna */
 
@@ -240,9 +242,3 @@ form label {
  */
 
 
-=======
-.painelTime{
-  margin-left: 1.5em;
-  margin-top: 4.5em;
-}
->>>>>>> d96ae4a19000d78ecfe5497e8e67a3c9d9588bda

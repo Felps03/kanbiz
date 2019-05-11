@@ -68,4 +68,10 @@ export class CartaoController extends Controller {
         this._InputUIDColuna.val('');
         this._InputCartao.val('');
     }
+
+    _recuperaChaveProjeto() {
+        let url_string = window.location.href;
+        let url = new URL(url_string);
+        return (url.searchParams.get("chave"));
+    }
 }

@@ -248,7 +248,6 @@ export class ColunaController extends Controller {
                     db.child(`projeto/${that._recuperaChaveProjeto()}/_colaboradores`).once('value', snapshot => {
                         snapshot.forEach(value => {
                             db.child(`usuario/${value.key}`).once('value', snapshotUsuario => {
-                                $('#InputCartaoColaborador').append(`<option value=""> </option>`);
                                 if (snapshotUsuario.exists()) {
                                     let nome = snapshotUsuario.val().nome ? snapshotUsuario.val().nome + " |" : "";
                                     let select = nome + ' ' + snapshotUsuario.val().email;
@@ -256,6 +255,7 @@ export class ColunaController extends Controller {
                                 }
                             });
                         });
+                        $('#InputCartaoColaborador').append(`<option value=""> </option>`);
                     });
                     db.child(`cartao/${eidCartao}`).once('value', snapshot => {
                         $("#InputUIDEdita").val(snapshot.key);
@@ -453,11 +453,13 @@ export class ColunaController extends Controller {
 
     _editaColuna(idColuna) {
         db.child(`coluna/${idColuna}`).once('value', snapshot => {
-            $('#InputTituloColunaEdita').val(snapshot.val().title);
-            $('#InputLimitadorColunaEdita').val(snapshot.val().limit);
-            $('#InputClasseColunaEdita').val(snapshot.val().class);
-            $('#InputIDColuna').val(idColuna);
-            $('#modalEditaColuna').modal('show');
+            if(snapshot.exists()) {
+                $('#InputTituloColunaEdita').val(snapshot.val().title);
+                $('#InputLimitadorColunaEdita').val(snapshot.val().limit);
+                $('#InputClasseColunaEdita').val(snapshot.val().class);
+                $('#InputIDColuna').val(idColuna);
+                $('#modalEditaColuna').modal('show');
+            }            
         }).catch(function (error) {
             console.error("Erro ao carregar dados do cartao ", error);
         });
@@ -485,6 +487,37 @@ export class ColunaController extends Controller {
                 });
             }
         });
+    }
+
+    _pesquisarColaboradorEmail(event) {
+        event.preventDefault();
+        let email = $("#InputEmailColaborador").val()
+        db.child(`usuario`).orderByChild('email').equalTo(email).on('child_added', snapshot => {
+            if (snapshot.exists()) {
+                this.convidaMembro(snapshot.val().uid);
+            } else {
+                alert('nao achou');
+            }
+        });
+    }
+
+    convidaMembro(id) {
+        let chaveProjeto = this._recuperaChaveProjeto();
+        db.child('projeto').child(chaveProjeto).child('_colaboradores').update({
+            [id]: true
+        }).then(function () {
+            console.log('foi');
+        });
+
+        db.child(`colaboradores/${id}/projeto`).update({
+            [chaveProjeto]: true
+        }).then(function () {
+            alert('Colaborador Convidado');
+        }).catch(function (error) {
+            console.error("Erro ao criar timeColaborador ", error);
+            $(location).attr('href', 'home.html');
+        });
+        $('#modalConvidaMembro').modal('hide');
     }
 
     _atualizaCartao() {

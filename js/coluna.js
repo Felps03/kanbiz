@@ -11,6 +11,14 @@ $("#addBoard").click(function () {
     $('#modalCriaColuna').modal('show');
 });
 
+$("#addColaborador").click(function() {
+    $('#modalConvidaMembro').modal('show');
+});
+
+
+const convidaMembroProjeto = document.getElementById('convidaMembroProjeto');
+convidaMembroProjeto.addEventListener('submit', colunaController._pesquisarColaboradorEmail.bind(colunaController));
+
 const formColunaModal = document.getElementById('criaColuna');
 formColunaModal.addEventListener('submit', colunaController.adicionaColuna.bind(colunaController));
 
