@@ -6,6 +6,7 @@ import { db } from '../config/fb';
 import { Controller } from './Controller';
 import { Coluna } from '../models/Coluna';
 import { ColunaView } from '../views/ColunaView';
+import { MensagemView } from '../views/MensagemView';
 
 import { Cartao } from '../models/Cartao';
 
@@ -16,6 +17,7 @@ export class ColunaController extends Controller {
         this._inputTitle = $('#InputTituloColuna');
         this._inputClass = $('#InputClasseColuna');
         this._inputLimitador = $('#InputLimitadorColuna');
+        this._mensagemView = new MensagemView('#mensagemView');
     }
 
     onUserLogged() {
@@ -23,7 +25,6 @@ export class ColunaController extends Controller {
         this.verficiaConfiguracaoProjeto();
     }
 
-    // TODO: Verficar projeto vinculado
     _init() {
         const that = this;
         db.child(`coluna`).orderByChild(`_projeto`).equalTo(that._recuperaChaveProjeto()).on('value', snapshot => {
@@ -65,20 +66,6 @@ export class ColunaController extends Controller {
                 this.mouseoverColuna();
                 this.verficiaConfiguracaoProjeto();
             });
-            this._kanban.removeBoard("_criarCard");
-            this._kanban.addBoards([{
-                "id": "_criarCard",
-                "title": "Criar Coluna",
-                "item": [
-                    {
-                        "id": "testeid",
-                        "title": "Clique Aqui para criar coluna!",
-                        "click": function (el) {
-                            $('#modalCriaColuna').modal('show');
-                        },
-                    }
-                ]
-            }]);
         });
     }
 
@@ -114,7 +101,6 @@ export class ColunaController extends Controller {
                 }
             });
         }
-
     }
 
 
@@ -122,11 +108,6 @@ export class ColunaController extends Controller {
         db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).update({
             "bloqueado": verifica
         });
-        let parm;
-        if (verifica) parm = "bloquado";
-        else parm = "desbloqueado";
-
-        alert(`O projeto foi ${parm}`);
         this.verficiaConfiguracaoProjeto();
     }
 
@@ -134,7 +115,6 @@ export class ColunaController extends Controller {
         db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).update({
             "finalizado": verifica
         });
-        alert('projeto bloqueado');
     }
 
     arquivaProjeto(verifica) {
@@ -147,7 +127,6 @@ export class ColunaController extends Controller {
         return new Promise((resolve, reject) => {
             db.child(`colaboradores/${this.user.id}/projeto/${this._recuperaChaveProjeto()}`).once('value', snapshot => {
                 if (snapshot.val().admin) {
-                    console.log('Você eh o administrador desta pagina');
                     $(".adminProjeto").show();
                 } else {
                     $(".adminProjeto").hide();
@@ -160,15 +139,26 @@ export class ColunaController extends Controller {
     }
 
     verficiaConfiguracaoProjeto() {
-        this._verificaAdmin().then(value => {
-            db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).once('value', snapshot => {
-                if (!value) {
+        this._verificaAdmin().then(admin => {
+            db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).on('value', snapshot => {
+                $("#mensagemView").empty();
+
+                if (snapshot.val().bloqueado) {
+                    $("#mensagemView").append(this._mensagemView.template(`Projeto está Bloqueado!`));
+                }
+                if (snapshot.val().finalizado) {
+                    $("#mensagemView").append(this._mensagemView.template('Projeto está Finalizado!'));
+                }
+                if (snapshot.val().arquivado) {
+                    $("#mensagemView").append(this._mensagemView.template('Projeto está Arquivado!'));
+                }
+
+                if (!admin) {
                     if (snapshot.val().arquivado) {
                         alert('Projeto Arquivado');
                         $(location).attr('href', 'home.html');
                     }
                     if (snapshot.val().bloqueado) {
-                        console.log('Projeto Bloqueado');
                         $('button').attr('disabled', 'disabled');
                     }
                     if (snapshot.val().finalizado) {
@@ -177,12 +167,29 @@ export class ColunaController extends Controller {
                     }
                 } else {
                     if (snapshot.val().bloqueado) {
-                        $("#bloquear").hide();
                         $("#desbloquear").show();
+                        $("#bloquear").hide();
+                        $("#addBoard").hide();
                     } else {
-                        $("#desbloquear").hide();
                         $("#bloquear").show();
+                        $("#desbloquear").hide();
+                        $("#addBoard").show();
                     }
+                    if (snapshot.val().finalizado) {
+                        $("#finalizar").hide();
+                        $("#desfinalizar").show();
+                    } else {
+                        $("#finalizar").show();
+                        $("#desfinalizar").hide();
+                    }
+                    if (snapshot.val().arquivado) {
+                        $("#arquivar").hide();
+                        $("#desarquivar").show();
+                    } else {
+                        $("#desarquivar").hide();
+                        $("#arquivar").show();
+                    }
+
                 }
             })
         }).catch(erro => {
@@ -311,13 +318,17 @@ export class ColunaController extends Controller {
      * Remover Cartao do projeto  ao mover
      */
     _atualizaColunaCartao(chaveCartao, chaveColuna) {
-        db.child(`coluna/${chaveColuna}/cartao`).update({
-            [chaveCartao]: true
-        }).then(function () {
-            console.info("Atualiza Coluna ");
-        }).catch(function (error) {
-            console.error("Erro ao criar coluna ", error);
-        });
+        db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).once('value', snapshot => {
+            if ((!snapshot.val().bloqueado) && (!snapshot.val().arquivado) && (!snapshot.val().finalizado)) {
+                db.child(`coluna/${chaveColuna}/cartao`).update({
+                    [chaveCartao]: true
+                }).then(function () {
+                    // console.log('atualizando...')
+                }).catch(function (error) {
+                    console.error("Erro ao criar coluna ", error);
+                });
+            }
+        })
     }
 
     /**
@@ -327,11 +338,15 @@ export class ColunaController extends Controller {
      * Remover Cartao do projeto  ao mover
      */
     _removeColunaCartao(chaveCartao, chaveColuna) {
-        db.child(`coluna/${chaveColuna}/cartao/${chaveCartao}`).remove().then(function () {
-            console.log('removendo...');
-        }).catch(function (error) {
-            console.error("Erro ao criar coluna ", error);
-        });
+        db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).once('value', snapshot => {
+            if ((!snapshot.val().bloqueado) && (!snapshot.val().arquivado) && (!snapshot.val().finalizado)) {
+                db.child(`coluna/${chaveColuna}/cartao/${chaveCartao}`).remove().then(function () {
+                    console.log('removendo...');
+                }).catch(function (error) {
+                    console.error("Erro ao criar coluna ", error);
+                });
+            }
+        })
     }
 
     /**
@@ -362,11 +377,15 @@ export class ColunaController extends Controller {
             limit: $('#InputLimitadorColunaEdita').val(),
             class: $('#InputClasseColunaEdita').val(),
         };
-        db.child(`coluna`).child($('#InputIDColuna').val()).update(coluna).catch(function (error) {
-            console.error("Erro ao atualizar coluna ", error);
-        }).finally(function () {
-            $('#modalEditaColuna').modal('hide');
-        });
+        db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).once('value', snapshot => {
+            if ((!snapshot.val().bloqueado) && (!snapshot.val().arquivado) && (!snapshot.val().finalizado)) {
+                db.child(`coluna`).child($('#InputIDColuna').val()).update(coluna).catch(function (error) {
+                    console.error("Erro ao atualizar coluna ", error);
+                }).finally(function () {
+                    $('#modalEditaColuna').modal('hide');
+                });
+            }
+        })
     }
 
     adicionaColuna(event) {
@@ -385,7 +404,7 @@ export class ColunaController extends Controller {
         db.child(`projeto/${this._recuperaChaveProjeto()}/coluna`).update({
             [chaveColuna]: true
         }).then(function () {
-            console.info("Criou o Projeto Colaborador ");
+            // console.info("Criou o Projeto Colaborador ");
         }).catch(function (error) {
             console.error("Erro ao criar projetoColaborador ", error);
         });
@@ -402,7 +421,6 @@ export class ColunaController extends Controller {
 
     _limpaFormulario() {
         this._inputTitle.val('');
-        this._inputClass.val(' ');
         this._inputLimitador.val(' ');
         this._inputTitle.focus();
     }
@@ -463,7 +481,7 @@ export class ColunaController extends Controller {
                 });
                 db.child(`coluna/${idColuna}`).remove().then(function () {
                     that._kanban.removeBoard(idColuna);
-                    console.log('removendo cartao ...');
+                    // console.log('removendo cartao ...');
                 });
             }
         });

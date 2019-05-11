@@ -191,3 +191,51 @@ form label {
   bottom: 0;
   width: 100%;
 }
+
+
+/* COluna */
+
+
+
+/* 
+.criar-board {
+  width: 250px;
+  margin-left: 5px;
+  margin-right: 5px;
+  position: relative;
+  float: left;
+  background: #E2E4E6;
+  transition: all 0.3s;
+  box-sizing: border-box;
+  top: 19px;
+  height: 257px;
+}
+
+.criar-board-header {
+  font-size: 16px;
+  padding: 15px;
+}
+
+.criar-board-title-board {
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+
+.criar-board-drag {
+  min-height: 200px;
+  padding: 20px;
+}
+
+.criar-board-item {
+  position: relative;
+  background: #fff;
+  padding: 15px;
+  margin-bottom: 20px;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+ */
+
+

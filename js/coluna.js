@@ -7,6 +7,10 @@ import Kanban from './kanban/kanbiz';
 const colunaController = new ColunaController(Kanban);
 const cartaoController = new CartaoController(Kanban);
 
+$("#addBoard").click(function () {
+    $('#modalCriaColuna').modal('show');
+});
+
 const formColunaModal = document.getElementById('criaColuna');
 formColunaModal.addEventListener('submit', colunaController.adicionaColuna.bind(colunaController));
 
@@ -30,5 +34,11 @@ desbloquearProjeto.addEventListener('click', colunaController.bloqueadoProjeto.b
 const finalizarProjeto = document.getElementById('finalizar');
 finalizarProjeto.addEventListener('click', colunaController.finalizaProjeto.bind(colunaController, true));
 
+const desfinalizarProjeto = document.getElementById('desfinalizar');
+desfinalizarProjeto.addEventListener('click', colunaController.finalizaProjeto.bind(colunaController, false));
+
 const arquivarProjeto = document.getElementById('arquivar');
 arquivarProjeto.addEventListener('click', colunaController.arquivaProjeto.bind(colunaController, true));
+
+const desarquivarProjeto = document.getElementById('desarquivar');
+desarquivarProjeto.addEventListener('click', colunaController.arquivaProjeto.bind(colunaController, false));

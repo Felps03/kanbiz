@@ -26,10 +26,14 @@ export class CartaoController extends Controller {
     adicionaCartao(event) {
         event.preventDefault();
         let cartao = this._criaCartao();
-        db.child('cartao').push(cartao).then(snapshot => {
-            this.adicionaCartaoColuna(snapshot.key, cartao.uidBord);
-        }).catch(function (error) {
-            console.error("Erro ao criar projeto ", error);
+        db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).once('value', snapshot => {
+            if ((!snapshot.val().bloqueado) && (!snapshot.val().arquivado) && (!snapshot.val().finalizado)) {
+                db.child('cartao').push(cartao).then(snapshot => {
+                    this.adicionaCartaoColuna(snapshot.key, cartao.uidBord);
+                }).catch(function (error) {
+                    console.error("Erro ao criar projeto ", error);
+                });
+            }
         });
         $('#modalCriaCartao').modal('hide');
     }
