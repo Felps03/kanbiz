@@ -26,9 +26,10 @@ export class ProjetoController extends Controller {
                 $('#painelProjetoPrincipal').empty();
                 snapshot.forEach(value => {
                     db.child(`projeto/${value.key}`).once('value', snapshotProjeto => {
-                        $("#lds-spinner").hide();
-                        $('#painelProjetoPrincipal').append(this._timeView.painel(snapshotProjeto.val(), snapshotProjeto.key));
-
+                        if (snapshotProjeto.exists()) {
+                            $("#lds-spinner").hide();
+                            $('#painelProjetoPrincipal').append(this._timeView.painel(snapshotProjeto.val(), snapshotProjeto.key));
+                        }
                     })
                 });
             } else {
@@ -53,7 +54,7 @@ export class ProjetoController extends Controller {
 
     atualizaProjeto() {
         let idProjeto = this._recuperaChaveProjeto();
-        db.child(`projeto/${idProjeto}`).on('value',snapshot => {
+        db.child(`projeto/${idProjeto}`).on('value', snapshot => {
             $('#InputNomeProjetoEdita').val(snapshot.val()._nome);
             $('#InputUIDProjeto').val(snapshot.key);
             $('#modalEditaProjeto').modal('show');
@@ -79,7 +80,7 @@ export class ProjetoController extends Controller {
                 db.child(`colaboradores/${snapshot.key}/projeto/`).child(chaveProjeto).remove().then(function () {
                     console.log('Excluido o projeto do Colaborador');
                 }).then(function () {
-                    
+
                 }).catch(function (error) {
                     console.error("Erro ao excluir colaboradores/Projeto ", error);
                 });

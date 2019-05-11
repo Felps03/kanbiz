@@ -30,11 +30,13 @@ export class TimeController extends Controller {
                 snapshot.forEach(value => {
                     if (value.val()) {
                         db.child(`time/${value.key}`).on('value', snapshotTime => {
-                            $('#times-painel-lateral').append(this._timeView.painelLateral(snapshotTime.val(), snapshotTime.key));
+                            if(snapshotTime.exists())
+                                $('#times-painel-lateral').append(this._timeView.painelLateral(snapshotTime.val(), snapshotTime.key));
                         });
                     } else {
                         db.child(`time/${value.key}`).on('value', snapshotTime => {
-                            $('#times-painel-lateral-nao-aceito').append(this._timeView.painelLateralNaoAceito(snapshotTime.val(), snapshotTime.key));
+                            if(snapshotTime.exists())
+                                $('#times-painel-lateral-nao-aceito').append(this._timeView.painelLateralNaoAceito(snapshotTime.val(), snapshotTime.key));
                         });
                     }
                     $("#lds-spinner").hide();
@@ -193,7 +195,8 @@ export class TimeController extends Controller {
                 $('#painelProjetoPrincipal').empty();
                 snapshot.forEach(value => {
                     db.child(`projeto/${value.key}`).once('value', snapshotProjeto => {
-                        $('#painelProjetoPrincipal').append(that._timeView.linha(snapshotProjeto.val(), snapshotProjeto.key));
+                        if(snapshotProjeto.exists())    
+                            $('#painelProjetoPrincipal').append(that._timeView.linha(snapshotProjeto.val(), snapshotProjeto.key));
                     })
                 })
             }
@@ -201,38 +204,46 @@ export class TimeController extends Controller {
     }
 
     criaProjetoTime(event) {
-        // event.preventDefault();
-        let projeto = {
-            _time: this._recuperaChaveTime(),
-            _nome: "Felipe",
-            _colaboradores: {
-                [this.user.id]: true
-            },
-            admin: {
-                bloqueado: false,
-                finalizado: false,
-                arquivado: false,
-            }
-        };
-        db.child('projeto').push(projeto).then(snapshot => {
-            db.child(`colaboradores/${this.user.id}/projeto`).update({
-                [snapshot.key]: {
-                    admin: true
-                }
-            });
-            db.child(`time/${this._recuperaChaveTime()}/_projeto`).update({
-                [snapshot.key]: true
-            });
-        }).catch((error) => console.error("Erro ao criar Projeto ", error))
-            .finally(() => $('#modalCriaProjeto').modal('hide'));
-        this._limpaFormulario();
+        event.preventDefault();
 
+        if ($("#InputNomeProjetoTime").val() !== "" && $("#InputNomeProjetoTime").val() !== 'undefined') {
+            let projeto = {
+                _time: this._recuperaChaveTime(),
+                _nome: $("#InputNomeProjetoTime").val(),
+                _colaboradores: {
+                    [this.user.id]: true
+                },
+                admin: {
+                    bloqueado: false,
+                    finalizado: false,
+                    arquivado: false,
+                }
+            };
+
+            db.child('projeto').push(projeto).then(snapshot => {
+                db.child(`colaboradores/${this.user.id}/projeto`).update({
+                    [snapshot.key]: {
+                        admin: true
+                    }
+                });
+                db.child(`time/${this._recuperaChaveTime()}/_projeto`).update({
+                    [snapshot.key]: true
+                });
+            }).catch((error) => console.error("Erro ao criar Projeto ", error))
+                .finally(() => $('#modalCriaProjeto').modal('hide'));
+            this._limpaFormulario();
+        }
     }
 
     // TODO: Deve excluir os times vinculados
     _excluirTime() {
         db.child(`time/${this._recuperaChaveTime()}`).remove();
         $(location).attr('href', 'home.html');
+    }
+
+    criaTimeProjeto() {
+        $("#InputIDTime").val(this._recuperaChaveTime());
+        $('#modalCriaProjeto').modal('show');
     }
 
     _limpaFormulario() {

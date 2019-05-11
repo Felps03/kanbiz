@@ -23,3 +23,7 @@ $("#verConfiguracaoTime").click( timeController.buscaDetalheTime.bind(timeContro
 $("#excluirProjeto").click(timeController._excluirTime.bind(timeController));
 
 $("#verProjetos").click(timeController.projetoTime.bind(timeController));
+
+$("#modalCriaProjetoTime").click(timeController.criaTimeProjeto.bind(timeController));
+
+$("#criaProjetoTime").click(timeController.criaProjetoTime.bind(timeController));
