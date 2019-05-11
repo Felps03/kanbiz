@@ -42,55 +42,66 @@ export class ProjetoController extends Controller {
         let projeto = this._criaProjeto();
         db.child('projeto').push(projeto).then(snapshot => {
             db.child(`colaboradores/${this.user.id}/projeto`).update({
-                [snapshot.key] :  {
-                    admin : true
+                [snapshot.key]: {
+                    admin: true
                 }
             })
-        }).catch( (error) => console.error("Erro ao criar Projeto ", error))
-        .finally( () => $('#modalCriaProjeto').modal('hide')); 
+        }).catch((error) => console.error("Erro ao criar Projeto ", error))
+            .finally(() => $('#modalCriaProjeto').modal('hide'));
         this._limpaFormulario();
+    }
+
+    atualizaProjeto() {
+        let idProjeto = this._recuperaChaveProjeto();
+        db.child(`projeto/${idProjeto}`).on('value',snapshot => {
+            $('#InputNomeProjetoEdita').val(snapshot.val()._nome);
+            $('#InputUIDProjeto').val(snapshot.key);
+            $('#modalEditaProjeto').modal('show');
+        });
     }
 
 
     editarProjeto(event) {
         event.preventDefault();
-        let projeto = this._criaProjeto();
-        let chaveProjeto = $('#UID').val();
-        let updates = {};
-        updates[`/projeto/${chaveProjeto}`] = projeto;
-        db.update(updates);
-        $(location).attr('href', 'home.html');
+        let nome = $("#InputNomeProjetoEdita").val();
+        let chaveProjeto = $('#InputUIDProjeto').val();
+        db.child(`projeto/${chaveProjeto}/`).update({
+            _nome: nome
+        })
+        $('#modalEditaProjeto').modal('hide');
     }
 
-    excluirProjeto() {
-
-        let chaveProjeto = '-LdLdhLTmuAjgsFHrOY8';
-
+    excluirProjeto(event) {
+        event.preventDefault();
+        let chaveProjeto = this._recuperaChaveProjeto();
         db.child(`projeto/${chaveProjeto}/_colaboradores`).on('child_added', snapshot => {
             if (snapshot.exists()) {
                 db.child(`colaboradores/${snapshot.key}/projeto/`).child(chaveProjeto).remove().then(function () {
                     console.log('Excluido o projeto do Colaborador');
-                    return db.child(`projeto/${chaveProjeto}`).remove();
-                }).then(function (ok) {
-                    console.log('Ambos excluidos');
+                }).then(function () {
+                    
                 }).catch(function (error) {
                     console.error("Erro ao excluir colaboradores/Projeto ", error);
                 });
             }
         })
+        db.child(`projeto/${chaveProjeto}`).remove();
+        $(location).attr('href', 'home.html');
     };
 
 
     _listaColaboradoresProjeto() {
-        let chaveProjeto = '-LcmfXaBxbQPo2meP0mC';
-        db.child(`projeto/${chaveProjeto}/_colaborador`).on('value', snapshot => {
-            console.log('_listaColaboradoresProjeto: ', snapshot.val());
-            console.log('_listaColaboradoresProjeto - snapshot.exists(): ', snapshot.exists());
+        let chaveProjeto = this._recuperaChaveProjeto();
+        db.child(`projeto/${chaveProjeto}/_colaboradores`).on('value', snapshot => {
+            $('#membroProjeto').empty();
             if (snapshot.exists()) {
+                let count = 1;
                 snapshot.forEach(value => {
                     db.child(`usuario/${value.key}`).on('value', snapshotUsuario => {
-                        console.log('_listaColaboradoresProjeto ', snapshotUsuario.val());
+                        $('#membroProjeto').append(this._timeView.membroProjeto(snapshotUsuario.val(), count++));
+
                     });
+                    $('#listaColaboradoresModal').modal('show');
                 });
             }
         });
@@ -116,16 +127,22 @@ export class ProjetoController extends Controller {
 
     _criaProjeto() {
         let usuarioLogado = new Colaborador(this.user.id, true);
-        let _admin =  {
-            bloqueado : false,
-            finalizado : false,
-            arquivado : false,
+        let _admin = {
+            bloqueado: false,
+            finalizado: false,
+            arquivado: false,
         }
         return new Projeto(
             this._inputNome.val(),
-            usuarioLogado, 
+            usuarioLogado,
             _admin
         );
+    }
+
+    _recuperaChaveProjeto() {
+        let url_string = window.location.href;
+        let url = new URL(url_string);
+        return (url.searchParams.get("chave"));
     }
 
     _limpaFormulario() {

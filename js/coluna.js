@@ -2,10 +2,12 @@ import $ from 'jquery';
 
 import { ColunaController } from './controllers/ColunaController';
 import { CartaoController } from './controllers/CartaoController';
+import { ProjetoController } from './controllers/ProjetoController';
 import Kanban from './kanban/kanbiz';
 
 const colunaController = new ColunaController(Kanban);
 const cartaoController = new CartaoController(Kanban);
+const projetoController = new ProjetoController();
 
 $("#addBoard").click(function () {
     $('#modalCriaColuna').modal('show');
@@ -15,6 +17,13 @@ $("#addColaborador").click(function() {
     $('#modalConvidaMembro').modal('show');
 });
 
+$(document).on("click", "#updateQuadro", projetoController.atualizaProjeto.bind(projetoController));
+
+$(document).on("click", "#excluirProjeto", projetoController.excluirProjeto.bind(projetoController));
+
+$(document).on("click", "#editaProjetoModal", projetoController.editarProjeto.bind(projetoController));
+
+$(document).on("click", "#listaColaboradores", projetoController._listaColaboradoresProjeto.bind(projetoController));
 
 const convidaMembroProjeto = document.getElementById('convidaMembroProjeto');
 convidaMembroProjeto.addEventListener('submit', colunaController._pesquisarColaboradorEmail.bind(colunaController));

@@ -268,6 +268,83 @@
                 </div>
             </div>
 
+            <!-- listaColaboradoresModal -->
+            <div class="modal fade" id="listaColaboradoresModal">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Lista Colaboradores</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+
+                            <table class="table">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">E-mail</th>
+                                        <th scope="col">Nome</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="membroProjeto">
+
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Editar Projeto -->
+            <div class="modal fade" id="modalEditaProjeto">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Editar Projeto</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <form class="form" id="editaProjeto">
+                                <div class="form-group" style="display: none;">
+                                    <label for="InputUIDProjeto">UID</label>
+                                    <input type="text" class="form-control" id="InputUIDProjeto" placeholder="udi"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="InputNomeProjetoEdita">Nome</label>
+                                    <input type="text" class="form-control" id="InputNomeProjetoEdita"
+                                        placeholder="Nome" required>
+                                </div>
+                                <button type="submit" id="editaProjetoModal" class="btn btn-primary">Editar
+                                    Projeto</button>
+                                <button type="submit" id="excluirProjeto" class="btn btn-danger">Excluir Projeto</button>
+                            </form>
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <div id="mensagemView"></div>
@@ -275,7 +352,8 @@
         <br><br>
         <button type="button" class="btn btn-success" id="addBoard">Adicionar Coluna</button>
         <button type="button" class="btn btn-secondary" id="addColaborador">Convida Colaborador</button>
-
+        <button type="button" class="btn btn-secondary" id="listaColaboradores">Lista Colaboradores</button>
+        <button type="button" class="btn btn-dark" id="updateQuadro">Editar Quadro</button>
         <div class="adminProjeto">
             <button type="button" class="btn btn-warning" id="bloquear">Bloquear</button>
             <button type="button" class="btn btn-success" id="desbloquear">Desbloquear</button>

@@ -48,4 +48,15 @@ export class ProjetoView extends View {
       
         `
     }
+
+    membroProjeto(model, count) {
+        let nome = model.nome ? model.nome : "";
+        return ` 
+            <tr>
+                <th scope="row">${count}</th>
+                <td>${model.email}</td>
+                <td>${nome}</td>
+            </tr>
+        `
+    }
 }

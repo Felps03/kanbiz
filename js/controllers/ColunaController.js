@@ -141,53 +141,56 @@ export class ColunaController extends Controller {
     verficiaConfiguracaoProjeto() {
         this._verificaAdmin().then(admin => {
             db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).on('value', snapshot => {
-                $("#mensagemView").empty();
+                if (snapshot.exists()) {
+                    $("#mensagemView").empty();
 
-                if (snapshot.val().bloqueado) {
-                    $("#mensagemView").append(this._mensagemView.template(`Projeto está Bloqueado!`));
-                }
-                if (snapshot.val().finalizado) {
-                    $("#mensagemView").append(this._mensagemView.template('Projeto está Finalizado!'));
-                }
-                if (snapshot.val().arquivado) {
-                    $("#mensagemView").append(this._mensagemView.template('Projeto está Arquivado!'));
-                }
-
-                if (!admin) {
-                    if (snapshot.val().arquivado) {
-                        alert('Projeto Arquivado');
-                        $(location).attr('href', 'home.html');
-                    }
                     if (snapshot.val().bloqueado) {
-                        $('button').attr('disabled', 'disabled');
+                        $("#mensagemView").append(this._mensagemView.template(`Projeto está Bloqueado!`));
                     }
                     if (snapshot.val().finalizado) {
-                        alert('Projeto finalizado');
-                        $(location).attr('href', 'home.html');
-                    }
-                } else {
-                    if (snapshot.val().bloqueado) {
-                        $("#desbloquear").show();
-                        $("#bloquear").hide();
-                        $("#addBoard").hide();
-                    } else {
-                        $("#bloquear").show();
-                        $("#desbloquear").hide();
-                        $("#addBoard").show();
-                    }
-                    if (snapshot.val().finalizado) {
-                        $("#finalizar").hide();
-                        $("#desfinalizar").show();
-                    } else {
-                        $("#finalizar").show();
-                        $("#desfinalizar").hide();
+                        $("#mensagemView").append(this._mensagemView.template('Projeto está Finalizado!'));
                     }
                     if (snapshot.val().arquivado) {
-                        $("#arquivar").hide();
-                        $("#desarquivar").show();
+                        $("#mensagemView").append(this._mensagemView.template('Projeto está Arquivado!'));
+                    }
+
+                    if (!admin) {
+                        if (snapshot.val().arquivado) {
+                            alert('Projeto Arquivado');
+                            $(location).attr('href', 'home.html');
+                        }
+                        if (snapshot.val().bloqueado) {
+                            $('button').attr('disabled', 'disabled');
+                        }
+                        if (snapshot.val().finalizado) {
+                            alert('Projeto finalizado');
+                            $(location).attr('href', 'home.html');
+                        }
                     } else {
-                        $("#desarquivar").hide();
-                        $("#arquivar").show();
+                        if (snapshot.val().bloqueado) {
+                            $("#desbloquear").show();
+                            $("#bloquear").hide();
+                            $("#addBoard").hide();
+                        } else {
+                            $("#bloquear").show();
+                            $("#desbloquear").hide();
+                            $("#addBoard").show();
+                        }
+                        if (snapshot.val().finalizado) {
+                            $("#finalizar").hide();
+                            $("#desfinalizar").show();
+                        } else {
+                            $("#finalizar").show();
+                            $("#desfinalizar").hide();
+                        }
+                        if (snapshot.val().arquivado) {
+                            $("#arquivar").hide();
+                            $("#desarquivar").show();
+                        } else {
+                            $("#desarquivar").hide();
+                            $("#arquivar").show();
+                        }
+
                     }
 
                 }
@@ -453,13 +456,13 @@ export class ColunaController extends Controller {
 
     _editaColuna(idColuna) {
         db.child(`coluna/${idColuna}`).once('value', snapshot => {
-            if(snapshot.exists()) {
+            if (snapshot.exists()) {
                 $('#InputTituloColunaEdita').val(snapshot.val().title);
                 $('#InputLimitadorColunaEdita').val(snapshot.val().limit);
                 $('#InputClasseColunaEdita').val(snapshot.val().class);
                 $('#InputIDColuna').val(idColuna);
                 $('#modalEditaColuna').modal('show');
-            }            
+            }
         }).catch(function (error) {
             console.error("Erro ao carregar dados do cartao ", error);
         });
