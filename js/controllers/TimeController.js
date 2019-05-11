@@ -7,6 +7,7 @@ import { Controller } from './Controller';
 import { TimeView } from '../views/TimeView';
 import { Time } from '../models/Time';
 import { Colaborador } from '../models/Colaborador';
+import { MensagemView } from '../views/MensagemView';
 
 export class TimeController extends Controller {
     constructor() {
@@ -14,6 +15,7 @@ export class TimeController extends Controller {
         this._inputNome = $('#InputNome');
         this._inputNick = $('#InputNick');
         this._timeView = new TimeView($('#timeView'));
+        this._mensagemView = new MensagemView('#mensagemView');
     }
 
     onUserLogged() {
@@ -96,34 +98,42 @@ export class TimeController extends Controller {
     procuraPorEmail(event) {
         event.preventDefault();
         let email = $('#InputEmail').val();
-        console.log('procuraPorEmail', email);
+        $("#mensagemView").empty();
+        let achou = false;
         db.child(`usuario`).orderByChild('email').equalTo(email).on('child_added', snapshot => {
             if (snapshot.exists()) {
                 this.convidaMembro(snapshot.val().uid);
-            } else {
-                alert('nao achou');
-            }
+                achou = true;
+            }    
         });
+        if(!achou) {
+            $("#mensagemView").append(this._mensagemView.template(`Colaborador não encontrado`));
+        }
     }
 
     convidaMembro(uid) {
+        $("#mensagemView").empty();
+        if(uid === this.user.id) {
+            $("#mensagemView").append(this._mensagemView.template(`Voce não pode colocar o seu e-mail!`));
+        } else {
+            let chaveTime = $('#UID').val();
+            db.child('time').child(chaveTime).child('_colaboradores').update({
+                [uid]: false
+            }).then(function () {
+                console.log('foi');
+            });
+    
+            db.child(`colaboradores/${uid}/times`).update({
+                [chaveTime]: false
+            }).then(function () {
+                alert('Colaborador Convidado');
+                $(location).attr('href', 'home.html');
+            }).catch(function (error) {
+                console.error("Erro ao criar timeColaborador ", error);
+                $(location).attr('href', 'home.html');
+            });
 
-        let chaveTime = $('#UID').val();
-        db.child('time').child(chaveTime).child('_colaboradores').update({
-            [uid]: false
-        }).then(function () {
-            console.log('foi');
-        });
-
-        db.child(`colaboradores/${uid}/times`).update({
-            [chaveTime]: false
-        }).then(function () {
-            alert('Colaborador Convidado');
-            $(location).attr('href', 'home.html');
-        }).catch(function (error) {
-            console.error("Erro ao criar timeColaborador ", error);
-            $(location).attr('href', 'home.html');
-        });
+        }
     }
 
     aceitaColaboradorTime(chaveTime, verficaAceite) {
