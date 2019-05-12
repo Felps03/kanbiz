@@ -18,8 +18,6 @@ $("#createUserButton").click( function() {
             alert('Bem vindo ' + emailInput);
             window.location.href = paginaHome;
         }).catch(function (error) {
-            // console.error(error.code);
-            // console.error(error.message);
             $("#mensagemView").append(mensagemView("A senha deve ter pelo menos 6 caracteres"));
         });
 });
@@ -55,7 +53,7 @@ $("#logOutButton").click( function() {
         // alert('Você se deslogou');
         window.location.href = paginaHome;
     }, function (error) {
-        // console.error(error);
+        console.error(error);
     });
 });
 
@@ -69,11 +67,10 @@ $("#authGoogleButton").click( function() {
 function signIn(provider) {
     auth.signInWithPopup(provider).then(function (result) {
         console.log(result);
-        displayName.innerText = 'Bem vindo, ' + result.user.displayName;
         window.location.href = paginaHome;
     }).catch(function (error) {
-        // console.log(error);
-        // alert('Falha na autenticação');
+        console.log(error);
+        alert('Falha na autenticação Provedor');
     });
 }
 

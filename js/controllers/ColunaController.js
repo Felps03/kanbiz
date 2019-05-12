@@ -54,7 +54,7 @@ export class ColunaController extends Controller {
                                     },
                                     "drag": function (el, test) {
                                         idCartao = test.parentNode.dataset.id;
-                                    },
+                                    }
                                 });
                                 $(this).removeClass(cartaoSnapshot.val().corCartao);
                                 that.configuracaoCartao(cartaoSnapshot);
@@ -67,6 +67,12 @@ export class ColunaController extends Controller {
                 this.verficiaConfiguracaoProjeto();
             });
         });
+        that.numeroColuna();
+    }
+
+    numeroColuna(){
+        console.log('oi');
+        
     }
 
     configuracaoCartao(cartaoSnapshot) {
