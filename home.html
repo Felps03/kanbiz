@@ -46,6 +46,9 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
       <div class="sidebar-heading">Inicio... </div>
       <div class="list-group list-group-flush">
+        <a href="#" id="editaPerfil" class="list-group-item list-group-item-action bg-light">
+          <i class="fas fa-user-edit"></i> Perfil
+        </a>
         <a href="#" class="list-group-item list-group-item-action bg-light">Times</a>
         <div id="times-painel-lateral"></div>
         <div id="times-painel-lateral-nao-aceito"></div>
@@ -53,9 +56,6 @@
           data-target="#modalCriaTime">+
           Criar Time</a>
       </div>
-      <a href="#" id="editaPerfil" class="list-group-item list-group-item-action bg-light">
-        <i class="fas fa-user-edit"></i> Perfil
-      </a>
     </div>
 
     <div style="width: 100%">
@@ -124,11 +124,11 @@
           <form class="form" id="criaTime">
             <div class="form-group">
               <label for="InputNome">Nome</label>
-              <input type="text" class="form-control" id="InputNome" placeholder="Nome">
+              <input type="text" class="form-control" id="InputNome" placeholder="Nome" required>
             </div>
             <div class="form-group">
               <label for="InputNick">Nick</label>
-              <input type="text" class="form-control" id="InputNick" placeholder="Nick">
+              <input type="text" class="form-control" id="InputNick" placeholder="Nick" required>
             </div>
             <button type="submit" class="btn btn-primary">Criar Time</button>
           </form>
@@ -158,11 +158,11 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="InputNome">Nome</label>
-            <input type="text" class="form-control" id="InputNomeTime" placeholder="Nome" disabled>
+            <input type="text" class="form-control" id="InputNomeTime" placeholder="Nome" required disabled>
           </div>
           <div class="form-group">
             <label for="InputNick">Nick</label>
-            <input type="text" class="form-control" id="InputNickTime" placeholder="Nick" disabled>
+            <input type="text" class="form-control" id="InputNickTime" placeholder="Nick" required disabled>
           </div>
           <div class="form-group" style="display: none;">
             <label for="InputNick">ID</label>
@@ -215,37 +215,37 @@
 
   <!-- Editar Perfil -->
   <div class="modal fade" id="modalEditaPerfil">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-  
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">Perfil</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-  
-          <!-- Modal body -->
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="InputNome">Nome</label>
-              <input type="text" class="form-control" id="InputNomeUser" placeholder="Nome" required>
-            </div>
-            <div class="form-group">
-              <label for="InputNick">Email</label>
-              <input type="text" class="form-control" id="InputEmailUser" placeholder="email" required>
-            </div>
-           
-          </div>
-  
-          <!-- Modal footer -->
-          <div class="modal-footer">
-            <button type="submit" id="atualizaPerfilConfig" class="btn btn-success">Atualizar</button>
-            <!-- <button type="submit" id="excluirPerfilConfig" class="btn btn-danger">Excluir</button> -->
-          </div>
-  
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Perfil</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="InputNome">Nome</label>
+            <input type="text" class="form-control" id="InputNomeUser" placeholder="Nome" required>
+          </div>
+          <div class="form-group">
+            <label for="InputNick">Email</label>
+            <input type="text" class="form-control" id="InputEmailUser" placeholder="email" required>
+          </div>
+
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="submit" id="atualizaPerfilConfig" class="btn btn-success">Atualizar</button>
+          <!-- <button type="submit" id="excluirPerfilConfig" class="btn btn-danger">Excluir</button> -->
+        </div>
+
       </div>
     </div>
+  </div>
 
   <script src="./js/home.js" type="module"></script>
   <script src="./js/main.js"></script>

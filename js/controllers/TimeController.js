@@ -223,7 +223,7 @@ export class TimeController extends Controller {
                 _colaboradores: {
                     [this.user.id]: true
                 },
-                admin: {
+                _admin: {
                     bloqueado: false,
                     finalizado: false,
                     arquivado: false,
