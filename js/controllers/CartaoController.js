@@ -36,6 +36,7 @@ export class CartaoController extends Controller {
             }
         });
         $('#modalCriaCartao').modal('hide');
+        this._limpaFormulario();
     }
 
     atualizaCartao(event) {

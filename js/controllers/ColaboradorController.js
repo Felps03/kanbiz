@@ -21,9 +21,7 @@ export class ColaboradorController extends Controller {
             email: this.user.email,
             fotoUrl: this.user.fotoUrl,
         }
-        db.child(`usuario/${this.user.id}`).set(colaboradores).then(snapshot => {
-            // console.log("Colecao Usuario", colaboradores);
-        });
+        db.child(`usuario/${this.user.id}`).set(colaboradores);
     }
 
     adiciona(event) {

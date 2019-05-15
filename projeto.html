@@ -42,6 +42,24 @@
             </div>
             <!-- FIM DO MENU DE CIMA -->
 
+
+            <!-- Menu Lateral  -->
+            <div class="bg-light border-right" id="sidebar-wrapper">
+                <div class="sidebar-heading">Admin</div>
+                <div class="list-group list-group-flush">
+                    <a href="#" id="editaPerfil" class="list-group-item list-group-item-action bg-light">
+                        <i class="fas fa-user-edit"></i> Perfil
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action bg-light">Times</a>
+                    <div id="times-painel-lateral"></div>
+                    <div id="times-painel-lateral-nao-aceito"></div>
+                    <a href="#" class="list-group-item list-group-item-action bg-light" data-toggle="modal"
+                        data-target="#modalCriaTime">+
+                        Criar Time</a>
+                </div>
+            </div>
+            
+
             <div id="myKanban"></div>
 
             <!-- Modal Coluna -->
@@ -332,7 +350,8 @@
                                 </div>
                                 <button type="submit" id="editaProjetoModal" class="btn btn-primary">Editar
                                     Projeto</button>
-                                <button type="submit" id="excluirProjeto" class="btn btn-danger">Excluir Projeto</button>
+                                <button type="submit" id="excluirProjeto" class="btn btn-danger">Excluir
+                                    Projeto</button>
                             </form>
                         </div>
 
@@ -353,8 +372,8 @@
         <button type="button" class="btn btn-success" id="addBoard">Adicionar Coluna</button>
         <button type="button" class="btn btn-secondary" id="addColaborador">Convida Colaborador</button>
         <button type="button" class="btn btn-secondary" id="listaColaboradores">Lista Colaboradores</button>
-        <button type="button" class="btn btn-dark" id="updateQuadro">Editar Quadro</button>
         <div class="adminProjeto">
+            <button type="button" class="btn btn-dark" id="updateQuadro">Editar Quadro</button>
             <button type="button" class="btn btn-warning" id="bloquear">Bloquear</button>
             <button type="button" class="btn btn-success" id="desbloquear">Desbloquear</button>
             <button type="button" class="btn btn-primary" id="finalizar">Finzalizar</button>

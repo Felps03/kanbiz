@@ -71,7 +71,7 @@ export class ColunaController extends Controller {
     }
 
     numeroColuna(){
-        console.log('oi');
+        console.log('colocar numerador na coluna');
         
     }
 
@@ -500,12 +500,13 @@ export class ColunaController extends Controller {
 
     _pesquisarColaboradorEmail(event) {
         event.preventDefault();
+        $("#mensagemView").empty();
         let email = $("#InputEmailColaborador").val()
         db.child(`usuario`).orderByChild('email').equalTo(email).on('child_added', snapshot => {
             if (snapshot.exists()) {
                 this.convidaMembro(snapshot.val().uid);
             } else {
-                alert('nao achou');
+                $("#mensagemView").append(this._mensagemView.template(`Não foi possivel encontrar colaborador`));
             }
         });
     }
@@ -515,13 +516,13 @@ export class ColunaController extends Controller {
         db.child('projeto').child(chaveProjeto).child('_colaboradores').update({
             [id]: true
         }).then(function () {
-            console.log('foi');
+            
         });
-
+        $("#mensagemView").empty();
         db.child(`colaboradores/${id}/projeto`).update({
             [chaveProjeto]: true
         }).then(function () {
-            alert('Colaborador Convidado');
+            $("#mensagemView").append(this._mensagemView.template(`Colaborador Convidado!`));
         }).catch(function (error) {
             console.error("Erro ao criar timeColaborador ", error);
             $(location).attr('href', 'home.html');

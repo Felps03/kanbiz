@@ -57,7 +57,6 @@ export class TimeController extends Controller {
         }).catch(function (error) {
             console.error("Erro ao criar Time ", error);
         });
-        console.log($('#modalCriaTime'));
         $('#modalCriaTime').modal('hide');
         this._limpaFormulario();
     }
@@ -126,42 +125,32 @@ export class TimeController extends Controller {
             db.child(`colaboradores/${uid}/times`).update({
                 [chaveTime]: false
             }).then(function () {
-                alert('Colaborador Convidado');
-                $(location).attr('href', 'home.html');
+                $("#mensagemView").append(this._mensagemView.template(`Colaborador errado!`));
             }).catch(function (error) {
                 console.error("Erro ao criar timeColaborador ", error);
-                $(location).attr('href', 'home.html');
+                $("#mensagemView").append(this._mensagemView.template(`Houve um erro tente novamente!`));
             });
 
         }
     }
 
     aceitaColaboradorTime(chaveTime, verficaAceite) {
+        $("#mensagemView").empty();
         db.child('time').child(chaveTime).child('_colaboradores').update({
             [this.user.id]: verficaAceite
-        }).then(function () {
-            console.log('aceitaColaboradorTime');
-        });
-
-        db.child(`colaboradores/${this.user.id}/times`).update({
-            [chaveTime]: verficaAceite
-        }).then(function () {
-            alert('Colaborador Convidado');
-        }).catch(function (error) {
-            console.error("Erro ao criar timeColaborador ", error);
-            $(location).attr('href', 'home.html');
-        });
+        }).then(() => {
+            db.child(`colaboradores/${this.user.id}/times`).update({
+                [chaveTime]: verficaAceite
+            }).then(() => $("#mensagemView").append(this._mensagemView.template(`Aceito!`)))
+        }).catch(error => console.error("Erro ao criar timeColaborador ", error))
+        .finally(() => $('#modalAceita').modal('hide'));
     }
 
     recusarColaboradorTime(chaveTime) {
-        db.child('time').child(chaveTime).child('_colaboradores').child(this.user.id).remove().then(function () {
-            console.log('recusarColaboradorTime');
-        });
-        db.child(`colaboradores/${this.user.id}/times`).child(chaveTime).remove().then(function () {
-            alert('ColaboradorDeletado');
-        }).catch(function (error) {
-            console.error("Erro ao criar timeColaborador ", error);
-        });
+        db.child('time').child(chaveTime).child('_colaboradores').child(this.user.id).remove().then(() => {
+            db.child(`colaboradores/${this.user.id}/times`).child(chaveTime).remove();
+        }).catch(error => console.error("Erro ao criar timeColaborador ", error))
+        .finally(() => $('#modalAceita').modal('hide'));
     }
 
     listaColaboradorTime() {
