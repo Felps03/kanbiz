@@ -82,7 +82,10 @@ export class ColunaController extends Controller {
                         })
                     }
                 }).then(() => {
-                    $(this).append(ColunaView.limitadorBoard(count ,limit));
+                    console.log($(this.children[0].children[0]));
+                    let number = $(this.children[0]);
+                    //$(number).prepend(`${count}/${limit} - `);
+                    $(number).prepend(ColunaView.limitadorBoard(count, limit));
                     if(count > limit) {
                         that.pintaColuna(boardID, "pintaImportante");
                     }

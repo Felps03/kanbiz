@@ -70,7 +70,7 @@ export class ColunaView extends View {
     static limitadorBoard(atual, limit) {
         return `
         <div class="boardLimit">
-           ${atual} / ${limit}
+           ${atual} / ${limit} -
         </div>
     `
     }
