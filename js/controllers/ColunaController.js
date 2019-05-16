@@ -71,11 +71,11 @@ export class ColunaController extends Controller {
     }
 
     numeroColuna(boardID, limit) {
+        const that = this;
         $('.kanban-board').each(function (item) {  
             if (boardID === (this).getAttribute('data-id')) {
                 let count = 0;
                 db.child(`coluna/${boardID}/cartao`).once('value', snapshot => {
-              
                     if(snapshot.exists()) {
                         snapshot.forEach(value => {
                             count++;
@@ -83,10 +83,11 @@ export class ColunaController extends Controller {
                     }
                 }).then(() => {
                     $(this).append(ColunaView.limitadorBoard(count ,limit));
+                    if(count > limit) {
+                        that.pintaColuna(boardID, "pintaImportante");
+                    }
                     count = 0;
-                })
-
-                
+                })                
             }
         })
     }
