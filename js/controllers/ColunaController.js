@@ -213,7 +213,6 @@ export class ColunaController extends Controller {
                         $("#updateQuadro").hide();
                         $("#adminSnap").hide();
                     }
-
                 }
             });
         })
@@ -226,21 +225,11 @@ export class ColunaController extends Controller {
             if ($("div.opcoesDaColuna").length == 0) {
                 let idColuna = event.target.parentNode.dataset.id;
                 $(this).append(ColunaView.opcoesDaColuna());
-                $(".opcoesDaColuna-remove").click(function () {
-                    that._removeColuna(idColuna);
-                });
-                $(".opcoesDaColuna-edita").click(function () {
-                    that._editaColuna(idColuna);
-                });
-                $(".opcoesDaColuna-tipoPadrão").click(function () {
-                    that.pintaColuna(idColuna, "warning");
-                });
-                $(".opcoesDaColuna-tipoTarefa").click(function () {
-                    that.pintaColuna(idColuna, "info");
-                });
-                $(".opcoesDaColuna-tipoInspiração").click(function () {
-                    that.pintaColuna(idColuna, "success");
-                });
+                $(".opcoesDaColuna-remove").click(() => that._removeColuna(idColuna));
+                $(".opcoesDaColuna-edita").click(() => that._editaColuna(idColuna));
+                $(".opcoesDaColuna-tipoPadrão").click(() => that.pintaColuna(idColuna, "warning"));
+                $(".opcoesDaColuna-tipoTarefa").click(() => that.pintaColuna(idColuna, "info"));
+                $(".opcoesDaColuna-tipoInspiração").click(() => that.pintaColuna(idColuna, "success"));
             }
         }).mouseleave(function () {
             $('div.opcoesDaColuna').remove();
@@ -290,18 +279,10 @@ export class ColunaController extends Controller {
                     })
                 });
 
-                $(".opcoesDoCartao-tipoPadrão").click(function () {
-                    that.pintaCartao(eidCartao, 'pintaPadrao');
-                });
-                $(".opcoesDoCartao-tipoImportante").click(function () {
-                    that.pintaCartao(eidCartao, 'pintaImportante');
-                });
-                $(".opcoesDoCartao-tipoTarefa").click(function () {
-                    that.pintaCartao(eidCartao, 'pintaTarefa');
-                });
-                $(".opcoesDoCartao-tipoInspiração").click(function () {
-                    that.pintaCartao(eidCartao, 'pintaInspiracao');
-                });
+                $(".opcoesDoCartao-tipoPadrão").click(() => that.pintaCartao(eidCartao, 'pintaPadrao'));
+                $(".opcoesDoCartao-tipoImportante").click(() => that.pintaCartao(eidCartao, 'pintaImportante'));
+                $(".opcoesDoCartao-tipoTarefa").click(() => that.pintaCartao(eidCartao, 'pintaTarefa'));
+                $(".opcoesDoCartao-tipoInspiração").click(() => that.pintaCartao(eidCartao, 'pintaInspiracao'));
             }
         }).mouseleave(function () {
             $(this).removeClass("bordaCartao");
@@ -347,9 +328,9 @@ export class ColunaController extends Controller {
                     [chaveCartao]: true
                 }).then(() => {
                     db.child(`cartao/${chaveCartao}`).update({
-                        uidBord : chaveColuna
+                        uidBord: chaveColuna
                     })
-                }).catch( error => console.error("Erro ao criar coluna ", error));
+                }).catch(error => console.error("Erro ao criar coluna ", error));
             }
         })
     }
@@ -380,7 +361,7 @@ export class ColunaController extends Controller {
         const that = this;
         db.child(`coluna/${chaveColuna}/cartao/${chaveCartao}`).remove()
             .then(() => db.child(`cartao/${chaveCartao}`).remove()
-            .then(() => that._kanban.removeElement(chaveCartao)))
+                .then(() => that._kanban.removeElement(chaveCartao)))
             .catch(error => console.error("Erro ao remover cartao da coluna ", error));
     }
 
@@ -415,7 +396,7 @@ export class ColunaController extends Controller {
     adicionaColunaProjeto(chaveColuna) {
         db.child(`projeto/${this._recuperaChaveProjeto()}/coluna`).update({
             [chaveColuna]: true
-        }).catch( error => console.error("Erro ao criar projetoColaborador ", error));
+        }).catch(error => console.error("Erro ao criar projetoColaborador ", error));
     }
 
     _criaColuna() {
@@ -446,8 +427,8 @@ export class ColunaController extends Controller {
                         [cartao.uidCartao]: true
                     })
                 })
-                .catch(error => console.error("Erro ao atuaizar cartao ", error))
-                .finally(() => $('#modalEditaCartao').modal('hide'));
+                    .catch(error => console.error("Erro ao atuaizar cartao ", error))
+                    .finally(() => $('#modalEditaCartao').modal('hide'));
 
                 if (cartao.uidColunaAtual != cartao.uidBord) {
                     db.child(`coluna/${cartao.uidColunaAtual}/cartao/${cartao.uidCartao}`).remove();

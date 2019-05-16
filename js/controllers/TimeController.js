@@ -118,19 +118,13 @@ export class TimeController extends Controller {
             let chaveTime = $('#UID').val();
             db.child('time').child(chaveTime).child('_colaboradores').update({
                 [uid]: false
-            }).then(function () {
-                console.log('foi');
+            }).then(() => {
+                db.child(`colaboradores/${uid}/times`).update({
+                    [chaveTime]: false
+                })
+                .then(() => $("#mensagemView").append(this._mensagemView.template(`Colaborador Convidado!`)))
+                .catch((error) => $("#mensagemView").append(this._mensagemView.template(`Houve um erro tente novamente!: error ${error}`)));
             });
-    
-            db.child(`colaboradores/${uid}/times`).update({
-                [chaveTime]: false
-            }).then(function () {
-                $("#mensagemView").append(this._mensagemView.template(`Colaborador errado!`));
-            }).catch(function (error) {
-                console.error("Erro ao criar timeColaborador ", error);
-                $("#mensagemView").append(this._mensagemView.template(`Houve um erro tente novamente!`));
-            });
-
         }
     }
 
