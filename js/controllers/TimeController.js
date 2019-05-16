@@ -149,7 +149,8 @@ export class TimeController extends Controller {
     recusarColaboradorTime(chaveTime) {
         db.child('time').child(chaveTime).child('_colaboradores').child(this.user.id).remove().then(() => {
             db.child(`colaboradores/${this.user.id}/times`).child(chaveTime).remove();
-        }).catch(error => console.error("Erro ao criar timeColaborador ", error))
+        })
+        .catch(error => console.error("Erro ao criar timeColaborador ", error))
         .finally(() => $('#modalAceita').modal('hide'));
     }
 
@@ -228,8 +229,9 @@ export class TimeController extends Controller {
                 db.child(`time/${this._recuperaChaveTime()}/_projeto`).update({
                     [snapshot.key]: true
                 });
-            }).catch((error) => console.error("Erro ao criar Projeto ", error))
-                .finally(() => $('#modalCriaProjeto').modal('hide'));
+            })
+            .catch((error) => console.error("Erro ao criar Projeto ", error))
+            .finally(() => $('#modalCriaProjeto').modal('hide'));
             this._limpaFormulario();
         }
     }

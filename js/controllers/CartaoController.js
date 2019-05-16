@@ -30,9 +30,7 @@ export class CartaoController extends Controller {
             if ((!snapshot.val().bloqueado) && (!snapshot.val().arquivado) && (!snapshot.val().finalizado)) {
                 db.child('cartao').push(cartao).then(snapshot => {
                     this.adicionaCartaoColuna(snapshot.key, cartao.uidBord);
-                }).catch(function (error) {
-                    console.error("Erro ao criar projeto ", error);
-                });
+                }).catch(error => console.error("Erro ao criar projeto ", error));
             }
         });
         $('#modalCriaCartao').modal('hide');
@@ -51,11 +49,9 @@ export class CartaoController extends Controller {
     adicionaCartaoColuna(cartaoChave, chaveColuna) {
         db.child(`coluna/${chaveColuna}/cartao`).update({
             [cartaoChave]: true
-        }).then(function () {
-            console.info("Criou o Cartao com sucesso ");
-        }).catch(function (error) {
-            console.error("Erro ao criar adicionaCartao ", error);
-        });
+        })
+        .then(() => console.info("Criou o Cartao com sucesso "))
+        .catch(error => console.error("Erro ao criar adicionaCartao ", error));
     }
 
     _criaCartao() {

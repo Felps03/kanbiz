@@ -175,7 +175,6 @@ export class ColunaController extends Controller {
                         } else {
                             $("#desarquivar").hide();
                             $("#arquivar").show();
-
                         }
 
                         if (snapshot.val().bloqueado || snapshot.val().finalizado || snapshot.val().arquivado) {
@@ -346,11 +345,11 @@ export class ColunaController extends Controller {
             if ((!snapshot.val().bloqueado) && (!snapshot.val().arquivado) && (!snapshot.val().finalizado)) {
                 db.child(`coluna/${chaveColuna}/cartao`).update({
                     [chaveCartao]: true
-                }).then(function () {
-                    // console.log('atualizando...')
-                }).catch(function (error) {
-                    console.error("Erro ao criar coluna ", error);
-                });
+                }).then(() => {
+                    db.child(`cartao/${chaveCartao}`).update({
+                        uidBord : chaveColuna
+                    })
+                }).catch( error => console.error("Erro ao criar coluna ", error));
             }
         })
     }
@@ -364,9 +363,7 @@ export class ColunaController extends Controller {
     _removeColunaCartao(chaveCartao, chaveColuna) {
         db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).once('value', snapshot => {
             if ((!snapshot.val().bloqueado) && (!snapshot.val().arquivado) && (!snapshot.val().finalizado)) {
-                db.child(`coluna/${chaveColuna}/cartao/${chaveCartao}`).remove().then(function () {
-                    console.log('removendo...');
-                }).catch(function (error) {
+                db.child(`coluna/${chaveColuna}/cartao/${chaveCartao}`).remove().catch(function (error) {
                     console.error("Erro ao criar coluna ", error);
                 });
             }
@@ -381,16 +378,10 @@ export class ColunaController extends Controller {
      */
     _removeCartaoColuna(chaveCartao, chaveColuna) {
         const that = this;
-        db.child(`coluna/${chaveColuna}/cartao/${chaveCartao}`).remove().then(function () {
-            db.child(`cartao/${chaveCartao}`).remove().then(function () {
-                that._kanban.removeElement(chaveCartao);
-                console.log('removendo...');
-            }).catch(function (error) {
-                console.error("Erro ao remover cartao ", error);
-            });
-        }).catch(function (error) {
-            console.error("Erro ao remover cartao da coluna ", error);
-        });
+        db.child(`coluna/${chaveColuna}/cartao/${chaveCartao}`).remove()
+            .then(() => db.child(`cartao/${chaveCartao}`).remove()
+            .then(() => that._kanban.removeElement(chaveCartao)))
+            .catch(error => console.error("Erro ao remover cartao da coluna ", error));
     }
 
     atualizaColuna(event) {
@@ -405,9 +396,7 @@ export class ColunaController extends Controller {
             if ((!snapshot.val().bloqueado) && (!snapshot.val().arquivado) && (!snapshot.val().finalizado)) {
                 db.child(`coluna`).child($('#InputIDColuna').val()).update(coluna).catch(function (error) {
                     console.error("Erro ao atualizar coluna ", error);
-                }).finally(function () {
-                    $('#modalEditaColuna').modal('hide');
-                });
+                }).finally(() => $('#modalEditaColuna').modal('hide'));
             }
         })
     }
@@ -416,22 +405,17 @@ export class ColunaController extends Controller {
         event.preventDefault();
         let coluna = this._criaColuna();
         $('#modalCriaColuna').modal('hide');
-        db.child('coluna').push(coluna).then(snapshot => {
-            this.adicionaColunaProjeto(snapshot.key);
-        }).catch(function (error) {
-            console.error("Erro ao atualizar coluna ", error);
-        });
+        db.child('coluna').push(coluna)
+            .then(snapshot => this.adicionaColunaProjeto(snapshot.key))
+            .catch(error => console.error("Erro ao atualizar coluna ", error));
+
         this._limpaFormulario();
     }
 
     adicionaColunaProjeto(chaveColuna) {
         db.child(`projeto/${this._recuperaChaveProjeto()}/coluna`).update({
             [chaveColuna]: true
-        }).then(function () {
-            // console.info("Criou o Projeto Colaborador ");
-        }).catch(function (error) {
-            console.error("Erro ao criar projetoColaborador ", error);
-        });
+        }).catch( error => console.error("Erro ao criar projetoColaborador ", error));
     }
 
     _criaColuna() {
@@ -457,15 +441,13 @@ export class ColunaController extends Controller {
             if ((!snapshot.val().bloqueado) && (!snapshot.val().arquivado) && (!snapshot.val().finalizado)) {
 
                 let cartao = this._atualizaCartao();
-                db.child(`/cartao/${cartao.uidCartao}`).update(cartao).then(snapshot => {
+                db.child(`/cartao/${cartao.uidCartao}`).update(cartao).then(() => {
                     db.child(`coluna/${cartao.uidBord}/cartao`).update({
                         [cartao.uidCartao]: true
                     })
-                }).catch(function (error) {
-                    console.error("Erro ao atuaizar cartao ", error);
-                }).finally(function () {
-                    $('#modalEditaCartao').modal('hide');
-                });
+                })
+                .catch(error => console.error("Erro ao atuaizar cartao ", error))
+                .finally(() => $('#modalEditaCartao').modal('hide'));
 
                 if (cartao.uidColunaAtual != cartao.uidBord) {
                     db.child(`coluna/${cartao.uidColunaAtual}/cartao/${cartao.uidCartao}`).remove();
@@ -496,19 +478,13 @@ export class ColunaController extends Controller {
                 db.child(`coluna/${idColuna}/cartao/`).once('value', snapshot => {
                     if (snapshot.exists()) {
                         snapshot.forEach(value => {
-                            db.child(`cartao/${value.key}`).remove().then(function () {
+                            db.child(`cartao/${value.key}`).remove().then(() => {
                                 that._kanban.removeElement(value.key);
                                 console.info('removendo cartao ...');
-                            }).catch(function (error) {
-                                console.error("Erro ao remover cartao ", error);
-                            });
+                            }).catch(error => console.error("Erro ao remover cartao ", error));
                         });
                     }
-                });
-                db.child(`coluna/${idColuna}`).remove().then(function () {
-                    that._kanban.removeBoard(idColuna);
-                    // console.log('removendo cartao ...');
-                });
+                }).then(() => db.child(`coluna/${idColuna}`).remove().then(() => that._kanban.removeBoard(idColuna)));
             }
         });
     }

@@ -31,11 +31,9 @@ export class ColaboradorController extends Controller {
 
     excluir() {
         let user = auth.currentUser;
-        user.delete().then(function () {
-            alert('Excluindo Usuario ...');
-        }).catch(function (error) {
-            console.log("Erro EXCLUIR USUARIO - ", error);
-        });
+        user.delete()
+            .then(() =>  alert('Excluindo Usuario ...'))
+            .catch(error => console.log("Erro EXCLUIR USUARIO - ", error));
     }
 
     _limpaFormulario() {
@@ -58,20 +56,16 @@ export class ColaboradorController extends Controller {
         auth.currentUser.updateProfile({
             displayName: $("#InputNomeUser").val(),
             email: $("#InputEmailUser").val()
-        }).then(function () {
-            $(location).attr('href', "home.html");
-        }).catch(function (error) {
-            console.log('erro ao atualizar perfil ', error);
-        });
-        $('#modalEditaPerfil').modal('hide');
+        })
+        .then(() => $(location).attr('href', "home.html"))
+        .catch(error => console.log('erro ao atualizar perfil ', error))
+        .finally(() => $('#modalEditaPerfil').modal('hide'));
     }
 
     excluirPerfil(event) {
         event.preventDefault();
-        auth.currentUser.delete().then(function () {
-            $(location).attr('href', "index.html");
-        }).catch(function (error) {
-            console.log('erro ao excluir perfil ', error);
-        });
+        auth.currentUser.delete()
+            .then(() => $(location).attr('href', "index.html"))
+            .catch(error => console.log('erro ao excluir perfil ', error));
     }
 }
