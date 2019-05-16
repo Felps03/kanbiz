@@ -70,9 +70,9 @@ export class ColunaController extends Controller {
         that.numeroColuna();
     }
 
-    numeroColuna(){
+    numeroColuna() {
         console.log('colocar numerador na coluna');
-        
+
     }
 
     configuracaoCartao(cartaoSnapshot) {
@@ -132,12 +132,13 @@ export class ColunaController extends Controller {
     _verificaAdmin() {
         return new Promise((resolve, reject) => {
             db.child(`colaboradores/${this.user.id}/projeto/${this._recuperaChaveProjeto()}`).once('value', snapshot => {
-                if (snapshot.val().admin) {
+                if (snapshot.exists()) {
                     $(".adminProjeto").show();
+                    resolve(true);
                 } else {
                     $(".adminProjeto").hide();
+                    resolve(false);
                 }
-                resolve(snapshot.val().admin);
             }).catch(erro => {
                 reject('Não Foi possivel obter informacao ', erro);
             });
@@ -146,43 +147,21 @@ export class ColunaController extends Controller {
 
     verficiaConfiguracaoProjeto() {
         this._verificaAdmin().then(admin => {
+
             db.child(`projeto/${this._recuperaChaveProjeto()}/_admin`).on('value', snapshot => {
                 if (snapshot.exists()) {
                     $("#mensagemView").empty();
-
-                    if (snapshot.val().bloqueado) {
-                        $("#mensagemView").append(this._mensagemView.template(`Projeto está Bloqueado!`));
-                    }
-                    if (snapshot.val().finalizado) {
-                        $("#mensagemView").append(this._mensagemView.template('Projeto está Finalizado!'));
-                    }
-                    if (snapshot.val().arquivado) {
-                        $("#mensagemView").append(this._mensagemView.template('Projeto está Arquivado!'));
-                    }
-
-                    if (!admin) {
-                        if (snapshot.val().arquivado) {
-                            alert('Projeto Arquivado');
-                            $(location).attr('href', 'home.html');
-                        }
+                    if (admin) {
                         if (snapshot.val().bloqueado) {
-                            $('button').attr('disabled', 'disabled');
-                        }
-                        if (snapshot.val().finalizado) {
-                            alert('Projeto finalizado');
-                            $(location).attr('href', 'home.html');
-                        }
-                    } else {
-                        if (snapshot.val().bloqueado) {
+                            $("#mensagemView").append(this._mensagemView.template(`Projeto está Bloqueado!`));
                             $("#desbloquear").show();
                             $("#bloquear").hide();
-                            $("#addBoard").hide();
                         } else {
                             $("#bloquear").show();
                             $("#desbloquear").hide();
-                            $("#addBoard").show();
                         }
                         if (snapshot.val().finalizado) {
+                            $("#mensagemView").append(this._mensagemView.template('Projeto está Finalizado!'));
                             $("#finalizar").hide();
                             $("#desfinalizar").show();
                         } else {
@@ -190,20 +169,56 @@ export class ColunaController extends Controller {
                             $("#desfinalizar").hide();
                         }
                         if (snapshot.val().arquivado) {
+                            $("#mensagemView").append(this._mensagemView.template('Projeto está Arquivado!'));
                             $("#arquivar").hide();
                             $("#desarquivar").show();
                         } else {
                             $("#desarquivar").hide();
                             $("#arquivar").show();
+
                         }
 
+                        if (snapshot.val().bloqueado || snapshot.val().finalizado || snapshot.val().arquivado) {
+                            $("#addBoard").hide();
+                            $("#updateQuadro").hide();
+                            $("#addColaborador").hide();
+                        } else {
+                            $("#addBoard").show();
+                            $("#updateQuadro").show();
+                            $("#addColaborador").show();
+                        }
+                    } else {
+                        if (snapshot.val().arquivado) {
+                            alert('Projeto Arquivado');
+                            $(location).attr('href', 'home.html');
+                        }
+                        if (snapshot.val().bloqueado) {
+                            $("#mensagemView").append(this._mensagemView.template(`Projeto está Bloqueado!`));
+                            $('button').attr('disabled', 'disabled');
+                            $("#addBoard").hide();
+                            $("#addColaborador").hide();
+                        } else {
+                            $("#addBoard").show();
+                            $("#addColaborador").show();
+                        }
+                        if (snapshot.val().finalizado) {
+                            alert('Projeto finalizado');
+                            $(location).attr('href', 'home.html');
+                        }
+                        $("#bloquear").hide();
+                        $("#desbloquear").hide();
+                        $("#finalizar").hide();
+                        $("#desfinalizar").hide();
+                        $("#desarquivar").hide();
+                        $("#arquivar").hide();
+                        $("#updateQuadro").hide();
+                        $("#adminSnap").hide();
                     }
 
                 }
-            })
-        }).catch(erro => {
-            console.log('Erro ao carregar Promisse ColunaController "verficiaConfiguracaoProjeto" ', erro)
+            });
         })
+
     }
 
     mouseoverColuna() {
@@ -516,7 +531,7 @@ export class ColunaController extends Controller {
         db.child('projeto').child(chaveProjeto).child('_colaboradores').update({
             [id]: true
         }).then(function () {
-            
+
         });
         $("#mensagemView").empty();
         db.child(`colaboradores/${id}/projeto`).update({
