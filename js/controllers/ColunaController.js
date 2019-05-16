@@ -37,6 +37,7 @@ export class ColunaController extends Controller {
                     "title": value.val().title,
                     "class": value.val().class,
                 }]);
+                that.numeroColuna(value.key, value.val().limit);
                 db.child(`coluna/${value.key}/cartao`).on('child_added', snapshotCartao => {
                     if (snapshotCartao.exists()) {
                         db.child(`cartao/${snapshotCartao.key}`).on('value', cartaoSnapshot => {
@@ -67,12 +68,27 @@ export class ColunaController extends Controller {
                 this.verficiaConfiguracaoProjeto();
             });
         });
-        that.numeroColuna();
     }
 
-    numeroColuna() {
-        console.log('colocar numerador na coluna');
+    numeroColuna(boardID, limit) {
+        $('.kanban-board').each(function (item) {  
+            if (boardID === (this).getAttribute('data-id')) {
+                let count = 0;
+                db.child(`coluna/${boardID}/cartao`).once('value', snapshot => {
+              
+                    if(snapshot.exists()) {
+                        snapshot.forEach(value => {
+                            count++;
+                        })
+                    }
+                }).then(() => {
+                    $(this).append(ColunaView.limitadorBoard(count ,limit));
+                    count = 0;
+                })
 
+                
+            }
+        })
     }
 
     configuracaoCartao(cartaoSnapshot) {
