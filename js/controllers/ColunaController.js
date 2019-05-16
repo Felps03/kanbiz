@@ -169,6 +169,7 @@ export class ColunaController extends Controller {
                 if (snapshot.exists()) {
                     $("#mensagemView").empty();
                     if (admin) {
+                        $("#adminSnap").show();
                         if (snapshot.val().bloqueado) {
                             $("#mensagemView").append(this._mensagemView.template(`Projeto está Bloqueado!`));
                             $("#desbloquear").show();
