@@ -17,3 +17,8 @@ export function truncar(texto,limite){
     }
     return texto;
 }
+
+export function sanitizeString(s,n){
+	var res = s.split('', n).join('')	
+  return res + '...';
+}

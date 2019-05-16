@@ -14,9 +14,10 @@
     <link rel="stylesheet" href="./css/kanban/jkanban.css">
     <link rel="stylesheet" href="./css/kanban/app.css">
     <link rel="stylesheet" href="./css/opcoesDoCartao.css">
+    <link rel="stylesheet" href="./css/font.css">
 </head>
 
-<body>
+<body style="font-family: 'Roboto';">
     <h1>Projeto</h1>
 
     <div class="d-flex" id="wrapper">
@@ -35,7 +36,7 @@
                 </div>
                 <div class="nav navbar-nav navbar-right">
                     <a href="#" id="logOutButton">
-                        <i class="fas fa-user-alt-slash fa-1x iconeCorBranca">Sair</i>
+                        <i class="fas fa-sign-in-alt fa-1x iconeCorBranca"> Sair</i>
                     </a>
                 </div>
             </div>
@@ -45,31 +46,38 @@
 
         <!-- Menu Lateral  -->
         <div class="bg-light border-right" id="sidebar-wrapper">
-            <div class="sidebar-heading" id="adminSnap" style="display: none;"> Administração </div>
+            <div class="sidebar-heading" id="adminSnap" style="font-weight: bold; display: none;"> Administração </div>
             <div class="list-group list-group-flush">
-                <a href="#" id="updateQuadro" class="list-group-item list-group-item-action bg-light" style="display: none;">
+                <a href="#" id="updateQuadro" class="list-group-item list-group-item-action bg-light"
+                    style="display: none;">
                     <i class="fas fa-edit"></i> Editar Quadro
                 </a>
-                <a href="#" id="bloquear" class="list-group-item list-group-item-action bg-light" style="display: none;">
+                <a href="#" id="bloquear" class="list-group-item list-group-item-action bg-light"
+                    style="display: none;">
                     <i class="fas fa-ban"></i> Bloquear
                 </a>
-                <a href="#" id="desbloquear" class="list-group-item list-group-item-action bg-light" style="display: none;">
+                <a href="#" id="desbloquear" class="list-group-item list-group-item-action bg-light"
+                    style="display: none;">
                     <i class="fas fa-unlock"></i> Desbloquear
                 </a>
-                <a href="#" id="finalizar" class="list-group-item list-group-item-action bg-light" style="display: none;">
+                <a href="#" id="finalizar" class="list-group-item list-group-item-action bg-light"
+                    style="display: none;">
                     <i class="far fa-check-circle"></i> Finalizar
                 </a>
-                <a href="#" id="desfinalizar" class="list-group-item list-group-item-action bg-light" style="display: none;">
+                <a href="#" id="desfinalizar" class="list-group-item list-group-item-action bg-light"
+                    style="display: none;">
                     <i class="fas fa-undo"></i> Retornar ao Projeto
                 </a>
-                <a href="#" id="arquivar" class="list-group-item list-group-item-action bg-light" style="display: none;">
+                <a href="#" id="arquivar" class="list-group-item list-group-item-action bg-light"
+                    style="display: none;">
                     <i class="far fa-file-archive"></i> Arquivar
                 </a>
-                <a href="#" id="desarquivar" class="list-group-item list-group-item-action bg-light" style="display: none;">
+                <a href="#" id="desarquivar" class="list-group-item list-group-item-action bg-light"
+                    style="display: none;">
                     <i class="fas fa-retweet"></i> Desarquivar
                 </a>
             </div>
-            <div class="sidebar-heading"> Projeto </div>
+            <div class="sidebar-heading" style="font-weight: bold;"> Projeto </div>
             <div class="list-group list-group-flush">
                 <a href="#" id="addBoard" class="list-group-item list-group-item-action bg-light">
                     <i class="fas fa-plus-circle"></i> Adicionar Coluna
