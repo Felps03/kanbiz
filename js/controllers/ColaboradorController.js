@@ -79,22 +79,18 @@ export class ColaboradorController extends Controller {
         });
 
         task.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-            console.log('File available at', downloadURL);
+            auth.currentUser.updateProfile({
+                displayName: $("#InputNomeUser").val(),
+                email: $("#InputEmailUser").val(),
+                photoURL:downloadURL
+            })
+                .then(() => console.log('aqui'))
+                .catch(error => console.log('erro ao atualizar perfil ', error))
+                .finally(() => $('#modalEditaPerfil').modal('hide'));
+            console.log('File available at', );
         });
 
-
-        console.log('imagens: ', task);
-
-
-        /* auth.currentUser.updateProfile({
-             displayName: $("#InputNomeUser").val(),
-             email: $("#InputEmailUser").val(),
-             photoURL: task.name
-         })
-             .then(() => console.log('aqui'))
-             .catch(error => console.log('erro ao atualizar perfil ', error))
-             .finally(() => $('#modalEditaPerfil').modal('hide'));
-      */
+    
     }
 
     excluirPerfil(event) {
