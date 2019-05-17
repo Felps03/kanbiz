@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import * as bootstrap from "bootstrap";
 
-import { db } from '../config/fb';
+import { db, storageRef } from '../config/fb';
 
 import { Controller } from './Controller';
 import { TimeView } from '../views/TimeView';

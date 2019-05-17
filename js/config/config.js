@@ -6,3 +6,4 @@ export const config = {
     storageBucket: "kan-business.appspot.com",
     messagingSenderId: "1020986760578"
 }
+
