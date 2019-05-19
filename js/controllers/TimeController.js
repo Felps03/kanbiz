@@ -155,6 +155,7 @@ export class TimeController extends Controller {
         db.child(`time/${chaveTime}/_colaboradores`).on('value', snapshot => {
             snapshot.forEach(value => {
                 db.child(`usuario/${value.key}`).on('value', snapshotUsuario => {
+                    console.log(snapshotUsuario.val().fotoUrl);
                     $('#formTimeTudo').hide();
                     $("#projetosTime").hide();
                     $('#panel-speakers').show();
