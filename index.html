@@ -11,41 +11,80 @@
     <link rel="stylesheet" href="./node_modules/bootstrap-social/assets/css/font-awesome.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-social/bootstrap-social.css">
     <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/util.css">
     <link rel="stylesheet" href="./css/font.css">
 </head>
 
 <body style="font-family: 'Roboto';">
 
-    <h1>Autenticação</h1>
-    <div class="col-md-4">
+    
+    <div class="corpologin">
+        <div class="container-login100">
+            <div class="wrap-login100 p-l-110 p-r-110 p-t-40 p-b-40">
+           
+            <!--<div class="col-md-4">-->
+            <!--<h1>Autenticação</h1>-->        
+            <span class="login100-form-title p-b-40"  style="font-family: 'Roboto';">Autenticação</span>
+        
+                <!--<form>-->
+                <form class="login100-form validate-form flex-sb flex-w">
+                    <div class="form-group">
+                        <label for="emailInput">E-mail</label>
+                        <input type="email" class="form-control" id="emailInput" placeholder="E-mail">
+                    </div>
+                    
+                    <br/>
+                    
+                    <div class="form-group">
+                        <label for="passwordInput">Senha</label>
+                        <input type="password" class="form-control" id="passwordInput" placeholder="Senha">
+                    </div>  
 
-        <form>
-            <div class="form-group">
-                <label for="emailInput">E-mail</label>
-                <input type="email" class="form-control" id="emailInput" placeholder="E-mail">
+                    <button class="btn btn-lg btn-block btn-primary" id="authEmailPassButton">Autenticar</button>
+                <button class="btn btn-lg btn-block btn-info" id="createUserButton">Criar Nova Conta</button><br />
+
+                </form>
+        
+                <div id="mensagemView"></div>
+
+                
+        
+              
+                <!--<p class="text-center"><big class="font-weight-bold">-- ou --</big></p>-->
+                
+                <hr class="style-four">
+            
+                <!--
+                <p class="text-center">
+                    <button class="btn btn-lg btn-danger" id="authGoogleButton">
+                        <i class="fa fa-google fa-2x"></i>
+                    </button>
+                </p>
+                -->
+                
+                <a class="btn btn-block btn-social btn-google text-white" id="authGoogleButton">
+                    <span class="fa fa-google text-white"></span> Sign in with Google
+                </a>
+            
+        
+            <a href="home.html"></a>
+            <a href="time.html"></a>
+            <a href="projeto.html"></a>
+        
+            <!--<a class="button btn-warning" href="esqueciSenha.html">Esqueceu sua senha?</a>-->
+            <br/>
+            
+            <a class="btn btn-block btn-social btn-pinterest text-white" href="esqueciSenha.html" id="esqueciSenha">
+                    <span class="fa fa-key text-white"></span> Esqueceu sua Senha?
+            </a>
+            
             </div>
-            <div class="form-group">
-                <label for="passwordInput">Senha</label>
-                <input type="password" class="form-control" id="passwordInput" placeholder="Senha">
-            </div>
-        </form>
+            <!-- FIM WRAP LOGIN-->
+        
+        </div>
+        </div>
 
-        <div id="mensagemView"></div>
 
-        <button class="btn btn-lg btn-block btn-primary" id="authEmailPassButton">Autenticar</button>
-        <button class="btn btn-lg btn-block btn-info" id="createUserButton">Criar Nova Conta</button><br />
-
-        <p class="text-center"><small>-- ou --</small></p>
-        <p class="text-center">
-            <button class="btn btn-lg btn-danger" id="authGoogleButton"><i class="fa fa-google fa-2x"></i></button>
-        </p>
-    </div>
-
-    <a href="home.html"></a>
-    <a href="time.html"></a>
-    <a href="projeto.html"></a>
-
-    <a class="button btn-warning" href="esqueciSenha.html">Esqueceu sua senha?</a>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
    
     
@@ -59,9 +98,9 @@
     <script type="text/javascript">     
         $.backstretch(
             [
-            "images/bg_1.jpg",
-            "images/bg_2.jpg",
-            "images/bg_3.jpg"
+            "https://raw.githubusercontent.com/Felps03/kanbiz/master/images/bg_1.jpg",
+            "https://raw.githubusercontent.com/Felps03/kanbiz/master/images/bg_2.jpg",
+            "https://raw.githubusercontent.com/Felps03/kanbiz/master/images/bg_3.jpg"
             ], 
             {duration: 3000, fade: 750});        
         </script>

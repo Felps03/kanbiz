@@ -27,19 +27,20 @@ $("#createUserButton").click( function() {
  * @param {String} emailInput email do usuario
  * @param {String} senhaInput senha do usuario
  */
-$("#authEmailPassButton").click( function() {
+$("#authEmailPassButton").click( function(e) {
+    e.preventDefault();
     $("#mensagemView").empty();
     let emailInput = $('#emailInput').val();
     let senhaInput = $('#passwordInput').val();
-    let displayName = $('#displayName');
+   
     auth.signInWithEmailAndPassword(emailInput, senhaInput).then(function (result) {
-            console.log(result);
-            displayName.innerText = 'Bem vindo, ' + emailInput;
-            // alert('Autenticado ' + emailInput);
-            window.location.href = paginaHome;
+        window.location.href = paginaHome;    
+        
+        console.log(window.location.href);
+        debugger;
         }).catch(function (error) {
-            // console.error(error.code);
-            // console.error(error.message);
+            console.error(error.code);
+            console.error(error.message);
             $("#mensagemView").append(mensagemView("A senha é inválida"));
         });
 });
