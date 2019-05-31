@@ -90,10 +90,7 @@ export class TimeView extends View {
     }
 
 
-    listaMembros(modal) {
-        console.log(modal);
-        
-
+    listaMembros(modal) {   
         let nome = typeof modal.nome === "undefined" ? '' :modal.nome;
         let foto = typeof modal.fotoUrl === "undefined" ? 'https://raw.githubusercontent.com/Felps03/kanbiz/master/images/placeholder.jpeg' : modal.fotoUrl;
         return `
@@ -105,6 +102,6 @@ export class TimeView extends View {
                 </figure>
             </li>
     `
-            }
+    }
         
 }

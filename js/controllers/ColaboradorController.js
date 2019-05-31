@@ -54,43 +54,23 @@ export class ColaboradorController extends Controller {
     editaPerfil(event) {
         event.preventDefault();
 
-        const file = document.querySelector('#fotoPerfil').files[0]
-        const name = (this.user.id + file.name);
-        const metadata = {
-            contentType: file.type
-        };
-        /*
-        console.log(file);
-        console.log(name);
-        console.log(metadata);
-*/
-        const task = storageRef.ref(name).put(file, metadata);
-        //      console.log(task);
+        const fileInput = document.querySelector('#fotoPerfil').files[0];
+        const refFoto = storageRef.ref('fotoPerfil');
 
-        task.on('state_changed', function (snapshot) {
-            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
-        }, function () {
-            // Handle successful uploads on complete
-            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-            task.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-                console.log('File available at', downloadURL);
-            });
+        refFoto.child(this.user.id).put(fileInput).catch(error => {
+            console.log("erro", error);
         });
 
-        task.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+        refFoto.child(this.user.id).getDownloadURL().then(url => {
             auth.currentUser.updateProfile({
                 displayName: $("#InputNomeUser").val(),
                 email: $("#InputEmailUser").val(),
-                photoURL:downloadURL
+                photoURL:url
             })
-                .then(() => console.log('aqui'))
-                .catch(error => console.log('erro ao atualizar perfil ', error))
-                .finally(() => $('#modalEditaPerfil').modal('hide'));
-            console.log('File available at', );
+            .then(() => console.log(this.user.photoURL))
+            .catch(error => console.log('erro ao atualizar perfil ', error))
+            .finally(() => $('#modalEditaPerfil').modal('hide'));
         });
-
-    
     }
 
     excluirPerfil(event) {
