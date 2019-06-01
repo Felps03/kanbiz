@@ -72,7 +72,8 @@ $("#logOutButton").click(function () {
 /**
  * Autenticar com o Google
  */
-$("#authGoogleButton").click(function () {
+$("#authGoogleButton").click(function (e) {
+    e.preventDefault();
     signIn(provider);
 });
 
