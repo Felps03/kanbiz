@@ -8,102 +8,259 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Autenticação Kan Business</title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./node_modules/bootstrap-social/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="./node_modules/@fortawesome/fontawesome-free/css/all.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-social/bootstrap-social.css">
     <link rel="stylesheet" href="./css/index.css">
     <link rel="stylesheet" href="./css/util.css">
     <link rel="stylesheet" href="./css/font.css">
 </head>
 
-<body style="font-family: 'Roboto';">
+<body style="font-family: 'Roboto';" class="centroDiv">
 
-    
+    <section style="opacity: 0.9">
+        <div class="col-4 mt-5">
+            <div class="card" style="width: 28rem;" id="toggle">
+                <div class="button">
+                    <ul class="list-unstyled w-100 d-flex align-items-center justify-content-around mb-0">
+                        <li class="w-50">
+                            <a class="btn btn-primary w-100 botaoCimaSemEfeito" data-toggle="collapse"
+                                data-target="#login">
+                                <i class="fas fa-user mr-1"></i>
+                                Login
+                            </a>
+                        </li>
+                        <li class="w-50">
+                            <a class="btn w-100 botaoCimaSemEfeito" data-toggle="collapse" data-target="#cadastro">
+                                <i class="fas fa-user-plus mr-1"></i>
+                                Registar
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body">
+                    <div id="login" class="login collapse show" data-parent="#toggle">
+                        <form>
+                            <div class="form-group">
+                                <label for="emailInput">E-mail</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-at"></i></div>
+                                    </div>
+                                    <input type="text" class="form-control" id="emailInput" placeholder="E-mail">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="passwordInput">Senha</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-lock"></i></div>
+                                    </div>
+                                    <input type="password" class="form-control" id="passwordInput" placeholder="Senha">
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-2">
+                                <button class="btn btn-info" id="authEmailPassButton">Entrar</button>
+                            </div>
+                        </form>
+                        <div class="options text-center text-md-right mt-1">
+                            <p>Esqueceu a <a href="#esqueciSenha" data-toggle="modal" class="blue-text">Senha?</a></p>
+                        </div>
+                    </div>
+
+                    <div id="cadastro" class="cadastro collapse" data-parent="#toggle">
+                        <form>
+                            <div class="form-group">
+                                <label for="emailInputCadastro">E-mail</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-at"></i></div>
+                                    </div>
+                                    <input type="text" class="form-control" id="emailInputCadastro"
+                                        placeholder="E-mail">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="passwordInputCadastro">Senha</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-lock"></i></div>
+                                    </div>
+                                    <input type="password" class="form-control" id="passwordInputCadastro"
+                                        placeholder="Senha">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="passwordInputCadastroRepete">Confirmar Senha</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-lock"></i></div>
+                                    </div>
+                                    <input type="password" class="form-control" id="passwordInputCadastroRepete"
+                                        placeholder="Senha">
+                                </div>
+                            </div>
+                            <div class="text-center mt-2">
+                                <button type="submit" id="createUserButton" class="btn btn-info">Cadastrar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="senhaIncorreta" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Senha Incorreta</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="mensagemView"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="esqueciSenha" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Esqueci Senha</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="emailInputEsqueciSenha">E-mail</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"><i class="fas fa-at"></i></div>
+                            </div>
+                            <input type="text" class="form-control" id="emailInputEsqueciSenha" placeholder="E-mail">
+                        </div>
+                    </div>
+                    <button type="submit" id="esqueciSenhaModal" class="btn btn-info">Enviar</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--
     <div class="corpologin">
         <div class="container-login100">
             <div class="wrap-login100 p-l-110 p-r-110 p-t-40 p-b-40" style="background: #ffffffe6;">
-           
-            <!--<div class="col-md-4">-->
-            <!--<h1>Autenticação</h1>-->        
-            <span class="login100-form-title p-b-40"  style="font-family: 'Roboto';">Autenticação</span>
-        
-                <!--<form>-->
+
+                <span class="login100-form-title p-b-40" style="font-family: 'Roboto';">Autenticação</span>
+
+                
                 <form class="login100-form validate-form flex-sb flex-w" style="margin-bottom: 15px;">
                     <div class="form-group">
                         <label for="emailInput">E-mail</label>
                         <input type="email" class="form-control" id="emailInput" placeholder="E-mail">
                     </div>
-                    
-                    <br/>
-                    
+
+                    <br />
+
                     <div class="form-group">
                         <label for="passwordInput">Senha</label>
                         <input type="password" class="form-control" id="passwordInput" placeholder="Senha">
-                    </div>  
+                    </div>
 
                     <button class="btn btn-lg btn-block btn-primary" id="authEmailPassButton">Autenticar</button>
-                <button class="btn btn-lg btn-block btn-info" id="createUserButton">Criar Nova Conta</button><br />
+                    <button class="btn btn-lg btn-block btn-info" id="createUserButton">Criar Nova Conta</button><br />
 
                 </form>
-        
+
                 <div id="mensagemView"></div>
 
-                
-        
-              
-                <!--<p class="text-center"><big class="font-weight-bold">-- ou --</big></p>-->
-                
-             
-            
-                <!--
+
+
+
+                <p class="text-center"><big class="font-weight-bold">-- ou --</big></p>
+
+
+
+
                 <p class="text-center">
                     <button class="btn btn-lg btn-danger" id="authGoogleButton">
                         <i class="fa fa-google fa-2x"></i>
                     </button>
                 </p>
-                -->
-                
+
+
                 <a class="btn btn-block btn-social btn-google text-white" id="authGoogleButton">
                     <span class="fa fa-google text-white"></span> Sign in with Google
                 </a>
-            
-        
-            <a href="home.html"></a>
-            <a href="time.html"></a>
-            <a href="projeto.html"></a>
-        
-            <!--<a class="button btn-warning" href="esqueciSenha.html">Esqueceu sua senha?</a>-->
-            <br/>
-            
-            <a class="btn btn-block btn-social btn-pinterest text-white" href="esqueciSenha.html" id="esqueciSenha">
+
+
+
+                <a href="home.html"></a>
+                <a href="time.html"></a>
+                <a href="projeto.html"></a>
+
+                <br />
+
+                <a class="btn btn-block btn-social btn-pinterest text-white" href="esqueciSenha.html" id="esqueciSenha">
                     <span class="fa fa-key text-white"></span> Esqueceu sua Senha?
-            </a>
-            
+                </a>
+
             </div>
-            <!-- FIM WRAP LOGIN-->
-        
-        </div>
-        </div>
 
+        </div>
+    </div>
 
+-->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-   
-    
+
+
     <script src="./node_modules/popper.js/dist/popper.min.js"></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./node_modules/handlebars/dist/handlebars.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
-    
+
     <script src="./js/main.js"></script>
-  
-    <script type="text/javascript">     
+
+    <script type="text/javascript">
         $.backstretch(
             [
-            "https://raw.githubusercontent.com/Felps03/kanbiz/master/images/bg_1.jpg",
-            "https://raw.githubusercontent.com/Felps03/kanbiz/master/images/bg_2.jpg",
-            "https://raw.githubusercontent.com/Felps03/kanbiz/master/images/bg_3.jpg"
-            ], 
-            {duration: 3000, fade: 750});        
-        </script>
+                "https://raw.githubusercontent.com/Felps03/kanbiz/master/images/bg_1.jpg",
+                "https://raw.githubusercontent.com/Felps03/kanbiz/master/images/bg_2.jpg",
+                "https://raw.githubusercontent.com/Felps03/kanbiz/master/images/bg_3.jpg"
+            ],
+            { duration: 3000, fade: 750 });        
+    </script>
+
+    <script>
+        /*
+        $(".botaoCimaSemEfeito").on('click', function(event){
+            $(this).addClass("ativa");
+            $(this).removeClass('botaoCimaSemEfeito');
+        });
+        */
+
+
+    </script>
 
 
 </body>
