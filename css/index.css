@@ -93,7 +93,7 @@ hr.style-four {
   background: #0177bd;
   color: #fff !important;
 }
-
+/*
 .centroDiv {
   height: 100px;
   padding: 20px;
@@ -103,7 +103,14 @@ hr.style-four {
   width: 300px;
   margin: -190px 0 0 -250px;
 }
+*/
 
+
+.centroDiv {
+height: 100vh;
+    display: flex;
+    align-items: center;
+}
 .box {
   width: 30rem;
   height: 300px;
