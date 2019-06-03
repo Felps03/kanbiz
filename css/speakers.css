@@ -37,6 +37,7 @@
     border-radius: 10px;
     width: 220px;
     vertical-align: top;
+    min-height: 350px;
 }
 
 .panel-speakers .speaker:hover {
